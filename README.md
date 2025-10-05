@@ -41,13 +41,24 @@ A complete machine learning web application for classifying Kepler Objects of In
    ```
 
 4. **Start the web application**
+
+   **Option 1: Start both servers automatically**
    ```bash
    python start_webapp.py
    ```
 
+   **Option 2: Start servers manually**
+   ```bash
+   # Terminal 1 - Start Flask API backend
+   python app.py
+   
+   # Terminal 2 - Start Streamlit frontend  
+   streamlit run streamlit_app.py
+   ```
+
    This will start both:
-   - Flask Backend: http://localhost:5000
-   - Streamlit Frontend: http://localhost:8501
+   - Flask Backend: http://localhost:5001
+   - Streamlit Frontend: http://localhost:8503
 
 ## 📁 Project Structure
 
@@ -67,7 +78,7 @@ kepler_exoplanet_classifier/
 
 ## 🔧 API Endpoints
 
-### Flask Backend (http://localhost:5000)
+### Flask Backend (http://localhost:5001)
 
 - `GET /health` - Health check
 - `GET /model_info` - Model information and performance metrics
@@ -78,7 +89,7 @@ kepler_exoplanet_classifier/
 
 **Single Prediction:**
 ```bash
-curl -X POST http://localhost:5000/predict \
+curl -X POST http://localhost:5001/predict \
   -H "Content-Type: application/json" \
   -d '{
     "koi_period": 10.5,
