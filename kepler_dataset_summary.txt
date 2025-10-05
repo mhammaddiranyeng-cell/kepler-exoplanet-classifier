@@ -1,0 +1,35 @@
+KEPLER KOI DATASET SUMMARY
+==================================================
+Dataset Shape: (9564, 50)
+Total entries: 9,564
+
+DISPOSITION DISTRIBUTION:
+koi_disposition
+FALSE POSITIVE    4839
+CONFIRMED         2746
+CANDIDATE         1979
+Name: count, dtype: int64
+
+MISSING VALUES:
+kepoi_name           0
+koi_period           0
+koi_duration         0
+koi_depth          363
+koi_prad           363
+koi_srad           363
+koi_teq            363
+koi_disposition      0
+dtype: int64
+
+STATISTICAL SUMMARY:
+          koi_period  koi_duration  ...     koi_srad       koi_teq
+count    9564.000000   9564.000000  ...  9201.000000   9201.000000
+mean       75.671358      5.621606  ...     1.728712   1085.385828
+std      1334.744046      6.471554  ...     6.127185    856.351161
+min         0.241843      0.052000  ...     0.109000     25.000000
+25%         2.733684      2.437750  ...     0.829000    539.000000
+50%         9.752831      3.792600  ...     1.000000    878.000000
+75%        40.715178      6.276500  ...     1.345000   1379.000000
+max    129995.778400    138.540000  ...   229.908000  14667.000000
+
+[8 rows x 6 columns]

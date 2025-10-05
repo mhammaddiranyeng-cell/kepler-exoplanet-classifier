@@ -1,0 +1,30 @@
+
+KEPLER OBJECTS OF INTEREST (KOI) DATASET SUMMARY
+============================================================
+
+DATASET OVERVIEW:
+- Total entries: 9,564
+- Total columns: 50
+- Date accessed: 2025-10-04 13:40:38
+
+DISPOSITION DISTRIBUTION:
+- FALSE POSITIVE : 4,839 entries ( 50.6%)\n- CONFIRMED      : 2,746 entries ( 28.7%)\n- CANDIDATE      : 1,979 entries ( 20.7%)\n
+KEY PARAMETERS SUMMARY:
+- Orbital Period: 0.24 - 129995.78 days
+- Planetary Radius: 0.08 - 200346.00 Earth radii
+- Stellar Radius: 0.11 - 229.91 Solar radii
+- Equilibrium Temperature: 25 - 14667 K
+
+DATA QUALITY:
+- Missing values in key parameters: 1452 total
+- Complete records: 9,201
+
+UNIQUE IDENTIFIERS:
+- Unique KOI names: 9,564
+- Unique Kepler names: 2,747
+- Unique stellar IDs: 8,214
+
+DATASET SOURCE:
+- NASA Exoplanet Archive
+- Kepler Objects of Interest (KOI) Cumulative Table
+- DOI: 10.26133/NEA4
