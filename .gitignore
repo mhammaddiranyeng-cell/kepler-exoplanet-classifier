@@ -55,11 +55,3 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
-
-# video-clipper: secrets and generated output, never commit these
-video-clipper/.env
-video-clipper/secrets/
-video-clipper/output/
-video-clipper/config.yaml
-video-clipper/.venv/
-video-clipper/notifier/.seen_campaigns.json
