@@ -72,18 +72,31 @@ final class HIDDriver {
                                         CFRunLoopMode.defaultMode.rawValue)
 
         let status = IOHIDManagerOpen(manager, IOOptionBits(kIOHIDOptionsTypeNone))
-        guard status == kIOReturnSuccess else {
+
+        if mode == .list {
+            // Enumerating devices and reading their properties works even
+            // when the open fails: matching every HID device always trips
+            // kIOReturnExclusiveAccess on devices macOS itself holds
+            // exclusively (built-in keyboard, trackpad, ...).
+            listDevices()
+            return
+        }
+
+        if status == Self.exclusiveAccessError {
+            print("warning: another process holds exclusive access to a matched device; "
+                + "continuing, but input from that device may not arrive.")
+        } else if status != kIOReturnSuccess {
             fail("""
-            Could not open the HID manager (IOReturn \(status)).
+            Could not open the HID manager (IOReturn \(ioReturnHex(status))).
             Grant your terminal app "Input Monitoring" access in
-            System Preferences > Security & Privacy > Privacy, then try again.
+            System Preferences > Security & Privacy > Privacy, then quit and
+            reopen the terminal and try again.
             """)
         }
 
         switch mode {
         case .list:
-            listDevices()
-            return
+            return // handled above
         case .inspect:
             print("Waiting for gamepad input. Press buttons / move sticks; Ctrl-C to quit.")
         case .run:
@@ -238,6 +251,13 @@ final class HIDDriver {
     }
 
     // MARK: - Helpers
+
+    /// kIOReturnExclusiveAccess; the C macro doesn't import into Swift.
+    private static let exclusiveAccessError = IOReturn(bitPattern: 0xE00002C5)
+
+    private func ioReturnHex(_ status: IOReturn) -> String {
+        String(format: "0x%08X", UInt32(bitPattern: status))
+    }
 
     private func installSigintHandler() {
         signal(SIGINT, SIG_IGN)

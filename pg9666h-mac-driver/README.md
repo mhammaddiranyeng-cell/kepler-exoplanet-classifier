@@ -126,7 +126,7 @@ other layouts the letter printed may differ from the key name.)
 | --- | --- |
 | `error: no such module 'PackageDescription'` | You ran `swift build` with only the Command Line Tools installed. Use `make build` instead (it calls `swiftc` directly). |
 | `list` doesn't show the pad | Re-pair in Bluetooth preferences; try a different power-on mode combo; charge the pad. |
-| `run` exits with an IOReturn error | Grant Input Monitoring to your terminal app, then relaunch it. |
+| `run` exits with an IOReturn error | Grant Input Monitoring to your terminal app, then relaunch it. (`list` ignores open errors entirely — enumerating devices always trips exclusive-access failures on system-owned devices, which is harmless.) |
 | Events print in `inspect` but games see nothing | Grant Accessibility to your terminal app, then relaunch it. |
 | Stick "presses" keys while centered | Raise that axis's `deadzone` (worn sticks drift). |
 | Buttons are numbered differently than the default mapping | Normal — numbering depends on the pad's power-on mode. Use `inspect` and edit your mapping. |
