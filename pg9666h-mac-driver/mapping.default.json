@@ -1,0 +1,28 @@
+{
+  "buttons": {
+    "1": "z",
+    "2": "x",
+    "3": "a",
+    "4": "s",
+    "5": "q",
+    "6": "w",
+    "7": "e",
+    "8": "r",
+    "9": "tab",
+    "10": "return",
+    "11": "shift",
+    "12": "space"
+  },
+  "axes": {
+    "x":  { "negative": "left", "positive": "right", "deadzone": 0.4 },
+    "y":  { "negative": "up",   "positive": "down",  "deadzone": 0.4 },
+    "z":  { "negative": "left", "positive": "right", "deadzone": 0.4 },
+    "rz": { "negative": "up",   "positive": "down",  "deadzone": 0.4 }
+  },
+  "hat": {
+    "up": "up",
+    "down": "down",
+    "left": "left",
+    "right": "right"
+  }
+}
