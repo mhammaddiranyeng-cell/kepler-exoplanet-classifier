@@ -104,13 +104,19 @@ Typical first session:
 }
 ```
 
-- `vendorID` / `productID` are optional; set them (from `pg9666h list`) to
-  stop the driver from also grabbing other connected gamepads.
-- `buttons` maps button numbers from `inspect` to key names.
+- `vendorID` / `productID` are optional but important: besides keeping the
+  driver off other connected gamepads, they make it match the device **by ID
+  even when the pad advertises a nonstandard HID usage** — which the
+  PG-9666H does in its wireless "Xbox" mode. Use the decimal values that
+  `pg9666h list` prints in parentheses.
+- `buttons` maps button numbers from `inspect` to key names. Buttons the pad
+  reports on the Consumer page (menu/home/share in Xbox mode) show up as
+  `c<number>` — e.g. `"c548": "escape"`.
 - `axes` maps stick axes (`x`, `y` = left stick; `z`, `rz` = right stick on
-  most modes; some modes use `rx`/`ry` for triggers) to a key for each
-  direction. `deadzone` is how far (0–1) the stick must travel before the key
-  fires.
+  most modes; some modes use `rx`/`ry`) to a key for each direction.
+  `deadzone` is how far (0–1) the stick must travel before the key fires.
+  Analog triggers in Xbox mode appear as the one-directional axes `brake`
+  (left) and `accelerator` (right); only their `positive` key is used.
 - `hat` maps the d-pad. Diagonals hold both keys, as a real keyboard would.
 
 ### Key names
@@ -130,6 +136,7 @@ other layouts the letter printed may differ from the key name.)
 | Events print in `inspect` but games see nothing | Grant Accessibility to your terminal app, then relaunch it. |
 | Stick "presses" keys while centered | Raise that axis's `deadzone` (worn sticks drift). |
 | Buttons are numbered differently than the default mapping | Normal — numbering depends on the pad's power-on mode. Use `inspect` and edit your mapping. |
+| Pad appears in `list` (often named "Xbox Wireless Contrloler") but `run` ignores it | The pad's wireless mode advertises a nonstandard usage. Set `vendorID`/`productID` in your mapping so the driver matches it by ID. |
 | A key gets stuck down | Shouldn't happen (disconnects and Ctrl-C release everything), but tapping the physical key clears it. |
 
 ## Limitations

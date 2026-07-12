@@ -42,7 +42,7 @@ final class HIDDriver {
         } else {
             // The PG-9666H shows up as one of these depending on which mode
             // it was powered on in.
-            let gamepadLike: [[String: Int]] = [
+            var gamepadLike: [[String: Int]] = [
                 [kIOHIDDeviceUsagePageKey: kHIDPage_GenericDesktop,
                  kIOHIDDeviceUsageKey: kHIDUsage_GD_GamePad],
                 [kIOHIDDeviceUsagePageKey: kHIDPage_GenericDesktop,
@@ -50,6 +50,16 @@ final class HIDDriver {
                 [kIOHIDDeviceUsagePageKey: kHIDPage_GenericDesktop,
                  kIOHIDDeviceUsageKey: kHIDUsage_GD_MultiAxisController]
             ]
+            // In its BLE "Xbox" mode the PG-9666H advertises a nonstandard
+            // primary usage, so a mapping that pins vendor/product IDs also
+            // matches the device by ID, whatever usage it claims.
+            if let vendor = mapping.vendorID {
+                var byID = [kIOHIDVendorIDKey: vendor]
+                if let product = mapping.productID {
+                    byID[kIOHIDProductIDKey] = product
+                }
+                gamepadLike.append(byID)
+            }
             IOHIDManagerSetDeviceMatchingMultiple(manager, gamepadLike as CFArray)
         }
 
@@ -118,7 +128,7 @@ final class HIDDriver {
         if let wanted = mapping.productID, wanted != product { return }
 
         acceptedDevices.insert(device)
-        print("Gamepad connected: \(name) (vendor \(hex(vendor)), product \(hex(product)))")
+        print("Gamepad connected: \(name) (vendor \(hex(vendor)) (\(vendor)), product \(hex(product)) (\(product)))")
     }
 
     private func deviceRemoved(_ device: IOHIDDevice) {
@@ -149,10 +159,15 @@ final class HIDDriver {
                     || usage == kHIDUsage_GD_Joystick
                     || usage == kHIDUsage_GD_MultiAxisController)
             let tag = isGamepad ? "  <-- gamepad" : ""
-            print("  \(name): vendor \(hex(vendor)), product \(hex(product)), "
+            print("  \(name): vendor \(hex(vendor)) (\(vendor)), product \(hex(product)) (\(product)), "
                 + "usage \(usagePage)/\(usage), transport \(transport)\(tag)")
         }
-        print("\nUse the vendor/product values in your mapping file to pin the driver to one device.")
+        print("""
+
+        Use the decimal vendor/product values (in parentheses) as vendorID /
+        productID in your mapping file to pin the driver to one device. Pads
+        that don't get the <-- gamepad tag need that pin to be picked up.
+        """)
     }
 
     // MARK: - Input
@@ -167,22 +182,30 @@ final class HIDDriver {
         let rawValue = IOHIDValueGetIntegerValue(value)
 
         if usagePage == kHIDPage_Button {
-            handleButton(number: Int(usage), pressed: rawValue != 0)
+            handleButton(id: String(usage), pressed: rawValue != 0)
+        } else if usagePage == kHIDPage_Consumer {
+            // Xbox-mode pads put menu/home/share buttons on the Consumer
+            // page; they appear as "c<usage>" in inspect and mappings.
+            handleButton(id: "c\(usage)", pressed: rawValue != 0)
         } else if usagePage == kHIDPage_GenericDesktop {
             if Int(usage) == kHIDUsage_GD_Hatswitch {
                 handleHat(element: element, rawValue: rawValue)
             } else {
                 handleAxis(element: element, usage: usage, rawValue: rawValue)
             }
+        } else if usagePage == kHIDPage_Simulation {
+            handleTrigger(element: element, usage: usage, rawValue: rawValue)
+        } else if mode == .inspect {
+            print("other usage \(usagePage)/\(usage) = \(rawValue)")
         }
     }
 
-    private func handleButton(number: Int, pressed: Bool) {
+    private func handleButton(id: String, pressed: Bool) {
         if mode == .inspect {
-            print("button \(number) \(pressed ? "down" : "up")")
+            print("button \(id) \(pressed ? "down" : "up")")
             return
         }
-        guard let key = mapping.buttons[String(number)] else { return }
+        guard let key = mapping.buttons[id] else { return }
         keys.set(key: key, down: pressed)
     }
 
@@ -242,12 +265,48 @@ final class HIDDriver {
         } else if normalized >= deadzone {
             wantedKey = axis.positive
         }
+        setAxisKey(slot: usage, wantedKey: wantedKey)
+    }
 
-        let currentKey = axisKeyDown[usage]
+    /// Analog triggers on Xbox-mode pads report on the Simulation page and
+    /// rest at their minimum, so they map as one-directional axes: only
+    /// `positive` fires, once travel (0...1) passes the deadzone.
+    private static let triggerNames: [Int: String] = [
+        kHIDUsage_Sim_Accelerator: "accelerator", // right trigger
+        kHIDUsage_Sim_Brake: "brake"              // left trigger
+    ]
+
+    private func handleTrigger(element: IOHIDElement, usage: UInt32, rawValue: Int) {
+        guard let name = Self.triggerNames[Int(usage)] else {
+            if mode == .inspect { print("other usage \(kHIDPage_Simulation)/\(usage) = \(rawValue)") }
+            return
+        }
+
+        let min = IOHIDElementGetLogicalMin(element)
+        let max = IOHIDElementGetLogicalMax(element)
+        guard max > min else { return }
+        let travel = Double(rawValue - min) / Double(max - min) // 0...1
+
+        if mode == .inspect {
+            let last = lastPrintedAxisValue[usage]
+            if last == nil || abs(last! - travel) >= 0.1 {
+                lastPrintedAxisValue[usage] = travel
+                print(String(format: "trigger %@ = %.2f", name, travel))
+            }
+            return
+        }
+
+        guard let axis = mapping.axes[name] else { return }
+        let deadzone = axis.deadzone ?? 0.4
+        setAxisKey(slot: usage, wantedKey: travel >= deadzone ? axis.positive : nil)
+    }
+
+    private func setAxisKey(slot: UInt32, wantedKey: String?) {
+        let currentKey = axisKeyDown[slot]
         guard wantedKey != currentKey else { return }
         if let currentKey = currentKey { keys.set(key: currentKey, down: false) }
         if let wantedKey = wantedKey { keys.set(key: wantedKey, down: true) }
-        axisKeyDown[usage] = wantedKey
+        axisKeyDown[slot] = wantedKey
     }
 
     // MARK: - Helpers

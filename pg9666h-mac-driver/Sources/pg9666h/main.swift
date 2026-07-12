@@ -26,9 +26,7 @@ let command = args.isEmpty ? "run" : args.removeFirst()
 switch command {
 case "list":
     HIDDriver(mode: .list, mapping: .default).start()
-case "inspect":
-    HIDDriver(mode: .inspect, mapping: .default).start()
-case "run":
+case "inspect", "run":
     var configPath: String?
     var index = 0
     while index < args.count {
@@ -40,7 +38,10 @@ case "run":
             fail("Unknown option: \(args[index])\n\n\(usageText)")
         }
     }
-    HIDDriver(mode: .run, mapping: Mapping.load(explicitPath: configPath)).start()
+    // inspect loads the mapping too: its vendorID/productID pin is how the
+    // driver finds pads that advertise a nonstandard primary usage.
+    let mapping = Mapping.load(explicitPath: configPath)
+    HIDDriver(mode: command == "run" ? .run : .inspect, mapping: mapping).start()
 case "help", "--help", "-h":
     print(usageText)
 default:
