@@ -1,16 +1,21 @@
 PREFIX ?= /usr/local
+BUILDDIR = build
 
+# Compiles with swiftc directly so only the Xcode Command Line Tools are
+# needed. `swift build` requires full Xcode for the SwiftPM manifest
+# libraries; Package.swift is kept for people who have it.
 build:
-	swift build -c release
+	mkdir -p $(BUILDDIR)
+	swiftc -O Sources/pg9666h/*.swift -o $(BUILDDIR)/pg9666h
 
 install: build
 	install -d $(PREFIX)/bin
-	install .build/release/pg9666h $(PREFIX)/bin/pg9666h
+	install $(BUILDDIR)/pg9666h $(PREFIX)/bin/pg9666h
 
 run: build
-	.build/release/pg9666h run
+	$(BUILDDIR)/pg9666h run
 
 clean:
-	swift package clean
+	rm -rf $(BUILDDIR) .build
 
 .PHONY: build install run clean

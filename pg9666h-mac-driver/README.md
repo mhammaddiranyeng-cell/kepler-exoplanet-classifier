@@ -42,12 +42,17 @@ games ignore the pad, or when you want to play keyboard-only games with it.
 
 ```sh
 cd pg9666h-mac-driver
-make build            # or: swift build -c release
-sudo make install     # installs /usr/local/bin/pg9666h (optional)
+make build
+sudo make install
 ```
 
-The binary is self-contained; you can also just run it from
-`.build/release/pg9666h`.
+`make build` compiles with `swiftc` directly, so the Command Line Tools are
+enough — full Xcode is not required. (`swift build -c release` also works via
+Package.swift, but only with full Xcode installed, because the standalone
+Command Line Tools ship without SwiftPM's `PackageDescription` library.)
+
+`sudo make install` puts the binary at `/usr/local/bin/pg9666h` and is
+optional; you can also run it straight from `build/pg9666h`.
 
 ## Grant permissions (one-time)
 
@@ -119,6 +124,7 @@ other layouts the letter printed may differ from the key name.)
 
 | Symptom | Fix |
 | --- | --- |
+| `error: no such module 'PackageDescription'` | You ran `swift build` with only the Command Line Tools installed. Use `make build` instead (it calls `swiftc` directly). |
 | `list` doesn't show the pad | Re-pair in Bluetooth preferences; try a different power-on mode combo; charge the pad. |
 | `run` exits with an IOReturn error | Grant Input Monitoring to your terminal app, then relaunch it. |
 | Events print in `inspect` but games see nothing | Grant Accessibility to your terminal app, then relaunch it. |
