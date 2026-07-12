@@ -27,6 +27,9 @@ final class HIDDriver {
     /// Last value printed per axis in inspect mode, to keep output readable.
     private var lastPrintedAxisValue = [UInt32: Double]()
 
+    /// Whether the touch-emulation-mode warning has been shown.
+    private var warnedTouchMode = false
+
     private var signalSource: DispatchSourceSignal?
 
     init(mode: Mode, mapping: Mapping) {
@@ -195,6 +198,20 @@ final class HIDDriver {
             }
         } else if usagePage == kHIDPage_Simulation {
             handleTrigger(element: element, usage: usage, rawValue: rawValue)
+        } else if usagePage == kHIDPage_Digitizer {
+            if !warnedTouchMode {
+                warnedTouchMode = true
+                print("""
+
+                note: this pad is sending touch-screen (digitizer) events, so it \
+                booted in touch/mouse emulation mode, not a gamepad mode. Buttons \
+                fake screen taps in this mode and cannot be mapped individually. \
+                Power the pad off, then on with its gamepad-mode combo, and \
+                re-pair (see README).
+
+                """)
+            }
+            if mode == .inspect { print("touch usage \(usage) = \(rawValue)") }
         } else if mode == .inspect {
             print("other usage \(usagePage)/\(usage) = \(rawValue)")
         }

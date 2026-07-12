@@ -137,6 +137,7 @@ other layouts the letter printed may differ from the key name.)
 | Stick "presses" keys while centered | Raise that axis's `deadzone` (worn sticks drift). |
 | Buttons are numbered differently than the default mapping | Normal — numbering depends on the pad's power-on mode. Use `inspect` and edit your mapping. |
 | Pad appears in `list` (often named "Xbox Wireless Contrloler") but `run` ignores it | The pad's wireless mode advertises a nonstandard usage. Set `vendorID`/`productID` in your mapping so the driver matches it by ID. |
+| `inspect` shows digitizer/touch events instead of `button N` lines | The pad booted in touch-screen emulation mode (meant for phones): buttons fake screen taps at preset spots and can't be mapped individually. Power it off, power it on holding its gamepad-mode combo (on iPega pads usually HOME plus one of X/A/B/Y — try HOME+X first), forget the old entry in Bluetooth preferences, and pair again. `list` should then show usage 1/4 or 1/5 with the `<-- gamepad` tag. The pad may present different vendor/product IDs per mode — update the mapping pin if they changed. |
 | A key gets stuck down | Shouldn't happen (disconnects and Ctrl-C release everything), but tapping the physical key clears it. |
 
 ## Limitations
