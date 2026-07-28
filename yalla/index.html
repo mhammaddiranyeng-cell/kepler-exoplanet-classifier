@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E1411" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F3F6F2" media="(prefers-color-scheme: light)">
+<meta name="description" content="Yalla — Mhammad's personal weight-loss journey: Lebanese-pantry meals, never-repeating home workouts, and progress tracking.">
+<title>Yalla — Mhammad's Journey</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- BODY:START -->
+<div id="app">
+  <header class="apphead">
+    <div>
+      <h1>Yalla<span class="dot">.</span></h1>
+      <p class="sub" id="headDate"></p>
+    </div>
+    <button class="iconbtn" data-action="settings" aria-label="Settings">⚙︎</button>
+  </header>
+  <main>
+    <section id="tab-today" class="tab active"></section>
+    <section id="tab-meals" class="tab"></section>
+    <section id="tab-move" class="tab"></section>
+    <section id="tab-progress" class="tab"></section>
+  </main>
+</div>
+
+<nav id="nav">
+  <div class="navinner">
+    <button class="navbtn active" data-action="nav" data-tab="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 9.5V21h14V9.5"/></svg>Today</button>
+    <button class="navbtn" data-action="nav" data-tab="meals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M9 7c0-1.5 1-1.5 1-3M13 7c0-1.5 1-1.5 1-3"/></svg>Meals</button>
+    <button class="sosbtn" data-action="sos" aria-label="Craving SOS"><span class="e">😤</span>SOS</button>
+    <button class="navbtn" data-action="nav" data-tab="move"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4.5 13.5H11L9.5 22 19 10h-6.5z"/></svg>Move</button>
+    <button class="navbtn" data-action="nav" data-tab="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Progress</button>
+  </div>
+</nav>
+
+<div id="modalback" hidden><div id="modal"></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="welcome" hidden></div>
+<!-- BODY:END -->
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  navigator.serviceWorker.register('./sw.js').catch(function () {});
+}
+</script>
+</body>
+</html>
