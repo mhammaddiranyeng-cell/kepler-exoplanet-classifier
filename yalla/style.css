@@ -398,3 +398,23 @@ ol.steps li { margin: 6px 0; font-size: 14px; }
   body { padding-top: 10px; }
   #app { border-radius: 24px; }
 }
+
+/* ---------- coach ---------- */
+.chatlog { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+.bubble {
+  max-width: 88%; border-radius: 16px; padding: 10px 13px; font-size: 14px; line-height: 1.5;
+}
+.bubble.coach { background: var(--surface-2); color: var(--ink); border-bottom-left-radius: 5px; align-self: flex-start; }
+.bubble.me { background: var(--cedar); color: #fff; border-bottom-right-radius: 5px; align-self: flex-end; }
+.bubble .num { font-weight: 700; }
+.coachchips { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
+.coachchips .chip { font-size: 12.5px; }
+.coachinput { display: flex; gap: 8px; margin-top: 10px; position: sticky; bottom: 0; }
+.coachinput input {
+  flex: 1; background: var(--surface-2); border: 1.5px solid var(--line); border-radius: 12px;
+  font: inherit; font-size: 14.5px; color: var(--ink); padding: 10px 13px; min-width: 0;
+}
+.coachavatar {
+  width: 34px; height: 34px; border-radius: 50%; background: var(--cedar-soft);
+  display: inline-grid; place-items: center; font-size: 18px; margin-right: 8px; vertical-align: middle;
+}

@@ -653,6 +653,18 @@ function renderToday() {
       <div class="cups">${Array.from({ length: 8 }, (_, i) => `<button class="cup ${i < wt.cups ? 'on' : ''}" data-action="cup" data-i="${i + 1}" aria-label="cup ${i + 1}">${i < wt.cups ? '💧' : ''}</button>`).join('')}</div>
     </div>
 
+    <div class="eyebrow"><span>Your coach</span></div>
+    <div class="card tight" data-action="coach" style="cursor:pointer">
+      <div style="display:flex;align-items:center;gap:11px">
+        <span class="coachavatar" style="width:42px;height:42px;font-size:22px">🧑‍🏫</span>
+        <div style="flex:1">
+          <h3 style="margin:0">Ask Coach</h3>
+          <p class="tiny" style="margin:1px 0 0">Missing an ingredient? Scale stuck? Hungry? Instant answers from your real numbers.</p>
+        </div>
+        <span style="color:var(--ink-3)">›</span>
+      </div>
+    </div>
+
     <div class="callout" style="margin-top:16px"><b>Coach's tip:</b> ${tip}</div>
   `;
 }
@@ -956,6 +968,162 @@ function renderWelcome() {
   </div>`;
 }
 
+/* ================= coach ================= */
+const SUBS = [
+  { miss: ['tahini', 'طحينة'], use: 'Peanut butter thinned with lemon works in dips; in msabbaha/hummus just skip it and add an extra spoon of olive oil + more lemon.' },
+  { miss: ['laban', 'yogurt', 'لبن'], use: 'Mix milk with a squeeze of lemon and let it sit 10 min for cooking uses. For protein, swap in a boiled egg instead.' },
+  { miss: ['labneh', 'لبنة'], use: 'Strain laban through a cloth or fine sieve for 2 hours — homemade labneh. Or use thick yogurt as-is.' },
+  { miss: ['chickpea', 'hummus', 'حمص'], use: 'White beans or lentils do the same job in balila, msabbaha, and salads — same protein family.' },
+  { miss: ['lentil', 'عدس'], use: 'Any bean works: white beans, fava, or split peas. Mujadara with white beans is real and delicious.' },
+  { miss: ['bulgur', 'burghul', 'برغل'], use: 'Rice, one-to-one. For tabbouleh, soaked fine couscous or just extra parsley.' },
+  { miss: ['rice', 'رز'], use: 'Bulgur (slightly less water) or cubed boiled potato. Bulgur is actually the upgrade — more fiber.' },
+  { miss: ['tuna', 'تونة'], use: 'A can of sardines, or 2-3 boiled eggs — roughly the same protein. Sardines bring bonus omega-3s.' },
+  { miss: ['chicken', 'دجاج'], use: 'Double the legumes and add an egg, or use canned tuna. The stew/rice recipes work the same.' },
+  { miss: ['tomato', 'بندورة'], use: '1 tbsp tomato paste + ½ cup water replaces 2 fresh tomatoes in any cooked dish.' },
+  { miss: ['lemon', 'حامض', 'ليمون'], use: 'White vinegar at half the amount. In salads, sumac + a little vinegar gets you close.' },
+  { miss: ['parsley', 'بقدونس'], use: 'Cilantro, mint, or a mix. Ejjeh and tabbouleh survive the swap fine.' },
+  { miss: ['mint', 'نعنع'], use: 'A pinch of dried zaatar or extra parsley.' },
+  { miss: ['garlic', 'توم'], use: 'Extra onion cooked longer, or a pinch of garlic powder if it exists in the house.' },
+  { miss: ['olive oil', 'زيت'], use: 'Any vegetable oil does the cooking job — olive oil is flavor, not magic. Use a bit less.' },
+  { miss: ['egg', 'بيض'], use: 'For protein: extra legumes + laban, or your pea protein shake on the side. For binding ejjeh: 2 tbsp flour + water.' },
+  { miss: ['sugar', 'سكر'], use: 'Your xylitol, one-to-one but start with less — or dates/debs for warm desserts.' },
+  { miss: ['protein powder', 'protein', 'بروتين'], use: 'Out of powder? 2 boiled eggs or a can of tuna ≈ one scoop\'s protein. Laban is the budget backup.' },
+  { miss: ['pine nuts', 'صنوبر'], use: 'Toasted crushed qdameh, or skip — they\'re decoration with a luxury price tag.' },
+  { miss: ['zaatar', 'زعتر'], use: 'Dried thyme/oregano + sesame + sumac if you have them; or just sumac + salt.' },
+];
+function coachStats() {
+  const cur = currentKg(), lost = kgLost(), week = sessionsThisWeek();
+  let pace = null;
+  if (S.weights.length >= 2) {
+    const a = S.weights[S.weights.length - 1], z = S.weights[0];
+    const days = daysBetween(z.d, a.d);
+    if (days >= 5) pace = Math.round(((z.kg - a.kg) / days) * 7 * 10) / 10;
+  }
+  return { cur, lost, week, pace };
+}
+function coachAnswer(q) {
+  const t = q.toLowerCase();
+  const { cur, lost, week, pace } = coachStats();
+  // ingredient substitutions first — "no tahini", "ma fi laban", "ran out of eggs"
+  for (const s of SUBS) {
+    if (s.miss.some(m => t.includes(m))) {
+      return `<b>Missing ${esc(s.miss[0])}?</b> ${esc(s.use)}<br><span class="tiny">Ask me another ingredient, or tap a chip below.</span>`;
+    }
+  }
+  if (/(on track|going well|progress|how am i|doing good)/.test(t)) {
+    if (pace === null) return `Too early for a verdict — I need at least two weigh-ins a few days apart. So far: <span class="num">${week}/${S.profile.daysPerWeek}</span> workouts this week and the plan is live. Log your weigh-in weekly and I'll give you the honest numbers.`;
+    if (pace >= 0.4 && pace <= 1.2) return `Yes. You're losing <span class="num">${pace} kg/week</span> — that's the textbook healthy zone. Total so far: <span class="num">−${lost} kg</span>, currently <span class="num">${cur} kg</span>. Workouts this week: <span class="num">${week}/${S.profile.daysPerWeek}</span>. Keep doing exactly this.`;
+    if (pace > 1.2) return `You're dropping <span class="num">${pace} kg/week</span> — faster than ideal. Some of that is water weight early on (normal), but make sure you're actually eating your ~<span class="num">${kcalTarget()}</span> kcal. Losing too fast costs muscle, and muscle is the "toned" part of your goal.`;
+    if (pace > 0) return `Moving at <span class="num">${pace} kg/week</span> — slow but real. If two more weeks stay this slow: tighten the pours of olive oil, count the bread loaves, and keep protein at <span class="num">${proteinTarget()}g</span>. Small leaks sink slow ships.`;
+    return `The scale says <span class="num">${pace <= 0 ? '+' + Math.abs(pace) : pace} kg/week</span> right now. Before panicking: weigh same day, same morning conditions, and give it 2 full weeks — water swings hide real progress. If it's still flat then, we cut ~200 kcal (one loaf of bread) and add 10 min of walking.`;
+  }
+  if (/(plateau|stuck|not losing|scale.*(same|stuck|not moving))/.test(t)) {
+    return `Plateaus are normal and they lie. Checklist: (1) weigh only weekly, same conditions; (2) recount the invisible calories — oil pours, bread count, sugary drinks; (3) protein at <span class="num">${proteinTarget()}g</span> so you're not hungry-snacking; (4) hold steady 2 more weeks. Still stuck? Drop ~200 kcal or add a daily 15-min walk. Never both at once.`;
+  }
+  if (/(hungry|starving|not full|جوعان)/.test(t)) {
+    return `Hunger means the plan needs adjusting, not more willpower. In order: drink water first · make lunch/dinner portions BIGGER (you have calorie room — check the gold box on Today) · protein + fiber at every meal (that's why I keep pushing laban, eggs, and beans) · soup or salad starter adds volume for nothing. You should end meals full. If you don't, tell me which meal and I'll point you to a more filling swap.`;
+  }
+  if (/(protein|بروتين).*(today|hit|enough|how)|how.*protein/.test(t)) {
+    ensureMealPlan();
+    const totalP = ['b', 'l', 'd', 's'].reduce((a, sl) => a + (mealById(S.mealPlan.picks[sl])?.pro || 0), 0);
+    const gap = proteinTarget() - totalP;
+    return gap > 5
+      ? `Today's plate covers ~<span class="num">${totalP}g</span> of your <span class="num">${proteinTarget()}g</span> target — <span class="num">${gap}g</span> to go. Fastest closers: pea protein shake (+20g), 2 boiled eggs (+13g), a cup of laban (+8g), can of tuna (+25g). One shake plus one egg basically closes it.`
+      : `Today's plate already lands ~<span class="num">${totalP}g</span> vs a <span class="num">${proteinTarget()}g</span> target — you're covered. Eat the plan, take the shake if you trained.`;
+  }
+  if (/(missed|skip|lazy|didn'?t (work ?out|train)|no time)/.test(t)) {
+    return `One missed workout costs you nothing — quitting over guilt costs everything. You're at <span class="num">${week}/${S.profile.daysPerWeek}</span> this week. The rule: never miss twice in a row. If today's session feels too big, do 10 minutes — the 🎲 button can deal you a Walk & Sculpt. Ten minutes keeps the identity: you're someone who shows up.`;
+  }
+  if (/(sore|hurt|pain|ache|وجع)/.test(t)) {
+    return `Sore muscles a day or two after training = normal, it fades as you adapt. Move gently (walk, stretch), hydrate, sleep. <b>But sharp pain, joint pain, or pain during a movement is different</b> — stop that exercise, use the easier variation, and if it persists, see a doctor. Never train through sharp pain. I'm a coach, not a clinic.`;
+  }
+  if (/(sweet|craving|sugar|chocolate|حلو)/.test(t)) {
+    return `That's what the 😤 SOS button lives for — hit it next time the kitchen starts calling. Your xylitol also unlocked the dessert menu: protein mhalabia, riz b haleeb, protein banana ice cream. Batch one tonight so the freezer answers before the cupboard does.`;
+  }
+  if (/(cheat|treat|ramadan|invited|wedding|party|عزيمة)/.test(t)) {
+    return `Life happens — weddings, family tables, knefe exists. The move: eat light earlier that day, protein first at the event, enjoy the thing without seconds, and go for a walk after. One big meal never broke a plan; five days of "whatever, I already ruined it" does. Next morning: back to the plan, no punishment workouts.`;
+  }
+  if (/(water|hydrat)/.test(t)) {
+    const w = water();
+    return `You're at <span class="num">${w.cups}/8</span> cups today. Water before meals kills half of fake hunger, and at your training load you sweat more than you think. Fill a bottle in the morning and finish it by night — the cups on Today are there to tap.`;
+  }
+  if (/(sleep|tired|energy|نوم)/.test(t)) {
+    return `Under 7 hours of sleep and your hunger hormones (ghrelin up, leptin down) literally argue for the cupboard. Aim 7-9h, keep the phone away the last 30 min, and if energy is low, check: did you eat enough today? Did you sleep? Fix those before blaming the plan.`;
+  }
+  return null; // no local answer — offer the AI briefing path
+}
+function coachBriefing(q) {
+  const { cur, lost, week, pace } = coachStats();
+  const recentW = S.weights.slice(-8).map(w => `${w.d}: ${w.kg}kg`).join(', ');
+  return `You are my personal fitness coach and dietitian. Here is my live data from my tracking app:
+- Mhammad, 21, male, 180 cm. Started ${S.profile.startKg} kg on ${S.profile.startDate}; now ${cur} kg (${lost > 0 ? 'lost ' + lost + ' kg' : 'just started'}). Goal: ${S.profile.goalKg} kg — toned and healthy, not bodybuilder-big.
+- BMI ${bmi().toFixed(1)}. Daily targets: ~${kcalTarget()} kcal, ~${proteinTarget()}g protein.
+- Weigh-ins: ${recentW || 'none yet'}${pace !== null ? ` (pace ~${pace} kg/week)` : ''}.
+- Training: ${S.sessions.length} home workouts total, ${week}/${S.profile.daysPerWeek} this week, level ${S.level}/10. No equipment except a jump rope and stairs; low-impact only, no running yet; sessions ~${S.profile.minutes} min.
+- Food reality: low-income Lebanese household. Meals come from beans, lentils, chickpeas, bulgur, rice, bread, potatoes, eggs, laban/labneh, white cheese, canned tuna/sardines, seasonal vegetables, olive oil, tahini. I also have pea protein powder (20g protein/scoop) and xylitol sweetener. No supplements budget beyond that.
+- Tendencies: big appetite, sweet and savory cravings when meals don't fill me, I get bored with repetitive workouts.
+
+My question: ${q}
+
+Please answer specifically for MY situation and budget — no generic advice that assumes money, a gym, or ingredients I don't have.`;
+}
+let coachQ = '';
+function coachModal() {
+  openModal(`
+    <div class="modalhead"><h2><span class="coachavatar">🧑‍🏫</span>Coach</h2><button class="closex" data-action="closemodal" aria-label="Close">✕</button></div>
+    <div class="chatlog" id="chatlog">
+      <div class="bubble coach">Ahla! Ask me anything — a missing ingredient ("no tahini"), whether you're on track, how to hit your protein, cravings, soreness. I answer instantly using your real numbers.</div>
+    </div>
+    <div class="coachchips">
+      ${['Am I on track?', 'How do I hit my protein today?', "I'm missing an ingredient", "I'm hungry all the time", 'The scale is stuck', 'I missed a workout', 'Muscles are sore'].map(c => `<button class="chip" data-action="coachchip" data-q="${esc(c)}">${esc(c)}</button>`).join('')}
+    </div>
+    <div class="coachinput">
+      <input id="coachText" placeholder="Type your question…" autocomplete="off">
+      <button class="btn small" data-action="coachsend">Send</button>
+    </div>
+    <p class="tiny" style="margin-top:10px">Deeper question? I'll package your full profile + progress with it — <b>Copy for AI</b> below puts a complete coach briefing on your clipboard, then paste it to Claude (free) for a real AI answer that knows you.</p>
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <button class="btn ghost small" data-action="coachcopy" style="flex:1">📋 Copy for AI</button>
+      <a class="btn soft small" style="flex:1;text-decoration:none" href="https://claude.ai/new" target="_blank" rel="noopener">Open Claude ↗</a>
+    </div>
+  `);
+}
+function coachSay(html, me = false) {
+  const log = $('#chatlog'); if (!log) return;
+  const b = document.createElement('div');
+  b.className = 'bubble ' + (me ? 'me' : 'coach');
+  b.innerHTML = html;
+  log.appendChild(b);
+  b.scrollIntoView({ block: 'nearest' });
+}
+function coachAsk(q) {
+  if (!q.trim()) return;
+  coachQ = q.trim();
+  coachSay(esc(coachQ), true);
+  const a = coachAnswer(coachQ);
+  setTimeout(() => {
+    if (a) coachSay(a);
+    else if (/(missing|ingredient|substitute|swap|بدل)/i.test(coachQ)) coachSay('Tell me which ingredient is missing — like <i>"no tahini"</i> or <i>"ran out of eggs"</i> — and I\'ll give you the swap.');
+    else coachSay(`That one deserves a real AI brain, not my quick answers. Tap <b>📋 Copy for AI</b> — I've packed your question together with your full profile and progress — then paste it into Claude (free at claude.ai). The answer will be personal to you, not generic.`);
+  }, 350);
+  const inp = $('#coachText'); if (inp) inp.value = '';
+}
+function coachCopy() {
+  const q = coachQ || 'Give me an honest check-up on my progress and what to focus on next week.';
+  const text = coachBriefing(q);
+  const done = () => toast('Briefing copied — paste it to Claude 📋');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) { toast('Copy failed — long-press the text to copy manually.'); }
+  ta.remove();
+}
+
 /* ================= events ================= */
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-action]');
@@ -992,6 +1160,10 @@ document.addEventListener('click', e => {
     save(); renderToday();
     if (w.cups === 8) toast('8/8 — hydration complete 💧🏆');
   }
+  else if (a === 'coach') coachModal();
+  else if (a === 'coachchip') coachAsk(el.dataset.q);
+  else if (a === 'coachsend') coachAsk($('#coachText') ? $('#coachText').value : '');
+  else if (a === 'coachcopy') coachCopy();
   else if (a === 'sos') sosModal();
   else if (a === 'sostype') sosResults(el.dataset.t);
   else if (a === 'soswin') { S.sos++; save(); closeModal(); renderAll(); toast(`Craving #${S.sos} defeated. That's real discipline 😤`); }
@@ -1007,6 +1179,9 @@ document.addEventListener('click', e => {
     }
   }
   else if (a === 'startjourney') { S.seenWelcome = true; save(); $('#welcome').hidden = true; }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.id === 'coachText') coachAsk(e.target.value);
 });
 document.addEventListener('change', e => {
   if (e.target.id === 'importfile' && e.target.files[0]) {
