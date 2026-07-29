@@ -61,7 +61,7 @@ const MEALS = [
   { id: 'laban_banana', en: 'Laban + banana bowl', ar: 'لبن وموز', slot: ['b'], e: '🍌', kcal: 330, pro: 15, full: 3, cost: 1, mins: 4,
     why: 'Cold, slightly sweet, and fast — a breakfast that feels like a treat.',
     recipe: 'Big bowl of laban (2 cups) · Sliced banana · Cinnamon on top · Handful of crushed qdameh or oats if you have them',
-    boost: 'The laban IS the protein — use the thick kind if you can.' },
+    boost: 'Whisk a scoop of pea protein into the laban first — this becomes a 35g-protein breakfast for almost nothing.' },
   { id: 'halloumitoast', en: 'Pan-grilled cheese + veg', ar: 'جبنة مشوية', slot: ['b', 'd'], e: '🧀', kcal: 410, pro: 22, full: 4, cost: 2, mins: 10,
     why: 'Grilled akkawi or halloumi-style cheese is protein that tastes like a reward.',
     recipe: 'Dry-pan slices of white cheese till golden both sides · Tuck into bread with tomato, cucumber, mint · Squeeze of lemon',
@@ -194,14 +194,17 @@ const MEALS = [
 
 /* snack pool doubles as the Craving SOS arsenal */
 const SNACKS = [
+  { id: 'protein_shake', en: 'Pea protein shake', ar: 'شيك بروتين', type: 'sweet', e: '🥤', kcal: 110, pro: 20, note: '1 scoop + cold water or milk, shake hard, cinnamon on top. 20g protein for ~100 kcal — the craving killer with receipts.' },
+  { id: 'protein_ice', en: 'Protein banana ice cream', ar: 'بوظة بروتين', type: 'sweet', e: '🍨', kcal: 220, pro: 21, note: 'Blend frozen banana chunks with 1 scoop pea protein + splash of milk. Actual dessert, 21g protein.' },
+  { id: 'protein_pudding', en: 'Protein mhalabia', ar: 'مهلبية بالبروتين', type: 'sweet', e: '🍮', kcal: 170, pro: 13, note: 'Make mhalabia with xylitol instead of sugar, whisk in ½ scoop protein once it cools a bit. Batch 4 cups for the week.' },
   { id: 'dates_tahini', en: 'Dates + tahini', ar: 'تمر وطحينة', type: 'sweet', e: '🌰', kcal: 160, pro: 3, note: '3 dates, small drizzle of tahini. Tastes like halawa, acts like fuel.' },
   { id: 'laban_cin', en: 'Laban + banana + cinnamon', ar: 'لبن وموز', type: 'sweet', e: '🍌', kcal: 180, pro: 9, note: 'Cold, creamy, sweet — and 9g protein sneaks in.' },
   { id: 'banana_ice', en: 'Frozen banana whip', ar: 'موز مثلج', type: 'sweet', e: '🍦', kcal: 120, pro: 1, note: 'Freeze banana chunks, mash/blend till creamy. Basically ice cream.' },
-  { id: 'rizbhaleeb', en: 'Riz b haleeb (light)', ar: 'رز بحليب', type: 'sweet', e: '🍮', kcal: 190, pro: 7, note: 'Small cup, made with milk + 1 tsp sugar + rose water. Make 4 cups, keep them in the fridge.' },
+  { id: 'rizbhaleeb', en: 'Riz b haleeb (light)', ar: 'رز بحليب', type: 'sweet', e: '🍚', kcal: 170, pro: 7, note: 'Small cup, made with milk + xylitol + rose water — sweet with zero sugar cost. Make 4 cups, keep them in the fridge.' },
   { id: 'debs_tahini', en: 'Debs w tahini', ar: 'دبس وطحينة', type: 'sweet', e: '🍯', kcal: 170, pro: 3, note: 'Carob molasses swirled with tahini, scooped with a bite of bread. The OG Lebanese dessert.' },
   { id: 'apple_cin', en: 'Apple + cinnamon', ar: 'تفاح وقرفة', type: 'sweet', e: '🍎', kcal: 90, pro: 0, note: 'Sliced, dusted with cinnamon. Microwave 1 min and it\'s basically apple pie filling.' },
-  { id: 'hotmilk', en: 'Hot cinnamon milk', ar: 'حليب بالقرفة', type: 'sweet', e: '🥛', kcal: 130, pro: 8, note: 'Warm milk + cinnamon + tiny honey. A dessert you drink.' },
-  { id: 'mhalabia', en: 'Mhalabia (light)', ar: 'مهلبية', type: 'sweet', e: '🥄', kcal: 160, pro: 6, note: 'Milk pudding with rose water, easy on the sugar. Batch it.' },
+  { id: 'hotmilk', en: 'Hot cinnamon milk', ar: 'حليب بالقرفة', type: 'sweet', e: '🥛', kcal: 120, pro: 8, note: 'Warm milk + cinnamon + xylitol. A dessert you drink. Stir in ½ scoop protein off the heat and it becomes a 18g-protein nightcap.' },
+  { id: 'mhalabia', en: 'Mhalabia (light)', ar: 'مهلبية', type: 'sweet', e: '🥄', kcal: 140, pro: 6, note: 'Milk pudding with rose water, sweetened with xylitol. Batch it.' },
   { id: 'qdameh', en: 'Qdameh', ar: 'قضامة', type: 'savory', e: '🥜', kcal: 120, pro: 6, note: 'A handful of roasted chickpeas. Crunchy, cheap, and 6g protein.' },
   { id: 'popcorn', en: 'Zaatar popcorn', ar: 'فشار بالزعتر', type: 'savory', e: '🍿', kcal: 110, pro: 3, note: 'Pop kernels in a pot with 1 tsp oil, dust with zaatar + salt. A huge bowl, barely any calories.' },
   { id: 'cuc_labneh', en: 'Cucumber + labneh dip', ar: 'خيار ولبنة', type: 'savory', e: '🥒', kcal: 100, pro: 6, note: 'Cucumber spears in seasoned labneh. Cold and crunchy.' },
@@ -227,6 +230,9 @@ const TIPS = [
   'Sleep is a fat-loss tool. Under 7 hours and your hunger hormones turn against you.',
   'A "bad" meal doesn\'t ruin anything — the next meal decides the week, not the last one.',
   'Laban w khyar is basically free protein soup. When in doubt, add it to any meal.',
+  'Best times for your pea protein shake: right after a workout, or between meals when the family pot was low on protein. It\'s a top-up, not a meal replacement.',
+  'Xylitol: 1 tablespoon is plenty, and go easy at first — big amounts can upset your stomach. And it\'s seriously toxic to dogs, so keep it away from any pets.',
+  'A scoop of pea protein whisked into laban, mhalabia, or a shake is the cheapest 20g of protein you\'ll ever buy per serving. Use it daily.',
 ];
 
 /* ================= data: exercises ================= */
@@ -633,7 +639,7 @@ function renderToday() {
 
     <div class="eyebrow"><span>Today's move</span></div>
     ${doneToday()
-      ? `<div class="card"><h3>✅ Workout done today</h3><p class="muted">Recovery is where the muscle happens. See you tomorrow — or take a victory walk.</p></div>`
+      ? `<div class="card"><h3>✅ Workout done today</h3><p class="muted">Recovery is where the muscle happens. Perfect window for your pea protein shake 🥤 — then see you tomorrow, or take a victory walk.</p></div>`
       : (() => { const w = genWorkout(); return `<div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <h3>${w.formatName}</h3><span class="levelbadge">LV ${S.level}</span>
@@ -729,7 +735,7 @@ function renderMove() {
       <div class="pbar" style="margin-top:8px"><i style="width:${Math.min(100, week / S.profile.daysPerWeek * 100)}%"></i></div>
       <p class="tiny num" style="margin-top:4px">${week}/${S.profile.daysPerWeek} sessions this week</p>
     </div>
-    ${done ? `<div class="card"><h3>✅ Today is in the books</h3><p class="muted">Muscle is built in recovery, not in the workout. Stretch, hydrate, walk if you're restless — tomorrow we go again.</p></div>`
+    ${done ? `<div class="card"><h3>✅ Today is in the books</h3><p class="muted">Muscle is built in recovery, not in the workout. Have your pea protein shake, stretch, hydrate, walk if you're restless — tomorrow we go again.</p></div>`
     : `<div class="card">
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <h3>${w.formatName}</h3>
