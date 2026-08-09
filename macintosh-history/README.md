@@ -14,7 +14,16 @@ macintosh-history/
 └── vendor/             # three.js, GSAP + ScrollTrigger, Lenis (bundled locally)
 ```
 
-## Running it
+## Seeing it
+
+Three ways, easiest first.
+
+**1. The published page.** `dist/macintosh-history.html` is the whole site in a
+single self-contained file — every library, style and script inlined, no
+network requests at runtime. Open it in any browser, host it anywhere, or send
+it to someone.
+
+**2. Locally, from the modular source.**
 
 Because the page uses ES modules and an import map, it must be served over
 HTTP — opening `index.html` from the filesystem will fail on CORS.
@@ -25,8 +34,28 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-Any static host works: GitHub Pages, Netlify, `npx serve`, nginx. There is no
-build step, no bundler, no package.json, and no network access at runtime.
+**3. GitHub Pages.** Merge this branch and turn on Pages for the repository
+(Settings -> Pages -> Deploy from a branch), then visit
+`https://<user>.github.io/<repo>/macintosh-history/`.
+
+There is no build step, no bundler, and no package.json. The single-file
+version is regenerated with:
+
+```bash
+python3 build-single-file.py
+```
+
+which writes `dist/macintosh-history.html` (a complete document) and
+`dist/macintosh-history.embed.html` (the same page without the `<html>/<head>`
+skeleton, for hosts that supply their own).
+
+Two things that file gets right and are easy to get wrong when inlining a page
+like this: it emits a **doctype** — without one the browser uses quirks mode,
+`document.scrollingElement` becomes `<body>`, and Lenis's scroll writes land
+somewhere the viewport never reads, so the page silently refuses to scroll —
+and it defers startup to `DOMContentLoaded`, because a plain `<script>` runs
+earlier than the module it replaced and Lenis would otherwise measure an
+unfinished document.
 
 ## Where the 3D model came from
 
