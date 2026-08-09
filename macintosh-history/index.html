@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Macintosh — Forty Years of the Computer for the Rest of Us</title>
+<meta name="description" content="A scroll-driven history of the Apple Macintosh, with a 3D teardown that explodes as you descend and rebuilds itself as you climb back.">
+<link rel="stylesheet" href="vendor/lenis.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🖥️</text></svg>">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+
+<!-- ============================================================== -->
+<!-- Boot screen                                                     -->
+<!-- ============================================================== -->
+<div id="boot" class="boot">
+  <div class="boot__screen">
+    <svg class="boot__mac" viewBox="0 0 100 120" aria-hidden="true">
+      <rect class="d" x="6" y="4" width="88" height="112" rx="7"/>
+      <rect class="d" x="16" y="14" width="68" height="50" rx="3"/>
+      <circle class="f" cx="38" cy="34" r="4"/>
+      <circle class="f" cx="62" cy="34" r="4"/>
+      <path class="s" d="M36 46 q14 12 28 0"/>
+      <rect class="d" x="20" y="90" width="30" height="8" rx="2"/>
+    </svg>
+    <div class="boot__bar"><i></i></div>
+    <p class="boot__text">Welcome to Macintosh</p>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- Persistent 3D stage                                             -->
+<!-- ============================================================== -->
+<canvas id="gl" aria-hidden="true"></canvas>
+<div id="labels" class="labels" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Year rail -->
+<nav class="rail" aria-label="Timeline">
+  <ol id="rail-list"></ol>
+</nav>
+<div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>
+
+<a class="skip" href="#origins">Skip the introduction</a>
+
+<main>
+
+<!-- ============================================================== -->
+<section class="hero" id="hero" data-section data-year="1984" data-label="Introduction">
+  <div class="hero__inner">
+    <p class="eyebrow" data-anim="fade">Apple Computer, Inc. · Cupertino, California</p>
+    <h1 class="hero__title">
+      <span class="line" data-anim="line">The</span>
+      <span class="line" data-anim="line">Macintosh</span>
+    </h1>
+    <p class="hero__sub" data-anim="fade">
+      A forty-year history of the machine that argued a computer should be
+      something you meet, not something you operate.
+    </p>
+    <div class="hero__meta" data-anim="stagger">
+      <span>Scroll to descend</span>
+      <span>The machine comes apart as you go</span>
+      <span>Scroll up and it rebuilds</span>
+    </div>
+  </div>
+  <div class="scrollcue" aria-hidden="true"><i></i></div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter" id="origins" data-section data-year="1979" data-label="Origins">
+  <div class="wrap">
+    <header class="chapter__head">
+      <span class="chapter__num" data-anim="fade">01</span>
+      <h2 data-anim="lines">A project named after an apple</h2>
+    </header>
+    <div class="cols">
+      <div class="col col--lead" data-anim="fade">
+        <p>
+          In 1979 <b>Jef Raskin</b>, Apple employee number 31, began arguing for
+          a computer that an ordinary person could buy for a thousand dollars
+          and simply use. He named the project after his favourite variety of
+          apple, the McIntosh, and misspelled it to avoid the hi-fi company of
+          the same name.
+        </p>
+      </div>
+      <div class="col" data-anim="fade">
+        <p>
+          The same year, a delegation from Apple visited <b>Xerox PARC</b> and
+          saw the Alto: overlapping windows, a bitmapped display, a mouse.
+          Xerox had built the future and filed it. Apple went home and started
+          shipping it — first in the expensive, unsuccessful <b>Lisa</b>, then
+          in the machine that mattered.
+        </p>
+        <p>
+          By 1981 <b>Steve Jobs</b> had pushed Raskin off his own project and
+          turned it into something faster, prettier and considerably less
+          practical: a sealed box with a graphical interface, driven by a
+          Motorola 68000 that Burrell Smith had coaxed onto a single board.
+        </p>
+      </div>
+    </div>
+    <ul class="facts" data-anim="stagger">
+      <li><b>1979</b><span>Raskin writes “Computers by the Millions”</span></li>
+      <li><b>1981</b><span>Jobs takes over the Macintosh team</span></li>
+      <li><b>1983</b><span>Lisa ships at $9,995 and stalls</span></li>
+      <li><b>1983</b><span>The pirate flag flies over Bandley 3</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter chapter--wide" id="launch" data-section data-year="1984" data-label="The launch">
+  <div class="wrap">
+    <header class="chapter__head">
+      <span class="chapter__num" data-anim="fade">02</span>
+      <h2 data-anim="lines">January 24, 1984</h2>
+    </header>
+    <div class="cols">
+      <div class="col col--lead" data-anim="fade">
+        <p>
+          Two days earlier, during the third quarter of Super Bowl XVIII, Apple
+          ran a sixty-second film directed by Ridley Scott in which a runner
+          threw a hammer through a screen. It named no product and showed no
+          computer. It aired once nationally and is still being talked about
+          four decades later.
+        </p>
+      </div>
+      <div class="col" data-anim="fade">
+        <p>
+          At the shareholders’ meeting in Flint Center, Jobs pulled the machine
+          from a bag, put a disk in it, and let it introduce itself. The screen
+          drew the word <i>hello</i> in a handwritten script, then scrolled
+          through fonts nobody had seen on a personal computer, and finally the
+          Macintosh spoke: <q>Never trust a computer you can’t lift.</q>
+        </p>
+        <p>
+          It cost <b>$2,495</b>, shipped with <b>128 kilobytes</b> of memory and
+          a single 400K floppy drive, and had no hard disk, no colour, no
+          expansion slots and no cursor keys. Almost every one of those absences
+          was a deliberate argument.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- TEARDOWN — the long scroll that explodes the machine            -->
+<!-- ============================================================== -->
+<section class="teardown" id="teardown" data-section data-year="1984" data-label="Teardown">
+  <div class="teardown__steps">
+
+    <div class="step" data-step="0">
+      <div class="step__card">
+        <span class="step__tag">Teardown · keep scrolling</span>
+        <h3>One machine, nine decisions</h3>
+        <p>
+          Everything below is generated in code — no downloaded model, no
+          scanned parts. As you descend, the Macintosh 128K comes apart.
+          Turn around and go back up and it puts itself together again, in
+          exactly the reverse order.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-step="1">
+      <div class="step__card">
+        <span class="step__tag">Front bezel</span>
+        <h3>A face, not a box</h3>
+        <p>
+          Jerry Manock and Terry Oyama stood the machine upright so its
+          footprint was smaller than a sheet of paper, and set the screen high
+          with the drive below — proportions the team openly described as a
+          face. Every other computer of 1984 lay down like an appliance.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-step="2">
+      <div class="step__card">
+        <span class="step__tag">Cathode ray tube</span>
+        <h3>512 × 342, square pixels</h3>
+        <p>
+          Nine inches, one bit deep, and — crucially — pixels that were
+          actually square. That is why a circle on a Mac screen was a circle,
+          why WYSIWYG worked, and why the machine could credibly claim that
+          what you saw was what you would print.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-step="3">
+      <div class="step__card">
+        <span class="step__tag">400K floppy drive</span>
+        <h3>The one slot that mattered</h3>
+        <p>
+          Sony’s rigid 3.5-inch disk replaced the flapping 5.25-inch floppy,
+          driven by Woz’s Integrated Woz Machine. With 128K of RAM and one
+          drive, using MacWrite and MacPaint together meant swapping disks
+          until your wrist ached.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-step="4">
+      <div class="step__card">
+        <span class="step__tag">Digital logic board</span>
+        <h3>An 8 MHz argument</h3>
+        <p>
+          Burrell Smith’s board carried a Motorola 68000 running at 7.83 MHz,
+          sixteen DRAM chips totalling 128 kilobytes, and 64K of ROM holding
+          the QuickDraw graphics routines Bill Atkinson had written. The ROM
+          was the operating system’s soul, burned into silicon.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-step="5">
+      <div class="step__card">
+        <span class="step__tag">Analog board</span>
+        <h3>No fan, by decree</h3>
+        <p>
+          Rod Holt built a switching supply that ran the display and the logic
+          without a cooling fan, because Jobs insisted the Macintosh be silent.
+          It was. It also cooked itself, and the early machines earned the
+          nickname “the beige toaster”.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-step="6">
+      <div class="step__card">
+        <span class="step__tag">Inside the rear housing</span>
+        <h3>Forty-seven signatures</h3>
+        <p>
+          In 1982 the team signed a sheet of paper, and the signatures were
+          moulded into the inside of every case — invisible unless you broke
+          the machine open. Artists sign their work. Most owners never saw
+          them; you are seeing them now.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-step="7">
+      <div class="step__card">
+        <span class="step__tag">Keyboard &amp; mouse</span>
+        <h3>One button, no arrows</h3>
+        <p>
+          The keyboard shipped without cursor keys, on purpose: if you wanted
+          to move, you reached for the mouse. And the mouse had exactly one
+          button, because two is a question and one is an answer. The industry
+          spent twenty years disagreeing.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-step="8">
+      <div class="step__card step__card--wide">
+        <span class="step__tag">Back together</span>
+        <h3>$2,495, and a dent in the universe</h3>
+        <p>
+          Nine parts, closed up again — and reversible the whole way: scroll
+          back up and the machine comes apart in the opposite order.
+          Seventy thousand sold in the first hundred days, then a collapse.
+          The Macintosh was charming, underpowered and nearly fatal to the
+          company. What saved it was not the machine — it was what people
+          started printing with it.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter" id="rescue" data-section data-year="1985" data-label="Desktop publishing">
+  <div class="wrap">
+    <header class="chapter__head">
+      <span class="chapter__num" data-anim="fade">03</span>
+      <h2 data-anim="lines">Saved by a printer</h2>
+    </header>
+    <div class="cols">
+      <div class="col col--lead" data-anim="fade">
+        <p>
+          Sales fell through 1984 and 1985. Jobs lost a boardroom fight with
+          John Sculley and left Apple in September 1985 to found NeXT. The
+          Macintosh was, by most measures, failing.
+        </p>
+      </div>
+      <div class="col" data-anim="fade">
+        <p>
+          Then three things met each other: the <b>LaserWriter</b>, Adobe’s
+          <b>PostScript</b>, and Aldus <b>PageMaker</b>. Suddenly a Mac, a
+          printer and $7,000 could replace a typesetting bureau. An entire
+          industry — desktop publishing — was invented on the strength of it,
+          and it belonged almost entirely to Apple.
+        </p>
+        <p>
+          The <b>Macintosh Plus</b> arrived in 1986 with a megabyte of RAM and
+          SCSI, and the machine finally had room to breathe.
+        </p>
+      </div>
+    </div>
+    <ul class="facts" data-anim="stagger">
+      <li><b>1985</b><span>LaserWriter, $6,995, 300 dpi PostScript</span></li>
+      <li><b>1985</b><span>Jobs leaves Apple for NeXT</span></li>
+      <li><b>1986</b><span>Macintosh Plus: 1 MB, SCSI, 800K drive</span></li>
+      <li><b>1987</b><span>Mac II brings colour and six slots</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter chapter--split" id="portable" data-section data-year="1991" data-label="Portable">
+  <div class="wrap">
+    <div class="split">
+      <div class="split__text">
+        <header class="chapter__head">
+          <span class="chapter__num" data-anim="fade">04</span>
+          <h2 data-anim="lines">Getting up from the desk</h2>
+        </header>
+        <p data-anim="fade">
+          The 1989 <b>Macintosh Portable</b> weighed sixteen pounds and cost
+          $6,500; it is remembered mostly as a lesson. Two years later the
+          <b>PowerBook 100/140/170</b> got it right by doing something nobody
+          else had thought to do: push the keyboard back against the hinge and
+          leave a palm rest with a trackball in the middle.
+        </p>
+        <p data-anim="fade">
+          Every laptop you have ever used copies that layout. Apple sold a
+          billion dollars of PowerBooks in the first year.
+        </p>
+      </div>
+      <div class="split__art" data-anim="art">
+        <svg viewBox="0 0 320 200" class="art" aria-hidden="true">
+          <path class="ln" d="M60 150 h200 l24 26 H36 z"/>
+          <rect class="ln" x="60" y="150" width="200" height="4"/>
+          <path class="ln" d="M74 150 V46 h172 v104"/>
+          <rect class="fl" x="86" y="58" width="148" height="80"/>
+          <circle class="ln" cx="160" cy="166" r="9"/>
+          <rect class="ln" x="96" y="158" width="42" height="6"/>
+          <rect class="ln" x="182" y="158" width="42" height="6"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter chapter--dark" id="wilderness" data-section data-year="1993" data-label="The wilderness">
+  <div class="wrap">
+    <header class="chapter__head">
+      <span class="chapter__num" data-anim="fade">05</span>
+      <h2 data-anim="lines">The wilderness years</h2>
+    </header>
+    <div class="cols">
+      <div class="col col--lead" data-anim="fade">
+        <p>
+          Between 1993 and 1997 Apple shipped a Performa for every conceivable
+          retail channel, licensed the Mac OS to clone makers who ate its best
+          margins, and spent years failing to replace an operating system that
+          still had no protected memory and no pre-emptive multitasking.
+        </p>
+      </div>
+      <div class="col" data-anim="fade">
+        <p>
+          The <b>PowerPC</b> transition in 1994 was a genuine engineering
+          triumph — a 68000 emulator good enough that most users never noticed
+          their software was being translated. It bought time that
+          <b>Copland</b>, the doomed next-generation OS, then wasted.
+        </p>
+        <p>
+          By 1996 Apple was losing money by the billion and shopping for an
+          operating system. It bought <b>NeXT</b> for $429 million, and got
+          Steve Jobs back in the deal.
+        </p>
+      </div>
+    </div>
+    <ul class="facts" data-anim="stagger">
+      <li><b>1994</b><span>Power Macintosh 6100 — PowerPC 601</span></li>
+      <li><b>1995</b><span>Mac clones licensed; margins collapse</span></li>
+      <li><b>1996</b><span>Copland cancelled; NeXT acquired</span></li>
+      <li><b>1997</b><span>Jobs returns as interim CEO</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter chapter--split chapter--imac" id="imac" data-section data-year="1998" data-label="iMac">
+  <div class="wrap">
+    <div class="split split--rev">
+      <div class="split__text">
+        <header class="chapter__head">
+          <span class="chapter__num" data-anim="fade">06</span>
+          <h2 data-anim="lines">Bondi blue</h2>
+        </header>
+        <p data-anim="fade">
+          Jobs killed the clones, the Newton and most of the product line, and
+          in May 1998 introduced a translucent teardrop with a handle on top.
+          The <b>iMac G3</b> had no floppy drive — an omission critics called
+          suicidal — and two USB ports, a standard nobody was using yet.
+        </p>
+        <p data-anim="fade">
+          It sold 800,000 units in its first five months, dragged USB into the
+          mainstream on its own, and re-established that a Macintosh was
+          allowed to be an object with a personality.
+        </p>
+      </div>
+      <div class="split__art" data-anim="art">
+        <svg viewBox="0 0 320 220" class="art" aria-hidden="true">
+          <path class="ln" d="M92 40 h136 q22 0 26 24 l10 92 q4 32 -30 32 H86 q-34 0 -30 -32 l10 -92 q4 -24 26 -24 z"/>
+          <rect class="fl" x="98" y="62" width="124" height="90" rx="6"/>
+          <path class="ln" d="M120 26 q40 -18 80 0"/>
+          <rect class="ln" x="128" y="176" width="64" height="8" rx="4"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter" id="osx" data-section data-year="2001" data-label="Mac OS X">
+  <div class="wrap">
+    <header class="chapter__head">
+      <span class="chapter__num" data-anim="fade">07</span>
+      <h2 data-anim="lines">A Unix underneath</h2>
+    </header>
+    <div class="cols">
+      <div class="col col--lead" data-anim="fade">
+        <p>
+          <b>Mac OS X 10.0</b> shipped in March 2001: NeXTSTEP’s Mach and BSD
+          foundations, Objective-C frameworks, and a candy-coloured interface
+          called Aqua that Jobs said people would want to lick.
+        </p>
+      </div>
+      <div class="col" data-anim="fade">
+        <p>
+          It was slow, incomplete, and unmistakably the right answer. Classic
+          Mac OS applications ran in a compatibility layer while developers
+          moved to Carbon and then Cocoa. Within four years the transition was
+          done and the Macintosh had a modern, protected, multi-user kernel
+          under a genuinely beautiful desktop.
+        </p>
+        <p>
+          The hardware caught up in style: the Titanium <b>PowerBook G4</b> in
+          2001, the sunflower iMac G4 in 2002, the aluminium Cinema Displays.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter chapter--dark" id="intel" data-section data-year="2006" data-label="Intel">
+  <div class="wrap">
+    <header class="chapter__head">
+      <span class="chapter__num" data-anim="fade">08</span>
+      <h2 data-anim="lines">“It has been leading a double life”</h2>
+    </header>
+    <div class="cols">
+      <div class="col col--lead" data-anim="fade">
+        <p>
+          At WWDC 2005 Jobs announced that Mac OS X had been secretly compiled
+          for Intel for five years, and that the Macintosh would leave PowerPC
+          behind. The first Intel Macs arrived in January 2006; the transition
+          finished inside a year.
+        </p>
+      </div>
+      <div class="col" data-anim="fade">
+        <p>
+          <b>Rosetta</b> translated PowerPC software in the meantime, and
+          <b>Boot Camp</b> did something previously unthinkable: it let a
+          Macintosh run Windows natively. For the first time buying a Mac
+          carried no software risk at all, and the Mac’s market share began a
+          decade of climbing.
+        </p>
+        <p>
+          The <b>unibody MacBook Pro</b> of 2008 — milled from a single block
+          of aluminium — set the physical template that laptops still follow,
+          and the 2012 Retina display ended the era of visible pixels.
+        </p>
+      </div>
+    </div>
+    <ul class="facts" data-anim="stagger">
+      <li><b>2006</b><span>MacBook Pro, Core Duo, Rosetta, Boot Camp</span></li>
+      <li><b>2008</b><span>Unibody enclosure; MacBook Air</span></li>
+      <li><b>2012</b><span>Retina MacBook Pro, 220 ppi</span></li>
+      <li><b>2016</b><span>The Touch Bar and the butterfly keyboard years</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="chapter" id="silicon" data-section data-year="2020" data-label="Apple silicon">
+  <div class="wrap">
+    <header class="chapter__head">
+      <span class="chapter__num" data-anim="fade">09</span>
+      <h2 data-anim="lines">Back to its own silicon</h2>
+    </header>
+    <div class="cols">
+      <div class="col col--lead" data-anim="fade">
+        <p>
+          In November 2020 the Macintosh changed processor architectures for
+          the third time. The <b>M1</b> was an iPhone lineage chip with the
+          CPU, GPU and memory on one package, and it made a fanless MacBook Air
+          faster than the Intel machines above it in the price list.
+        </p>
+      </div>
+      <div class="col" data-anim="fade">
+        <p>
+          Rosetta 2 translated x86 binaries ahead of time, well enough that
+          emulated software often outran the native code it replaced. The
+          transition took two years. The line that followed — Pro, Max, Ultra,
+          the Mac Studio, the 24-inch iMac in colours borrowed straight from
+          1998 — is the most coherent the Macintosh has ever been.
+        </p>
+        <p>
+          Forty years on, the argument the 128K made in a sealed beige case has
+          simply become how computers work.
+        </p>
+      </div>
+    </div>
+    <ul class="facts" data-anim="stagger">
+      <li><b>2020</b><span>M1: MacBook Air, 13″ Pro, Mac mini</span></li>
+      <li><b>2021</b><span>M1 Pro/Max; ports and MagSafe return</span></li>
+      <li><b>2022</b><span>Mac Studio and the M1 Ultra</span></li>
+      <li><b>2023</b><span>Mac Pro completes the transition</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="outro" id="outro" data-section data-year="Today" data-label="Colophon">
+  <div class="wrap">
+    <blockquote>
+      <p data-anim="lines">“Real artists ship.”</p>
+      <cite data-anim="fade">— painted on the wall of the Macintosh team, 1983</cite>
+    </blockquote>
+    <div class="colophon" data-anim="fade">
+      <h3>About this page</h3>
+      <p>
+        The Macintosh on this page is not a downloaded 3D model. Every panel,
+        chip, cable and key is generated procedurally with three.js at load
+        time, and every texture — the circuit traces, the vents, the team’s
+        signatures, the 512 × 342 screen — is drawn into a canvas in code.
+        Scroll position drives one number between 0 and 1; the teardown is a
+        pure function of it, which is why going back up rebuilds the machine
+        exactly.
+      </p>
+      <p class="colophon__stack">
+        three.js · GSAP ScrollTrigger · Lenis — all bundled locally, all free
+        and open licences, no CDN and no tracking.
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
