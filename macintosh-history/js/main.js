@@ -194,8 +194,12 @@ function setupRail() {
 
 const mac = new MacintoshScene(
   document.getElementById('gl'),
-  document.getElementById('labels')
+  document.getElementById('labels'),
+  // The single-file build hands the model over as an ArrayBuffer it already
+  // has; served normally, we fetch it.
+  window.__MAC_MODEL__ ? { data: window.__MAC_MODEL__ } : { url: 'assets/mac128k.glb' }
 );
+mac.ready.catch((err) => console.error('mac3d: model failed to load', err));
 
 // Piecewise curve: assembled → fully apart → snapped back together, all as a
 // pure function of scroll progress through the teardown section.
@@ -373,11 +377,16 @@ if (REDUCED) {
   // Fake-but-honest progress: the scene is already built by the time this
   // module runs, so the bar is just the two seconds of theatre a 1984 Mac
   // would have spent finding its startup disk.
+  // The bar tracks something real: it creeps while the model downloads and
+  // completes when the machine is actually on stage.
   let pct = 0;
+  let modelIn = false;
+  mac.ready.then(() => { modelIn = true; }).catch(() => { modelIn = true; });
   const tick = setInterval(() => {
-    pct = Math.min(100, pct + 8 + Math.random() * 14);
+    const ceiling = modelIn ? 100 : 88;
+    pct = Math.min(ceiling, pct + 7 + Math.random() * 12);
     bootBar.style.width = pct + '%';
-    if (pct >= 100) { clearInterval(tick); setTimeout(finishBoot, 420); }
+    if (pct >= 100) { clearInterval(tick); setTimeout(finishBoot, 380); }
   }, 110);
 }
 

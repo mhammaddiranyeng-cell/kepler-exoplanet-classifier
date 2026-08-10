@@ -9,9 +9,10 @@ macintosh-history/
 ├── index.html          # the whole page: boot screen, chapters, teardown steps
 ├── css/style.css
 ├── js/
-│   ├── mac3d.js        # the procedural Macintosh + exploded-view controller
+│   ├── mac3d.js        # scene, lighting, live screen, exploded-view controller
 │   └── main.js         # smooth scroll, scroll-triggered animation, camera
-└── vendor/             # three.js, GSAP + ScrollTrigger, Lenis (bundled locally)
+├── assets/mac128k.glb  # the machine, built by ../model/build_mac128k.py
+└── vendor/             # three.js + GLTFLoader, GSAP + ScrollTrigger, Lenis
 ```
 
 ## Seeing it
@@ -59,33 +60,42 @@ unfinished document.
 
 ## Where the 3D model came from
 
-Nowhere — it does not exist as a file. There is no `.glb`, no `.obj`, no
-texture image anywhere in this directory. `js/mac3d.js` builds the entire
-machine at load time out of three.js primitives and extruded 2D profiles:
+Blender. `model/build_mac128k.py` models the machine as a script and exports
+`macintosh-history/assets/mac128k.glb` with one named node per component.
+Run it with Blender-as-a-module:
 
-| Part | How it is made |
-|---|---|
-| Front bezel | An extruded rounded rectangle with the screen opening and floppy slot punched through as holes |
-| Rear housing | Five separate panels, so the exploded view reveals a hollow shell |
-| CRT | Faceplate + four-sided tapered funnel + neck + deflection yoke + anode lead |
-| Screen | A live 512 × 342 canvas — the 128K's exact framebuffer — drawn every frame |
-| Logic board | A PCB with a 64-pin 68000, sixteen DRAMs, ROMs and rear connectors, DIP legs drawn as instanced meshes |
-| Analog board | Flyback transformer, finned heatsink, electrolytics |
-| Floppy drive | Sony 3.5" mechanism with a disk loaded inside it |
-| Signature plate | The team's 47 signatures, drawn as text into a canvas texture |
-| Keyboard | Extruded wedge + 44 instanced keycaps |
-| Mouse | Extruded rounded body with a coiled cable swept along a helix |
+```bash
+pip install bpy==4.2.0        # needs Python 3.11
+python3 model/build_mac128k.py
+python3 model/preview.py /tmp/preview   # optional Cycles turntable
+```
 
-Textures are the same story: the circuit traces are a seeded random walk on a
-canvas, the rear vents are drawn rectangles, the screen is Chicago-ish text and
-dither patterns painted at 512 × 342 with nearest-neighbour filtering so the
-pixels stay square and hard-edged.
+The first version of this page built the machine from three.js primitives at
+runtime. It worked, but `BoxGeometry` and `ExtrudeGeometry` cannot produce a
+fillet, and an edge that catches no highlight is what makes CG read as cheap
+plastic. Modelling it properly buys real bevels, boolean-cut openings, a
+hollow rear shell and a carry handle.
 
-This was a deliberate choice. Higgsfield and similar AI tools generate *video
-clips*, which cannot be taken apart, rotated, or driven by scroll position —
-and they are not free. Procedural geometry costs nothing, has no licence
-attached, and is the only approach that makes a genuinely interactive,
-reversible teardown possible.
+Three surfaces are still drawn in code, because they should not be baked:
+the circuit-board traces (a seeded random walk, so they never tile), the 47
+team signatures (real text), and the screen — a live 512 x 342 canvas, the
+128K's exact framebuffer, redrawn every frame.
+
+Two Blender gotchas this script documents, both of which silently destroy
+geometry:
+
+- **Batch your cutters.** Twenty sequential EXACT booleans across a beveled
+  mesh will eventually fail and take the whole object with it. Joining the
+  cutters into one object means one boolean per solid.
+- **Shade after the booleans, not before.** A boolean adds new edges that
+  default to smooth, and a smooth-shaded triangle fan across a flat panel
+  renders as a phantom pyramid. `shade_by_angle` therefore runs as a final
+  pass once the geometry is settled.
+
+Higgsfield and similar tools were not used because they generate *video*,
+which cannot be taken apart, rotated or driven by scroll position. Text-to-3D
+generators (Meshy, Tripo, Rodin) return a single fused shell, which would
+still need cutting into components by hand before it could explode.
 
 ## How the teardown works
 
@@ -123,8 +133,9 @@ drive:
 - `prefers-reduced-motion: reduce` disables smooth scrolling, the boot screen,
   the grain and all scrubbing; the page becomes an ordinary static document with
   a still 3D render.
-- Pixel ratio is capped at 2; there are no shadow maps (the contact shadow is a
-  gradient decal); repeated geometry uses `InstancedMesh`.
+- Pixel ratio is capped at 2. One shadow-casting key light with a 2048 map,
+  landing on a `ShadowMaterial` ground plane; the rest is image-based lighting
+  from a PMREM-filtered gradient, which costs nothing per frame.
 - On phones the machine slides out of the way of the copy, its opacity is held
   back outside the teardown, and the part labels are hidden — the step cards
   carry the same information.
