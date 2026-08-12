@@ -15,7 +15,7 @@ import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { SITE, NAV, COPY, OPEN_QUESTIONS } from "./content/site.mjs";
-import { layout, href, absolute } from "./templates/layout.mjs";
+import { layout, href, absolute, asset, BASE, NOINDEX_ALL } from "./templates/layout.mjs";
 import * as pages from "./templates/pages.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -39,7 +39,7 @@ const LANGS = ["en", "ar"];
 
 /** The hero's Three.js bundle is only ever requested on the homepage. */
 const HERO_SCRIPTS = `
-    <script type="module" src="/assets/js/hero3d.js"></script>`;
+    <script type="module" src="${asset("/assets/js/hero3d.js")}"></script>`;
 
 async function copyDir(src, dest) {
   await mkdir(dest, { recursive: true });
@@ -86,6 +86,9 @@ ${urls.join("\n")}
 }
 
 function robots() {
+  // A preview deploy asks search engines to stay away entirely, so it can never
+  // outrank or duplicate the real site.
+  if (NOINDEX_ALL) return "User-agent: *\nDisallow: /\n";
   return `User-agent: *
 Allow: /
 
@@ -132,6 +135,8 @@ async function build() {
   await emit(join(OUT, "robots.txt"), robots());
 
   console.log(`✓ built ${count} pages + 404, sitemap, robots -> ${relative(ROOT, OUT)}/`);
+  if (BASE) console.log(`  mounted at ${BASE}/ (sub-path build)`);
+  if (NOINDEX_ALL) console.log("  noindex: search engines asked to skip this deploy");
 
   const warnings = [];
   if (!SITE.forms.contactEndpoint || !SITE.forms.volunteerEndpoint)
@@ -150,7 +155,7 @@ async function build() {
 
 /* --------------------- optional preview server --------------------- */
 
-async function serve(port = 4321) {
+async function serve(port = Number(process.env.PORT) || 4321) {
   const { createServer } = await import("node:http");
   const { readFile } = await import("node:fs/promises");
   const types = {
@@ -165,6 +170,8 @@ async function serve(port = 4321) {
   };
   createServer(async (req, res) => {
     let p = decodeURIComponent(new URL(req.url, "http://x").pathname);
+    // Mirror the sub-path mount so a BASE_PATH build can be previewed as served.
+    if (BASE && p.startsWith(BASE)) p = p.slice(BASE.length) || "/";
     if (p.endsWith("/")) p += "index.html";
     let file = join(OUT, p);
     try {
@@ -182,7 +189,7 @@ async function serve(port = 4321) {
       res.statusCode = 404;
       res.end("Not found");
     }
-  }).listen(port, () => console.log(`\npreview: http://localhost:${port}/`));
+  }).listen(port, () => console.log(`\npreview: http://localhost:${port}${BASE}/`));
 }
 
 await build();

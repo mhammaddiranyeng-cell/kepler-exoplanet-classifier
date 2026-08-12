@@ -4,7 +4,7 @@
  */
 
 import { SITE, COPY, PROGRAMS, IMPACT, TEAM, GALLERY, NEWS } from "../content/site.mjs";
-import { esc, href } from "./layout.mjs";
+import { esc, href, asset } from "./layout.mjs";
 
 const P = (s) => `<p>${esc(s)}</p>`;
 const paras = (arr = []) => arr.map(P).join("\n            ");
@@ -12,7 +12,7 @@ const paras = (arr = []) => arr.map(P).join("\n            ");
 /** A gallery tile: the real photograph when we have it, a neutral block if not. */
 function tile(lang, g, placeholder) {
   const media = g.src
-    ? `<img src="${g.src}" alt="${esc(g[lang].caption)}" width="${g.w}" height="${g.h}" loading="lazy" decoding="async">`
+    ? `<img src="${asset(g.src)}" alt="${esc(g[lang].caption)}" width="${g.w}" height="${g.h}" loading="lazy" decoding="async">`
     : slot(g.ratio, placeholder);
   return `<figure class="tile">
               ${media}
@@ -273,7 +273,7 @@ export function team(lang) {
               const c = m[lang];
               // PHOTO SLOT: square 400x400, /assets/img/team/<id>.jpg
               const photo = m.photo
-                ? `<img class="person__photo" src="${m.photo}" alt="${esc(c.name)}" width="400" height="400" loading="lazy">`
+                ? `<img class="person__photo" src="${asset(m.photo)}" alt="${esc(c.name)}" width="400" height="400" loading="lazy">`
                 : slot("1/1", t.photoAlt, "img-slot--avatar");
               return `<article class="card person">
               ${photo}

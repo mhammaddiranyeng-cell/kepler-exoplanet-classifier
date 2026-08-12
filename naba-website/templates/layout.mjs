@@ -5,6 +5,24 @@
 
 import { SITE, LANGS, NAV, COPY } from "../content/site.mjs";
 
+/**
+ * Where the site is mounted. Empty for a real domain (naba.ngo), or a sub-path
+ * like "/repo-name" for a GitHub Pages preview, which serves projects under
+ * https://user.github.io/repo/ rather than at a domain root. Every internal
+ * link and asset URL goes through asset()/href(), so switching between the two
+ * is one environment variable and no code edits.
+ */
+export const BASE = (process.env.BASE_PATH || "").replace(/\/$/, "");
+
+/** Origin used for canonical, hreflang, OG and sitemap URLs. */
+export const ORIGIN = process.env.SITE_URL || SITE.url;
+
+/** Preview deploys must never compete with naba.ngo in search results. */
+export const NOINDEX_ALL = process.env.NOINDEX === "1";
+
+/** Prefix a site-root path with the mount point. */
+export const asset = (p) => `${BASE}${p}`;
+
 export const esc = (s = "") =>
   String(s)
     .replace(/&/g, "&amp;")
@@ -14,12 +32,12 @@ export const esc = (s = "") =>
 
 /** Site-root-relative URL for a page slug in a given language. */
 export function href(lang, slug) {
-  const base = lang === "ar" ? "/ar/" : "/";
+  const base = lang === "ar" ? `${BASE}/ar/` : `${BASE}/`;
   return slug ? `${base}${slug}/` : base;
 }
 
 /** Absolute URL, used for canonical/hreflang/OG/sitemap. */
-export const absolute = (path) => `${SITE.url}${path}`;
+export const absolute = (path) => `${ORIGIN}${path}`;
 
 function organizationJsonLd(lang) {
   const data = {
@@ -63,7 +81,7 @@ function header(lang, slug) {
     <header class="site-header" data-header>
       <div class="wrap site-header__inner">
         <a class="brand" href="${href(lang, "")}">
-          <img class="brand__mark" src="/assets/img/logo.png" alt="" width="535" height="763" aria-hidden="true">
+          <img class="brand__mark" src="${asset("/assets/img/logo.png")}" alt="" width="535" height="763" aria-hidden="true">
           <span class="brand__text">
             <span class="brand__name">NABA NGO</span>
             <span class="brand__sub">${lang === "ar" ? "جمعية نبا" : "جمعية نبا"}</span>
@@ -103,7 +121,7 @@ function footer(lang) {
   return `    <footer class="site-footer">
       <div class="wrap site-footer__grid">
         <div class="site-footer__brand">
-          <img class="site-footer__logo" src="/assets/img/logo.png" alt="" width="535" height="763" aria-hidden="true">
+          <img class="site-footer__logo" src="${asset("/assets/img/logo.png")}" alt="" width="535" height="763" aria-hidden="true">
           <p class="site-footer__name">NABA NGO</p>
           <p class="site-footer__ar" lang="ar" dir="rtl">جمعية نبا</p>
           <p class="site-footer__tagline">${esc(t.tagline)}</p>
@@ -166,14 +184,14 @@ export function layout({ lang, slug, title, description, body, head = "", script
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${esc(title)}</title>
     <meta name="description" content="${esc(description)}">
-    ${noIndex ? '<meta name="robots" content="noindex">' : ""}
+    ${noIndex || NOINDEX_ALL ? '<meta name="robots" content="noindex">' : ""}
     <link rel="canonical" href="${canonical}">
     <link rel="alternate" hreflang="en" href="${absolute(href("en", slug))}">
     <link rel="alternate" hreflang="ar" href="${absolute(href("ar", slug))}">
     <link rel="alternate" hreflang="x-default" href="${absolute(href("en", slug))}">
 
-    <link rel="icon" href="/assets/img/logo.png" type="image/png">
-    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    <link rel="icon" href="${asset("/assets/img/logo.png")}" type="image/png">
+    <link rel="apple-touch-icon" href="${asset("/assets/img/logo.png")}">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="NABA NGO">
@@ -182,18 +200,18 @@ export function layout({ lang, slug, title, description, body, head = "", script
     <meta property="og:title" content="${esc(title)}">
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:url" content="${canonical}">
-    <meta property="og:image" content="${absolute("/assets/img/og-placeholder.png")}">
+    <meta property="og:image" content="${absolute(asset("/assets/img/og-placeholder.png"))}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${esc(title)}">
     <meta name="twitter:description" content="${esc(description)}">
-    <meta name="twitter:image" content="${absolute("/assets/img/og-placeholder.png")}">
+    <meta name="twitter:image" content="${absolute(asset("/assets/img/og-placeholder.png"))}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="/assets/css/site.css">
+    <link rel="stylesheet" href="${asset("/assets/css/site.css")}">
 
     <script type="application/ld+json">
 ${organizationJsonLd(lang)}
@@ -205,7 +223,7 @@ ${header(lang, slug)}
 ${body}
     </main>
 ${footer(lang)}
-    <script src="/assets/js/site.js" defer></script>${scripts}
+    <script src="${asset("/assets/js/site.js")}" defer></script>${scripts}
   </body>
 </html>
 `;

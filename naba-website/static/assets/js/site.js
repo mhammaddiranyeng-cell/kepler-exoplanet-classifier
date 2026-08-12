@@ -4,6 +4,13 @@
 (function () {
   "use strict";
 
+  // Resolve vendored assets relative to this script, so the site works both at
+  // a domain root and under a sub-path (GitHub Pages project sites).
+  var thisScript = document.currentScript;
+  function vendor(path) {
+    return thisScript ? new URL("../vendor/" + path, thisScript.src).href : "/assets/vendor/" + path;
+  }
+
   /* ------------------------------ mobile nav ------------------------------ */
 
   var toggle = document.querySelector("[data-nav-toggle]");
@@ -89,11 +96,11 @@
     var load = function () {
       var css = document.createElement("link");
       css.rel = "stylesheet";
-      css.href = "/assets/vendor/leaflet/leaflet.css";
+      css.href = vendor("leaflet/leaflet.css");
       document.head.appendChild(css);
 
       var script = document.createElement("script");
-      script.src = "/assets/vendor/leaflet/leaflet.js";
+      script.src = vendor("leaflet/leaflet.js");
       script.onload = initMap;
       script.onerror = mapFallback;
       document.head.appendChild(script);

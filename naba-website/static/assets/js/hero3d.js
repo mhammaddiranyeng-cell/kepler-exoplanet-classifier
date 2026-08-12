@@ -35,7 +35,10 @@ const CAPTION = {
   en: { line1: "Summer Camp 2026", line2: "Second Edition" },
   ar: { line1: "مخيم نبا الصيفي 2026", line2: "النسخة الثانية" },
 };
-const PHOTO_SRC = "/assets/img/hero-frame.jpg";
+// Resolved relative to this module, so the site works both at a domain root
+// and under a sub-path (GitHub Pages project sites) with no build-time config.
+const PHOTO_SRC = new URL("../img/hero-frame.jpg", import.meta.url).href;
+const THREE_SRC = new URL("../vendor/three.module.min.js", import.meta.url).href;
 
 const hero = document.querySelector("[data-hero]");
 const canvas = document.querySelector("[data-hero-canvas]");
@@ -96,7 +99,7 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
 async function init() {
-  const THREE = await import("/assets/vendor/three.module.min.js");
+  const THREE = await import(THREE_SRC);
 
   const isRTL = document.documentElement.dir === "rtl";
   const side = isRTL ? -1 : 1; // which way the model travels
