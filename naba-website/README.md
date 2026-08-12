@@ -60,7 +60,7 @@ Existing Arabic program titles are used verbatim and must not be re-translated:
 |---|---|
 | `PROGRAMS[].funderPublic` | Care International is **not** named anywhere on the public site |
 | `TEAM[].consent` | That person renders as an unnamed placeholder card |
-| `SITE.foundingYear` | The "est. YYYY" marker is suppressed |
+| `SITE.social.facebook` | No Facebook link in the footer or in `sameAs` |
 | `SITE.forms.*Endpoint` | Forms render disabled with an email fallback instead of silently dropping submissions |
 | `SITE.location.coordsAreApproximate` | Map shows an "approximate location" note and omits `geo` from structured data |
 | `SITE.whatsappEnabled` | Set to `false` to drop all WhatsApp links |
@@ -73,7 +73,7 @@ content/site.mjs       ALL copy + config, EN and AR
 templates/layout.mjs   <head>, header, footer, JSON-LD, OG tags, hreflang
 templates/pages.mjs    per-page body markup
 static/                copied verbatim into dist/
-  assets/css/site.css  provisional palette + full RTL support
+  assets/css/site.css  brand palette + full RTL support
   assets/js/site.js    mobile nav, form submission, lazy Leaflet map
   assets/js/hero3d.js  scroll-driven 3D hero (homepage only)
   assets/vendor/       three.js + leaflet, vendored (no CDN at runtime)
@@ -89,13 +89,15 @@ carries `hreflang` pointers to its counterpart and `x-default` → English.
 `static/assets/js/hero3d.js`. Scroll position is the *only* input — the model
 cannot be dragged or rotated by the visitor. The timeline:
 
+The model is a **picture frame holding NABA's current headline activity**.
+
 | Scroll | What happens |
 |---|---|
-| 0 – 8% | Model sits centred, screen off, breathing gently |
+| 0 – 8% | Frame sits centred, picture dark, breathing gently |
 | 8 – 36% | Travels a fixed curved path to the inline-end side, rotating |
-| 36 – 46% | Screen powers on — backlight opens with a warm flash |
-| 46 – 66% | Bilingual "hello / أهلاً" greeting writes itself on |
-| 66 – 92% | Model explodes apart into an exploded-view diagram |
+| 36 – 46% | The picture lights up — opens from a band with a warm bloom |
+| 46 – 66% | The caption writes itself on over the photograph |
+| 66 – 92% | The frame opens into an exploded view: glass, photo, mount board, backing and the four moulding rails |
 | 92 – 100% | Holds, then the page continues into normal content |
 
 Motion is eased rather than stepped: scroll sets a *target* and the model
@@ -111,11 +113,12 @@ normal static panel. Rendering pauses when the hero scrolls out of view or the
 tab is hidden. The hero only exists on the homepage; no other page loads
 Three.js at all.
 
-> **The model is a placeholder.** Nobody specified what it should depict, so
-> `buildDevice()` assembles a neutral generic device from primitives. To swap in
-> real art, replace that function with a `GLTFLoader` load, keep a mesh named
-> `screen` using `screenMaterial`, and tag each part with
-> `mesh.userData.explode = new THREE.Vector3(x, y, z)`. Nothing else changes.
+**The photograph:** the frame displays `/assets/img/hero-frame.jpg` when that
+file exists, and falls back to a drawn placeholder carrying the same caption
+until it does — a missing asset never breaks the sequence. Drop in a portrait
+photo of the current activity at roughly 900×1200 and it appears automatically.
+When the headline activity changes, swap that file and edit `CAPTION` at the top
+of `hero3d.js` (both languages).
 
 ## Forms
 
@@ -156,7 +159,7 @@ disambiguate, the site:
 - pairs "NABA NGO" with **Qasarnaba** and **Bekaa Valley** in every title, meta
   description and H1;
 - emits `schema.org` **NGO** structured data with `alternateName`, a specific
-  postal address, and `sameAs` → Instagram + LinkedIn;
+  postal address, and `sameAs` → Instagram, LinkedIn (and Facebook once set);
 - gives every page a distinct, specific meta description — no NGO boilerplate;
 - ships `sitemap.xml` (with `hreflang` alternates) and `robots.txt`.
 
@@ -164,36 +167,38 @@ Update `SITE.url` if the site ever moves off `naba.ngo`.
 
 ## Brand
 
-**The palette is provisional** and labelled as such in the site footer. Deep
-rose/burgundy (Damascus rose), olive green and warm sand — chosen for the Bekaa
-context, not from any official NABA guideline. Every colour is a CSS custom
-property at the top of `site.css`; replacing those tokens re-skins the whole
-site. Typography: **Cairo** for Arabic, **Inter** for English.
+The palette is **sampled directly from the NABA logo**: the bronze/earth tones of
+the نبا calligraphy and the cupped hand, the blue of the globe, and the cream
+ground. Every colour is a CSS custom property at the top of `site.css` — nothing
+else hard-codes one, so retuning the brand means editing those tokens and
+nothing more. The 3D hero mirrors the same values. Typography: **Cairo** for
+Arabic, **Inter** for English.
 
-Placeholder image slots are neutral blocks, never stock photography — see
-`static/assets/img/README.md` for the exact sizes to drop in.
+The logo itself is `static/assets/img/logo.png`, used for the header lockup, the
+footer, and the favicon. A dedicated 1200×630 share card built from the logo
+would still be an improvement over the generated `og-placeholder.png`.
+
+Remaining placeholder image slots are neutral blocks, never stock photography —
+see `static/assets/img/README.md` for the exact sizes to drop in.
 
 ---
 
 ## Open questions
 
-These were flagged during the build and are not guessed at anywhere in the code.
-Answer them in `content/site.mjs` and rebuild.
+1. **Photographs.** The hero frame (`hero-frame.jpg`) and the gallery still need
+   the real image files committed — they came through in chat as inline images
+   rather than as files, so they could not be saved into the repo.
+2. **Facebook page URL** for "Naba Qasarnaba" → `SITE.social.facebook`.
+3. **Confirm +961 76 890 159** (from the roll-up banner) as the primary number.
+4. **Bank details**: currently contact-only. See the note in `content/site.mjs`
+   before publishing an account number on a public page.
+5. **Form backend**: create the Formspree forms and paste the endpoints, or move
+   `optional-functions/contact.js` into `functions/api/`.
 
-1. **What should the 3D hero model depict?** (currently a generic placeholder device)
-2. **NABA's founding year** — for the "est. YYYY" credibility marker.
-3. **Exact address or GPS coordinates** in Qasarnaba — only the town is known.
-4. **Care International**: okay to name publicly as a funder? And should the
-   pending نساء الورد / ورد جوري proposals appear on the public site at all yet?
-   They currently appear in a clearly-labelled "proposed, awaiting confirmation"
-   section — delete them from `PROGRAMS` if you'd rather they stayed private.
-5. **Team**: role/title, short bio, and explicit consent to be named and
-   photographed publicly, per person.
-6. **Donations**: contact-to-arrange only (what's built), or link an existing
-   fundraising platform? No payment integration was built.
-7. **WhatsApp** click-to-chat links alongside the phone numbers — keep them?
-8. **Form backend**: Formspree or the Pages Function?
-
-Also pending review: **all Arabic prose is a draft translation**, and every
+Still pending review: **all Arabic prose is a draft translation**, and every
 impact figure came from the most recent grant application rather than a verified
 current count.
+
+Deliberately not published: **Care International is named nowhere on the site**
+(`funderPublic: false`), and the Summer Camp instructor team is credited
+collectively rather than by name, pending each person's consent.

@@ -1,11 +1,10 @@
 /* =====================================================================
    NABA NGO — site styles
 
-   PROVISIONAL PALETTE. No official brand colours are confirmed yet. These
-   tokens reference the Bekaa context: Damascus-rose burgundy as the accent,
-   olive green as the secondary, warm sand neutrals as the ground. Replace the
-   values in :root once the real logo and brand palette land — nothing else in
-   this file hard-codes a colour.
+   PALETTE. Every colour is sampled from the NABA logo: the bronze/earth tones
+   of the "نبا" calligraphy and the cupped hand, the blue of the globe, and the
+   cream ground. Nothing else in this file hard-codes a colour — retuning the
+   brand means editing the tokens in :root and nothing more.
 
    Layout uses CSS logical properties throughout (margin-inline, padding-inline,
    inset-inline, border-inline) so the Arabic RTL pages mirror automatically
@@ -13,29 +12,36 @@
    ===================================================================== */
 
 :root {
-  /* --- provisional brand --- */
-  --rose-900: #4a1220;
-  --rose-700: #7a1e35;
-  --rose-600: #96284a; /* primary accent */
-  --rose-100: #f6e6ea;
-  --olive-700: #4c5c3a;
-  --olive-500: #6f8352;
-  --olive-100: #eaeee2;
-  --sand-50: #fbf8f3;
-  --sand-100: #f4efe6;
-  --sand-200: #e7dfd1;
-  --sand-400: #c3b6a0;
-  --ink-900: #221b17;
-  --ink-700: #4a403a;
-  --ink-500: #6f635b;
+  /* --- NABA brand, sampled from the logo artwork ---
+     Bronze/earth from the "نبا" calligraphy and the cupped hand, blue from the
+     globe, cream from the logo ground. */
+  --bronze-900: #3d1d0b;
+  --bronze-800: #502010;
+  --bronze-700: #6b3418;
+  --bronze-600: #8a4a20; /* primary accent */
+  --bronze-500: #a8642e;
+  --bronze-400: #c08040;
+  --bronze-100: #f2e4d6;
+  --globe-800: #004070;
+  --globe-700: #005070;
+  --globe-500: #1b7ba0;
+  --globe-400: #2080a0;
+  --globe-100: #dbeaf1;
+  --sand-50: #fdfaf6;
+  --sand-100: #f7f1e8;
+  --sand-200: #ebdfd0;
+  --sand-400: #c9b49a;
+  --ink-900: #241a12;
+  --ink-700: #4c3b2c;
+  --ink-500: #74604e;
 
   --bg: var(--sand-50);
   --bg-alt: var(--sand-100);
   --surface: #fff;
   --text: var(--ink-900);
   --text-muted: var(--ink-500);
-  --accent: var(--rose-600);
-  --accent-strong: var(--rose-700);
+  --accent: var(--bronze-600);
+  --accent-strong: var(--bronze-700);
   --border: var(--sand-200);
 
   --font-en: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -45,7 +51,7 @@
   --gap: clamp(1rem, 2.5vw, 1.75rem);
   --section-y: clamp(3rem, 7vw, 5.5rem);
   --radius: 14px;
-  --shadow: 0 1px 2px rgb(34 27 23 / 6%), 0 10px 30px -18px rgb(34 27 23 / 35%);
+  --shadow: 0 1px 2px rgb(36 26 18 / 6%), 0 10px 30px -18px rgb(36 26 18 / 35%);
 }
 
 *,
@@ -110,7 +116,7 @@ a:hover { color: var(--accent); }
 }
 
 .brand { display: flex; align-items: center; gap: 0.625rem; text-decoration: none; color: inherit; }
-.brand__mark { width: 40px; height: 40px; }
+.brand__mark { width: auto; height: 44px; }
 .brand__text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand__name { font-weight: 700; letter-spacing: 0.06em; font-size: 0.9375rem; font-family: var(--font-en); }
 .brand__sub { font-size: 0.8125rem; color: var(--text-muted); font-family: var(--font-ar); }
@@ -162,8 +168,8 @@ a:hover { color: var(--accent); }
 .hero {
   position: relative;
   background:
-    radial-gradient(120% 90% at 80% 10%, var(--rose-100), transparent 60%),
-    radial-gradient(90% 70% at 10% 90%, var(--olive-100), transparent 55%),
+    radial-gradient(120% 90% at 80% 10%, var(--bronze-100), transparent 60%),
+    radial-gradient(90% 70% at 10% 90%, var(--globe-100), transparent 55%),
     var(--bg);
   border-block-end: 1px solid var(--border);
 }
@@ -178,7 +184,7 @@ a:hover { color: var(--accent); }
 }
 .hero__kicker {
   text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.75rem;
-  color: var(--olive-700); font-weight: 600; margin-block-end: 0.75rem;
+  color: var(--globe-700); font-weight: 600; margin-block-end: 0.75rem;
 }
 body.lang-ar .hero__kicker { letter-spacing: 0; }
 .hero__title { margin-block-end: 0.15em; }
@@ -237,8 +243,8 @@ body.lang-ar .hero[data-hero-active="true"] .hero__scroll-hint { letter-spacing:
 .section { padding-block: var(--section-y); }
 .section--muted { background: var(--bg-alt); }
 .section--mission { background: var(--bg-alt); }
-.section--impact { background: var(--olive-100); }
-.section--cta { background: var(--rose-900); color: var(--sand-100); }
+.section--impact { background: var(--globe-100); }
+.section--cta { background: var(--bronze-900); color: var(--sand-100); }
 .section--cta h2 { color: #fff; }
 .section--cta a:not(.btn) { color: var(--sand-100); }
 
@@ -294,12 +300,12 @@ body.lang-ar .link-more::after { content: " ←"; }
 .card__title a:hover { color: var(--accent); }
 .card__tag {
   display: inline-block; font-size: 0.6875rem; letter-spacing: 0.1em;
-  text-transform: uppercase; font-weight: 700; color: var(--olive-700);
-  background: var(--olive-100); border-radius: 999px; padding: 0.2rem 0.7rem;
+  text-transform: uppercase; font-weight: 700; color: var(--globe-700);
+  background: var(--globe-100); border-radius: 999px; padding: 0.2rem 0.7rem;
   margin-block-end: 0.9rem;
 }
 body.lang-ar .card__tag { letter-spacing: 0; text-transform: none; }
-.card__tag--proposed { color: var(--rose-700); background: var(--rose-100); }
+.card__tag--proposed { color: var(--bronze-700); background: var(--bronze-100); }
 .card__summary { font-weight: 500; }
 .card__funder { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
 .card p:last-child { margin-block-end: 0; }
@@ -360,8 +366,8 @@ input, select, textarea {
 textarea { resize: vertical; }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 .form__status { margin: 0; font-size: 0.9375rem; min-height: 1.5em; }
-.form__status[data-state="error"] { color: var(--rose-700); }
-.form__status[data-state="ok"] { color: var(--olive-700); }
+.form__status[data-state="error"] { color: var(--bronze-700); }
+.form__status[data-state="ok"] { color: var(--globe-700); }
 .form button[disabled] { opacity: 0.7; }
 
 /* ------------------------------ map ------------------------------ */
@@ -410,3 +416,8 @@ body.lang-ar .site-footer__heading { letter-spacing: 0; text-transform: none; }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Footer brand lockup: the logo is a tall portrait mark, so it gets its own
+   height rather than inheriting a square box. */
+.site-footer__logo { height: 72px; width: auto; margin-block-end: 0.75rem; }
+.site-footer__est { color: var(--sand-400); font-size: 0.8125rem; margin-block-start: 0.5rem; }

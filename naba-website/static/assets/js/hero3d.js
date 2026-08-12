@@ -1,27 +1,27 @@
 /* =====================================================================
    NABA NGO — scroll-driven 3D hero (homepage only)
 
-   Behaviour, in order, driven entirely by scroll position (never by drag —
-   the model is deliberately non-interactive):
+   The model is a picture frame holding NABA's current headline activity.
+   Driven entirely by scroll position (never by drag — deliberately
+   non-interactive):
 
-     1. The model sits centred, screen off.
-     2. It travels along a curved, rotating path toward the inline-end side
-        of the screen (right in English, left in Arabic — the path mirrors).
-     3. Its screen powers on and plays a warm "hello" boot animation.
-     4. The greeting completes, then the model explodes apart into an
-        exploded-view diagram of its internals.
+     1. The frame sits centred, its picture dark.
+     2. It travels a fixed, rotating path toward the inline-end side of the
+        screen (right in English, left in Arabic — the path mirrors).
+     3. The picture lights up and the caption writes itself on, like a frame
+        waking up.
+     4. The frame then opens into an exploded view — glass, photo, mount board
+        and backing separating layer by layer.
      5. The page continues into the normal content sections.
 
-   PLACEHOLDER MODEL — OPEN QUESTION #1
-   ------------------------------------
-   The subject of the model was never specified, so this builds a neutral
-   procedural "device" from primitives: shell, glass, screen, board, battery,
-   chips, camera module and back plate. It is deliberately generic and is not
-   meant to ship as final art. To swap in a real model, replace buildDevice()
-   with a GLTFLoader load, keep a mesh named "screen" carrying `screenMaterial`,
-   and tag each mesh that should fly apart with
-   `mesh.userData.explode = new THREE.Vector3(x, y, z)`. The timeline below
-   needs no other changes.
+   THE PHOTOGRAPH
+   --------------
+   The frame displays /assets/img/hero-frame.jpg when that file exists. Until
+   it does, it falls back to a drawn placeholder carrying the same caption, so
+   the sequence is never broken by a missing asset. Drop in a landscape-ish
+   photo of the current activity (Summer Camp 2026) at roughly 900x1200 and it
+   appears automatically — swap the file each time the headline activity
+   changes, and edit CAPTION below to match.
 
    Progressive enhancement: this module only ever *adds* the animation. The hero
    copy, and every content section below it, is in the DOM regardless — with JS
@@ -29,6 +29,13 @@
    detected, the hero stays a normal static panel and the page is fully readable
    and indexable.
    ===================================================================== */
+
+/** The activity the frame is currently showing. Update alongside the photo. */
+const CAPTION = {
+  en: { line1: "Summer Camp 2026", line2: "Second Edition" },
+  ar: { line1: "مخيم نبا الصيفي 2026", line2: "النسخة الثانية" },
+};
+const PHOTO_SRC = "/assets/img/hero-frame.jpg";
 
 const hero = document.querySelector("[data-hero]");
 const canvas = document.querySelector("[data-hero-canvas]");
@@ -87,18 +94,19 @@ async function init() {
   renderer.setClearAlpha(0);
   if ("outputColorSpace" in renderer) renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-  // Provisional palette, mirrored from site.css (--rose-600 / --olive-* / sand).
-  const ROSE = 0x96284a;
-  const OLIVE = 0x6f8352;
-  const OLIVE_DARK = 0x4c5c3a;
-  const SAND = 0xe7dfd1;
-  const SHELL = 0x3a322c;
+  // Brand palette, mirrored from site.css (sampled from the NABA logo).
+  const BRONZE = 0x8a4a20;
+  const BRONZE_DARK = 0x6b3418;
+  const BRONZE_LIGHT = 0xc08040;
+  const GLOBE = 0x1b7ba0;
+  const SAND = 0xebdfd0;
+  const BACKING = 0x4c3b2c;
 
   scene.add(new THREE.HemisphereLight(0xfff6ec, 0x4a3f37, 1.2));
   const key = new THREE.DirectionalLight(0xffffff, 1.6);
   key.position.set(3 * side, 4, 6);
   scene.add(key);
-  const rim = new THREE.DirectionalLight(ROSE, 1.2);
+  const rim = new THREE.DirectionalLight(BRONZE_LIGHT, 1.2);
   rim.position.set(-4 * side, -1.5, -3);
   scene.add(rim);
 
@@ -125,7 +133,7 @@ async function init() {
     return mesh;
   }
 
-  const screen = createScreenCanvas();
+  const screen = createPictureCanvas(document.documentElement.lang === "ar" ? "ar" : "en");
   const screenTexture = new THREE.CanvasTexture(screen.canvas);
   screenTexture.colorSpace = THREE.SRGBColorSpace ?? screenTexture.colorSpace;
   screenTexture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
@@ -134,52 +142,53 @@ async function init() {
     map: screenTexture,
     emissiveMap: screenTexture,
     emissive: 0xffffff,
-    emissiveIntensity: 0, // "screen off" until the boot phase
+    emissiveIntensity: 0, // picture unlit until the wake-up phase
     roughness: 0.35,
     metalness: 0,
   });
 
   function buildDevice() {
-    /* Explode offsets fan the parts out along the device's own front-to-back
-       assembly axis, with a slight vertical stagger. Read together with the yaw
-       applied during the explode phase, that gives a proper exploded view
-       rather than a pile of overlapping slabs. */
+    /* A picture frame, built back to front. Explode offsets fan the layers out
+       along the frame's own front-to-back axis with a slight vertical stagger;
+       read together with the yaw applied during the explode phase, that gives a
+       proper exploded view rather than a pile of overlapping slabs. */
 
-    // Back plate — the outermost shell, flies furthest back.
-    addPart(new THREE.BoxGeometry(2.5, 3.5, 0.14), std(SHELL, { roughness: 0.7 }), [0, 0, -0.34], [0, -0.45, -2.7]);
+    const W = 2.5;
+    const H = 3.4;
 
-    // Battery
-    addPart(new THREE.BoxGeometry(1.7, 1.7, 0.2), std(OLIVE_DARK, { metalness: 0.5 }), [0, -0.55, -0.15], [0, -0.3, -1.9]);
+    // Backing board — the outermost layer, flies furthest back.
+    addPart(new THREE.BoxGeometry(W, H, 0.09), std(BACKING, { roughness: 0.85, metalness: 0.05 }), [0, 0, -0.2], [0, -0.45, -2.7]);
 
-    // Camera module
-    const cam = addPart(new THREE.CylinderGeometry(0.22, 0.22, 0.16, 28), std(0x15171a, { metalness: 0.8, roughness: 0.2 }), [0.72, 1.35, -0.22], [0.3 * side, 0.5, -1.9]);
-    cam.rotation.x = Math.PI / 2;
+    // Hanging bracket on the backing board.
+    addPart(new THREE.BoxGeometry(0.5, 0.16, 0.05), std(BRONZE_DARK, { metalness: 0.7, roughness: 0.35 }), [0, 1.15, -0.27], [0, -0.15, -3.1]);
 
-    // Main board
-    addPart(new THREE.BoxGeometry(2.1, 3.1, 0.06), std(OLIVE, { roughness: 0.75, metalness: 0.1 }), [0, 0, 0.02], [0, -0.1, -1.05]);
+    // Mount board (the mat), with its window cut visible as an inset face.
+    addPart(new THREE.BoxGeometry(W - 0.06, H - 0.06, 0.04), std(SAND, { roughness: 0.9, metalness: 0 }), [0, 0, -0.13], [0, -0.15, -1.35]);
 
-    // Components lifted clear of the board so it reads as populated.
-    addPart(new THREE.BoxGeometry(0.5, 0.5, 0.09), std(0x20211f, { metalness: 0.6, roughness: 0.4 }), [-0.5, 0.85, 0.09], [-0.45 * side, 0.3, -0.55]);
-    addPart(new THREE.BoxGeometry(0.36, 0.36, 0.08), std(0x20211f, { metalness: 0.6, roughness: 0.4 }), [0.45, 1.05, 0.09], [0.4 * side, 0.5, -0.55]);
-    addPart(new THREE.BoxGeometry(0.9, 0.28, 0.07), std(SAND, { metalness: 0.7, roughness: 0.3 }), [0.1, 0.25, 0.09], [0.5 * side, -0.4, -0.5]);
+    // The photograph itself.
+    const photo = addPart(new THREE.PlaneGeometry(W - 0.42, H - 0.5), screenMaterial, [0, 0, -0.09], [0, 0.15, -0.2]);
+    photo.name = "screen"; // kept as "screen" — the timeline drives it by name
 
-    // Mid frame — the reference part everything else separates around.
-    addPart(new THREE.BoxGeometry(2.56, 3.56, 0.42), std(SHELL, { metalness: 0.55, roughness: 0.45 }), [0, 0, 0], [0, 0, 0]);
-
-    // Screen
-    const screenMesh = addPart(new THREE.PlaneGeometry(2.16, 3.12), screenMaterial, [0, 0, 0.23], [0, 0.3, 1.2]);
-    screenMesh.name = "screen";
-
-    // Glass
+    // Glass.
     addPart(
-      new THREE.BoxGeometry(2.46, 3.46, 0.05),
+      new THREE.BoxGeometry(W - 0.1, H - 0.1, 0.03),
       new THREE.MeshPhysicalMaterial({
-        color: 0xffffff, transmission: 0.4, transparent: true, opacity: 0.2,
-        roughness: 0.06, metalness: 0, thickness: 0.2,
+        color: 0xffffff, transmission: 0.45, transparent: true, opacity: 0.18,
+        roughness: 0.05, metalness: 0, thickness: 0.15,
       }),
-      [0, 0, 0.3],
-      [0, 0.55, 2.3]
+      [0, 0, 0.02],
+      [0, 0.5, 1.5]
     );
+
+    // Frame moulding — four rails, so the frame reads as a frame and can come
+    // apart at the corners like a real one.
+    const railV = new THREE.BoxGeometry(0.22, H, 0.26);
+    const railH = new THREE.BoxGeometry(W - 0.44, 0.22, 0.26);
+    const moulding = () => std(BRONZE, { metalness: 0.45, roughness: 0.4 });
+    addPart(railV, moulding(), [-(W / 2 - 0.11), 0, 0.05], [-1.15 * side, 0, 2.5]);
+    addPart(railV, moulding(), [W / 2 - 0.11, 0, 0.05], [1.15 * side, 0, 2.5]);
+    addPart(railH, moulding(), [0, H / 2 - 0.11, 0.05], [0, 1.0, 2.5]);
+    addPart(railH, moulding(), [0, -(H / 2 - 0.11), 0.05], [0, -1.0, 2.5]);
   }
 
   buildDevice();
@@ -241,12 +250,12 @@ async function init() {
     device.rotation.x = 0.18 * (1 - travel) + 0.06 * travel;
     device.rotation.z = 0.22 * side * Math.sin(travel * Math.PI);
 
-    /* --- screen wakes up --- */
+    /* --- the picture wakes up --- */
     const boot = range(p, T.travelEnd, T.bootEnd);
     const hello = range(p, T.bootEnd, T.helloEnd);
     screen.draw(boot, hello);
     screenTexture.needsUpdate = true;
-    // A brief over-bright flash as the backlight catches, then settle.
+    // A brief over-bright bloom as the picture catches the light, then settle.
     screenMaterial.emissiveIntensity = easeOut(boot) * (1 + 0.7 * Math.sin(boot * Math.PI)) * 1.15;
 
     /* --- exploded view --- */
@@ -360,72 +369,94 @@ async function init() {
    Phase 2 (hello): a warm bilingual greeting writes itself on.
    ===================================================================== */
 
-function createScreenCanvas() {
+function createPictureCanvas(lang) {
   const canvas = document.createElement("canvas");
-  canvas.width = 512;
-  canvas.height = 740;
+  canvas.width = 620;
+  canvas.height = 820;
   const ctx = canvas.getContext("2d");
 
-  // Fonts may not be ready on first paint; redraw once they are.
-  if (document.fonts && document.fonts.ready) document.fonts.ready.catch(() => {});
+  // The real photograph, if it has been committed. Until then the placeholder
+  // below stands in and the sequence plays identically.
+  let photo = null;
+  const img = new Image();
+  img.onload = () => { photo = img; };
+  img.src = PHOTO_SRC;
+
+  const caption = CAPTION[lang] || CAPTION.en;
 
   function draw(boot, hello) {
     const W = canvas.width;
     const H = canvas.height;
 
-    // Screen off
-    ctx.fillStyle = "#0b0908";
+    // Unlit.
+    ctx.fillStyle = "#140e09";
     ctx.fillRect(0, 0, W, H);
     if (boot <= 0) return;
 
-    // Backlight opening from a horizontal sliver to the full panel.
+    // The picture lights up from a band in the middle outward.
     const open = easeOut(clamp01(boot * 1.4));
     const h = Math.max(2, H * open);
     const y = (H - h) / 2;
 
-    const grad = ctx.createLinearGradient(0, y, W, y + h);
-    grad.addColorStop(0, "#7a1e35");
-    grad.addColorStop(0.55, "#96284a");
-    grad.addColorStop(1, "#4c5c3a");
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, y, W, h);
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, y, W, h);
+    ctx.clip();
 
-    // Warm bloom while the backlight catches.
-    const flash = Math.sin(clamp01(boot) * Math.PI);
-    if (flash > 0) {
-      ctx.fillStyle = `rgba(255, 244, 232, ${0.5 * flash})`;
+    if (photo) {
+      // Cover-fit the photograph into the frame aperture.
+      const scale = Math.max(W / photo.width, H / photo.height);
+      const dw = photo.width * scale;
+      const dh = photo.height * scale;
+      ctx.drawImage(photo, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    } else {
+      const grad = ctx.createLinearGradient(0, y, W, y + h);
+      grad.addColorStop(0, "#6b3418");
+      grad.addColorStop(0.55, "#8a4a20");
+      grad.addColorStop(1, "#1b7ba0");
+      ctx.fillStyle = grad;
       ctx.fillRect(0, y, W, h);
     }
 
+    // Warm bloom as it catches the light.
+    const flash = Math.sin(clamp01(boot) * Math.PI);
+    if (flash > 0) {
+      ctx.fillStyle = `rgba(255, 240, 220, ${0.5 * flash})`;
+      ctx.fillRect(0, y, W, h);
+    }
+    ctx.restore();
+
     if (hello <= 0 || open < 0.98) return;
 
-    // Greeting, revealed left-to-right as it "writes" on.
+    // Caption writes itself on across the foot of the picture.
     const reveal = easeOut(clamp01(hello * 1.15));
     ctx.save();
     ctx.beginPath();
     ctx.rect(0, 0, W * reveal, H);
     ctx.clip();
 
+    // Scrim so the caption stays legible over any photograph.
+    const scrim = ctx.createLinearGradient(0, H * 0.58, 0, H);
+    scrim.addColorStop(0, "rgba(20, 14, 9, 0)");
+    scrim.addColorStop(1, "rgba(20, 14, 9, 0.82)");
+    ctx.fillStyle = scrim;
+    ctx.fillRect(0, H * 0.58, W, H * 0.42);
+
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.shadowColor = "rgba(255, 240, 225, 0.75)";
-    ctx.shadowBlur = 26;
     ctx.fillStyle = "#fdf6ee";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.55)";
+    ctx.shadowBlur = 12;
 
-    ctx.font = "600 96px Inter, system-ui, sans-serif";
-    ctx.fillText("hello", W / 2, H / 2 - 60);
-
-    ctx.font = "700 88px Cairo, system-ui, sans-serif";
-    ctx.fillText("أهلاً", W / 2, H / 2 + 70);
+    const font = lang === "ar" ? "Cairo" : "Inter";
+    ctx.font = `700 46px ${font}, system-ui, sans-serif`;
+    ctx.fillText(caption.line1, W / 2, H * 0.76);
+    ctx.font = `400 32px ${font}, system-ui, sans-serif`;
+    ctx.fillStyle = "rgba(253, 246, 238, 0.82)";
+    ctx.fillText(caption.line2, W / 2, H * 0.83);
 
     ctx.shadowBlur = 0;
     ctx.restore();
-
-    // Cursor riding the reveal edge, fading out as the greeting completes.
-    if (reveal < 1) {
-      ctx.fillStyle = `rgba(255, 246, 236, ${0.85 * (1 - reveal)})`;
-      ctx.fillRect(W * reveal - 3, H / 2 - 150, 4, 300);
-    }
   }
 
   return { canvas, ctx, draw };

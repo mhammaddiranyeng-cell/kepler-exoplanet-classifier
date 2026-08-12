@@ -42,7 +42,7 @@ function organizationJsonLd(lang) {
       addressCountry: "LB",
     },
     areaServed: { "@type": "Place", name: "Bekaa Valley, Lebanon" },
-    sameAs: [SITE.social.instagram, SITE.social.linkedin],
+    sameAs: [SITE.social.instagram, SITE.social.linkedin, SITE.social.facebook].filter(Boolean),
     inLanguage: ["en", "ar"],
   };
   if (SITE.foundingYear) data.foundingDate = String(SITE.foundingYear);
@@ -63,9 +63,7 @@ function header(lang, slug) {
     <header class="site-header" data-header>
       <div class="wrap site-header__inner">
         <a class="brand" href="${href(lang, "")}">
-          <!-- LOGO SLOT: replace this mark with the real NABA logo (SVG preferred).
-               Header lockup renders at 40px tall; see static/assets/img/README.md -->
-          <img class="brand__mark" src="/assets/img/logo-placeholder.svg" alt="" width="40" height="40" aria-hidden="true">
+          <img class="brand__mark" src="/assets/img/logo.png" alt="" width="535" height="763" aria-hidden="true">
           <span class="brand__text">
             <span class="brand__name">NABA NGO</span>
             <span class="brand__sub">${lang === "ar" ? "جمعية نبا" : "جمعية نبا"}</span>
@@ -105,9 +103,11 @@ function footer(lang) {
   return `    <footer class="site-footer">
       <div class="wrap site-footer__grid">
         <div class="site-footer__brand">
+          <img class="site-footer__logo" src="/assets/img/logo.png" alt="" width="535" height="763" aria-hidden="true">
           <p class="site-footer__name">NABA NGO</p>
           <p class="site-footer__ar" lang="ar" dir="rtl">جمعية نبا</p>
           <p class="site-footer__tagline">${esc(t.tagline)}</p>
+          <p class="site-footer__est">${esc(t.established)}</p>
         </div>
         <div>
           <h2 class="site-footer__heading">${esc(t.exploreTitle)}</h2>
@@ -128,12 +128,13 @@ function footer(lang) {
           <ul class="site-footer__list">
               <li><a href="${SITE.social.instagram}" rel="me noopener">Instagram</a></li>
               <li><a href="${SITE.social.linkedin}" rel="me noopener">LinkedIn</a></li>
+              ${SITE.social.facebook ? `<li><a href="${SITE.social.facebook}" rel="me noopener">Facebook</a></li>` : ""}
           </ul>
         </div>
       </div>
       <div class="wrap site-footer__legal">
         <p>&copy; ${new Date().getFullYear()} NABA NGO. ${esc(t.rights)}</p>
-        <p class="site-footer__note">${esc(COPY[lang].provisionalBrand)}</p>
+        <p class="site-footer__note">${esc(t.registration)}</p>
       </div>
     </footer>`;
 }
@@ -171,9 +172,8 @@ export function layout({ lang, slug, title, description, body, head = "", script
     <link rel="alternate" hreflang="ar" href="${absolute(href("ar", slug))}">
     <link rel="alternate" hreflang="x-default" href="${absolute(href("en", slug))}">
 
-    <!-- FAVICON SLOT: replace with the real NABA mark (32/180/512px + .ico) -->
-    <link rel="icon" href="/assets/img/favicon-placeholder.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/assets/img/favicon-placeholder.svg">
+    <link rel="icon" href="/assets/img/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="NABA NGO">
@@ -182,7 +182,6 @@ export function layout({ lang, slug, title, description, body, head = "", script
     <meta property="og:title" content="${esc(title)}">
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:url" content="${canonical}">
-    <!-- OG IMAGE SLOT: replace with a 1200x630 share card built from the real logo -->
     <meta property="og:image" content="${absolute("/assets/img/og-placeholder.png")}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">

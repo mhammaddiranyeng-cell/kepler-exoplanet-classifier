@@ -265,20 +265,26 @@ export function team(lang) {
         <div class="wrap">
           <div class="grid grid--4">
             ${TEAM.map((m) => {
-              const named = m.consent;
               const c = m[lang];
               // PHOTO SLOT: square 400x400, /assets/img/team/<id>.jpg
               const photo = m.photo
-                ? `<img class="person__photo" src="${m.photo}" alt="${esc(named ? c.name : t.photoAlt)}" width="400" height="400" loading="lazy">`
+                ? `<img class="person__photo" src="${m.photo}" alt="${esc(c.name)}" width="400" height="400" loading="lazy">`
                 : slot("1/1", t.photoAlt, "img-slot--avatar");
               return `<article class="card person">
               ${photo}
-              <h3 class="card__title">${esc(named ? c.name : t.pendingConsent)}</h3>
+              <h3 class="card__title">${esc(c.name)}</h3>
               <p class="person__role">${esc(c.role)}</p>
-              <p>${esc(named ? c.bio : t.pendingConsentNote)}</p>
+              <p>${esc(c.bio)}</p>
             </article>`;
             }).join("\n            ")}
           </div>
+        </div>
+      </section>
+
+      <section class="section section--muted">
+        <div class="wrap prose">
+          <h2>${esc(t.instructorsTitle)}</h2>
+          <p>${esc(t.instructorsBody)}</p>
         </div>
       </section>`;
 }

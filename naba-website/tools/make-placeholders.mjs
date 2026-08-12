@@ -42,16 +42,16 @@ function chunk(type, data) {
 
 const mix = (a, b, t) => Math.round(a + (b - a) * t);
 
-// Diagonal wash between the provisional rose and olive tokens, over sand.
+// Diagonal wash between the logo's bronze and globe-blue tones.
 const raw = Buffer.alloc((W * 3 + 1) * H);
 let o = 0;
 for (let y = 0; y < H; y++) {
   raw[o++] = 0; // filter byte: none
   for (let x = 0; x < W; x++) {
     const t = (x / W) * 0.7 + (y / H) * 0.3;
-    raw[o++] = mix(0x4a, 0x96, t);
-    raw[o++] = mix(0x12, 0x5c, t);
-    raw[o++] = mix(0x20, 0x3a, t);
+    raw[o++] = mix(0x3d, 0x1b, t);
+    raw[o++] = mix(0x1d, 0x7b, t);
+    raw[o++] = mix(0x0b, 0xa0, t);
   }
 }
 

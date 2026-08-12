@@ -20,29 +20,32 @@ export const SITE = {
   // Displayed in all caps everywhere, per brand direction.
   nameEn: "NABA NGO",
   nameAr: "جمعية نبا",
-  // TODO(founder): founding year unknown — needed for the "est. YYYY" marker.
-  // Until provided, the est. badge is suppressed sitewide (see templates/layout.mjs).
-  foundingYear: null,
+  foundingYear: 2023,
+  // Official Lebanese registration (علم وخبر) number and the year it was granted.
+  registration: { number: "217", year: 2026 },
   email: "naba.beqaa@gmail.com",
   phones: [
+    // REVIEW(founder): this is the number printed on the NABA roll-up banner.
+    { display: "+961 76 890 159", tel: "+96176890159", wa: "96176890159" },
     { display: "+961 71 824 884", tel: "+96171824884", wa: "96171824884" },
     { display: "+961 70 980 245", tel: "+96170980245", wa: "96170980245" },
   ],
-  // REVIEW(founder): confirm you want WhatsApp click-to-chat links shown.
+  // Tapping a number opens a WhatsApp chat straight to NABA.
   whatsappEnabled: true,
   social: {
     instagram: "https://www.instagram.com/naba_organization/",
     linkedin: "https://www.linkedin.com/in/naba-ngo-baa0ab325/",
+    // TODO(founder): the banner lists Facebook "Naba Qasarnaba" — paste the page
+    // URL here and it appears in the footer and in the sameAs structured data.
+    facebook: null,
   },
   location: {
     en: "Qasarnaba, Bekaa Valley, Baalbek District, Lebanon",
     ar: "قصرنبا، سهل البقاع، قضاء بعلبك، لبنان",
-    // TODO(founder): exact GPS coordinates of the NABA premises in Qasarnaba.
-    // Town-centre coordinates are used as a provisional pin; the map renders a
-    // "approximate location" note until real coordinates land here.
-    lat: 34.0139,
-    lng: 36.2172,
-    coordsAreApproximate: true,
+    // Exact coordinates of the NABA premises, supplied by the founder.
+    lat: 33.898709,
+    lng: 35.9958,
+    coordsAreApproximate: false,
   },
   // Cloudflare Web Analytics — paste the token from the Cloudflare dashboard.
   // Leave null to omit the beacon entirely.
@@ -250,15 +253,14 @@ export const TEAM = [
     id: "mhammad",
     consent: true, // founder — self-published
     photo: null, // TODO: drop a 400x400 square photo into /assets/img/team/
-    en: { name: "Mhammad", role: "Founder", bio: "Final-year Computer and Communications Engineering student. Leads the robotics sessions at the NABA Summer Camp." },
-    ar: { name: "محمد", role: "المؤسس", bio: "طالب في السنة الأخيرة في هندسة الحاسوب والاتصالات. يقود جلسات الروبوتيك في مخيم نبا الصيفي." },
+    en: { name: "Mhammad", role: "Founder", bio: "Final-year Computer and Communications Engineering student. Leads the robotics and digital-safety sessions at NABA." },
+    ar: { name: "محمد", role: "المؤسس", bio: "طالب في السنة الأخيرة في هندسة الحاسوب والاتصالات. يقود جلسات الروبوتيك والسلامة الرقمية في نبا." },
   },
-  // REVIEW(founder): consent flags below default to false — nobody is named on
-  // the public site until you confirm each person agrees.
-  { id: "mariam-dirani", consent: false, photo: null, en: { name: "Mariam Dirani", role: "Instructor, Summer Camp 2026", bio: "" }, ar: { name: "مريم ديراني", role: "مدرّبة، مخيم صيف 2026", bio: "" } },
-  { id: "ranya-dirani", consent: false, photo: null, en: { name: "Ranya Dirani", role: "Instructor, Summer Camp 2026", bio: "" }, ar: { name: "رانيا ديراني", role: "مدرّبة، مخيم صيف 2026", bio: "" } },
-  { id: "fatima-dirani", consent: false, photo: null, en: { name: "Fatima Dirani", role: "Instructor, Summer Camp 2026", bio: "" }, ar: { name: "فاطمة ديراني", role: "مدرّبة، مخيم صيف 2026", bio: "" } },
-  { id: "samah-el-hajj-hassan", consent: false, photo: null, en: { name: "Samah El Hajj Hassan", role: "Instructor, Summer Camp 2026", bio: "" }, ar: { name: "سماح الحاج حسن", role: "مدرّبة، مخيم صيف 2026", bio: "" } },
+  // The Summer Camp 2026 instructor team — Mariam Dirani, Ranya Dirani,
+  // Fatima Dirani and Samah El Hajj Hassan — is credited collectively below
+  // rather than individually, because per-person consent to be named and
+  // photographed publicly has not been confirmed. To publish someone, add an
+  // entry here with `consent: true`, a role and a bio.
 ];
 
 /* ------------------------------------------------------------------ *
@@ -314,7 +316,6 @@ export const COPY = {
     menu: "Menu",
     close: "Close",
     scrollHint: "Scroll",
-    provisionalBrand: "Provisional colour palette — to be replaced once NABA's logo and brand colours are confirmed.",
     home: {
       metaTitle: "NABA NGO — community programs in Qasarnaba, Bekaa Valley",
       metaDescription:
@@ -402,9 +403,10 @@ export const COPY = {
         "The founder and instructor team behind NABA NGO's community programs and Summer Camp in Qasarnaba, Bekaa Valley, Lebanon.",
       title: "Team",
       lede: "The people who design and deliver NABA's programs — all from the community they serve.",
-      pendingConsent: "Team member",
-      pendingConsentNote: "Name and bio to be published once confirmed.",
       photoAlt: "Photo placeholder",
+      instructorsTitle: "Summer Camp 2026 instructor team",
+      instructorsBody:
+        "The camp is delivered by an instructor team drawn from Qasarnaba itself, covering robotics and Arduino, LEGO engineering, arts, psychosocial support and dance. Individual names and photographs are published only with each person's consent.",
     },
     gallery: {
       metaTitle: "Gallery — NABA NGO activities in Qasarnaba, Bekaa Valley",
@@ -433,12 +435,12 @@ export const COPY = {
       // REVIEW(founder): donation mechanism not yet chosen — this section deliberately
       // avoids promising a checkout. See OPEN_QUESTIONS #6.
       supportBody:
-        "NABA does not currently run an online checkout. Support reaches us most reliably through direct contact — we will arrange the method that works for you and account for it properly.",
+        "NABA does not run an online checkout. Support reaches us most reliably through direct contact — we will share our bank transfer details and arrange the method that works for you, and account for it properly.",
       supportWays: [
         { title: "In-kind contributions", body: "Equipment for the robotics and LEGO sessions, art supplies, printing, and materials for awareness workshops." },
         { title: "Partnership", body: "Organisations and funders working in the Bekaa — get in touch about co-delivering a program." },
         { title: "Your time", body: "Facilitators, instructors, translators, designers and photographers are always needed." },
-        { title: "Financial support", body: "Contact us directly to arrange a contribution to a specific program." },
+        { title: "Bank transfer", body: "Contact us and we will send NABA's bank details directly, along with confirmation of which program your contribution supports." },
       ],
       supportCta: "Contact NABA",
       form: {
@@ -478,6 +480,8 @@ export const COPY = {
       contactTitle: "Contact",
       exploreTitle: "Explore",
       rights: "All rights reserved.",
+      established: "Established 2023 · Qasarnaba, Bekaa Valley",
+      registration: "Registered Lebanese association — علم وخبر no. 217 (2026).",
     },
     notFound: {
       metaTitle: "Page not found — NABA NGO",
@@ -499,7 +503,6 @@ export const COPY = {
     menu: "القائمة",
     close: "إغلاق",
     scrollHint: "مرّر للأسفل",
-    provisionalBrand: "ألوان مؤقتة — تُستبدل فور اعتماد شعار نبا وألوانها الرسمية.",
     home: {
       metaTitle: "جمعية نبا — برامج مجتمعية في قصرنبا، سهل البقاع",
       metaDescription:
@@ -585,9 +588,10 @@ export const COPY = {
         "المؤسس وفريق المدرّبين وراء برامج جمعية نبا ومخيمها الصيفي في قصرنبا، سهل البقاع، لبنان.",
       title: "فريقنا",
       lede: "من يصمّمون برامج نبا وينفّذونها — جميعهم من المجتمع الذي يخدمونه.",
-      pendingConsent: "عضو في الفريق",
-      pendingConsentNote: "يُنشر الاسم والنبذة بعد التأكيد.",
       photoAlt: "مكان مخصص للصورة",
+      instructorsTitle: "فريق مدرّبي مخيم صيف 2026",
+      instructorsBody:
+        "يُنفَّذ المخيم بفريق مدرّبات ومدرّبين من قصرنبا نفسها، يغطّي الروبوتيك والأردوينو، وهندسة الليغو، والفنون، والدعم النفسي الاجتماعي، والرقص. وتُنشر الأسماء والصور الشخصية بموافقة كل شخص فقط.",
     },
     gallery: {
       metaTitle: "معرض الصور — أنشطة جمعية نبا في قصرنبا، سهل البقاع",
@@ -613,12 +617,12 @@ export const COPY = {
       volunteerBody: "أخبرنا بما تستطيع تقديمه وأي برنامج يهمّك، وسنعاود التواصل معك مباشرة.",
       supportTitle: "ادعم عملنا",
       supportBody:
-        "لا تدير نبا حالياً نظام دفع إلكتروني. يصلنا الدعم بشكل أضمن عبر التواصل المباشر — وسنرتّب الطريقة المناسبة لك ونوثّقها أصولاً.",
+        "لا تدير نبا نظام دفع إلكتروني. يصلنا الدعم بشكل أضمن عبر التواصل المباشر — نرسل لك تفاصيل التحويل المصرفي ونرتّب الطريقة المناسبة لك، ونوثّقها أصولاً.",
       supportWays: [
         { title: "مساهمات عينية", body: "معدات لجلسات الروبوتيك والليغو، ومستلزمات فنية، وطباعة، ومواد لورش التوعية." },
         { title: "شراكة", body: "للمنظمات والجهات المانحة العاملة في البقاع — تواصلوا معنا لتنفيذ برنامج مشترك." },
         { title: "وقتك", body: "نحتاج دائماً إلى ميسّرين ومدرّبين ومترجمين ومصممين ومصوّرين." },
-        { title: "دعم مالي", body: "تواصل معنا مباشرة لترتيب مساهمة في برنامج محدّد." },
+        { title: "تحويل مصرفي", body: "تواصل معنا وسنرسل لك تفاصيل حساب نبا المصرفي، مع تأكيد البرنامج الذي تدعمه مساهمتك." },
       ],
       supportCta: "تواصل مع نبا",
       form: {
@@ -656,6 +660,8 @@ export const COPY = {
       contactTitle: "تواصل",
       exploreTitle: "تصفّح",
       rights: "جميع الحقوق محفوظة.",
+      established: "تأسست عام 2023 · قصرنبا، سهل البقاع",
+      registration: "جمعية لبنانية مسجّلة — علم وخبر رقم ٢١٧ (2026).",
     },
     notFound: {
       metaTitle: "الصفحة غير موجودة — جمعية نبا",
@@ -669,12 +675,11 @@ export const COPY = {
 
 /** Surfaced in README.md and in the build log so they don't get lost. */
 export const OPEN_QUESTIONS = [
-  "What should the 3D model in the hero actually depict? (currently a neutral placeholder device — see static/assets/js/hero3d.js)",
-  "NABA's founding year, for the 'est. YYYY' marker.",
-  "Exact address or GPS coordinates of NABA's premises in Qasarnaba.",
-  "Is it okay to publicly name Care International as a funder? Should the pending نساء الورد / ورد جوري proposals appear publicly at all yet?",
-  "Role/title, short bio, and public-naming consent for each instructor.",
-  "Donation mechanism: contact-to-arrange only, or an existing fundraising platform to link?",
-  "WhatsApp click-to-chat links alongside the phone numbers — wanted?",
-  "Static-form backend preference: Formspree, or a Cloudflare Pages Function relaying to email?",
+  "Photos: the hero frame and the gallery still need the real image files committed to static/assets/img/ (see that folder's README for sizes).",
+  "Facebook page URL for 'Naba Qasarnaba' — set SITE.social.facebook.",
+  "Confirm +961 76 890 159 (from the roll-up banner) should be the primary contact number.",
+  "Bank transfer details: decide whether to publish them on the site or keep them contact-only (currently contact-only).",
+  "Static-form backend: create the Formspree forms and paste the endpoints, or switch to the Pages Function.",
+  "Arabic prose is a draft translation and needs a native review pass.",
+  "Impact figures come from the most recent grant application — reverify before publishing.",
 ];
