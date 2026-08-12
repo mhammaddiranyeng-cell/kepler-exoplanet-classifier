@@ -41,28 +41,50 @@ const hero = document.querySelector("[data-hero]");
 const canvas = document.querySelector("[data-hero-canvas]");
 const hint = document.querySelector("[data-hero-hint]");
 
-/** Bail out before downloading Three.js at all if the 3D hero isn't wanted. */
-function shouldSkip() {
-  if (!hero || !canvas) return true;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
-  if (navigator.connection && navigator.connection.saveData) return true;
-  if (navigator.deviceMemory && navigator.deviceMemory <= 2) return true;
-  if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) return true;
+/**
+ * Why the 3D hero would be skipped, or null to run it. Returning a reason
+ * rather than a boolean so the console says exactly what happened — a silent
+ * fallback is impossible to debug on someone else's machine.
+ */
+function skipReason() {
+  if (!hero || !canvas) return "hero markup not found on this page";
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    return "the system is set to Reduce Motion (macOS: System Settings > Accessibility > Display > Reduce motion; Windows: Settings > Accessibility > Visual effects > Animation effects)";
+  if (navigator.connection && navigator.connection.saveData) return "the browser is in Data Saver mode";
+  if (navigator.deviceMemory && navigator.deviceMemory <= 2) return "this device reports 2GB RAM or less";
+  if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2)
+    return "this device reports 2 CPU cores or fewer";
   try {
     const probe = document.createElement("canvas");
-    if (!(probe.getContext("webgl2") || probe.getContext("webgl"))) return true;
-  } catch {
-    return true;
+    if (!(probe.getContext("webgl2") || probe.getContext("webgl")))
+      return "WebGL is unavailable — in Chrome check chrome://settings > System > 'Use graphics acceleration when available', and chrome://gpu for details";
+  } catch (err) {
+    return "WebGL threw on startup: " + err.message;
   }
-  return false;
+  return null;
 }
 
-if (!shouldSkip()) {
-  init().catch((err) => {
-    // Any failure leaves the static hero in place — never a blank screen.
-    console.warn("[naba] 3D hero disabled:", err);
-    hero.removeAttribute("data-hero-active");
-  });
+// A debug handle, so a single line in the console explains the hero's state.
+window.__nabaHero = { status: "starting", reason: null };
+
+const reason = skipReason();
+if (reason) {
+  window.__nabaHero.status = "skipped";
+  window.__nabaHero.reason = reason;
+  console.info("[naba] 3D hero skipped: " + reason + ". The page works normally without it.");
+} else {
+  init()
+    .then(() => {
+      window.__nabaHero.status = "running";
+      console.info("[naba] 3D hero running — scroll the homepage to drive it.");
+    })
+    .catch((err) => {
+      // Any failure leaves the static hero in place — never a blank screen.
+      window.__nabaHero.status = "failed";
+      window.__nabaHero.reason = String(err && err.message ? err.message : err);
+      console.error("[naba] 3D hero failed to start:", err);
+      hero.removeAttribute("data-hero-active");
+    });
 }
 
 /* ------------------------------ helpers ------------------------------ */
@@ -166,7 +188,7 @@ async function init() {
     addPart(new THREE.BoxGeometry(W - 0.06, H - 0.06, 0.04), std(SAND, { roughness: 0.9, metalness: 0 }), [0, 0, -0.13], [0, -0.15, -1.35]);
 
     // The photograph itself.
-    const photo = addPart(new THREE.PlaneGeometry(W - 0.42, H - 0.5), screenMaterial, [0, 0, -0.09], [0, 0.15, -0.2]);
+    const photo = addPart(new THREE.PlaneGeometry(W - 0.52, H - 0.58), screenMaterial, [0, 0, -0.09], [0, 0.15, -0.2]);
     photo.name = "screen"; // kept as "screen" — the timeline drives it by name
 
     // Glass.
@@ -449,10 +471,23 @@ function createPictureCanvas(lang) {
     ctx.shadowBlur = 12;
 
     const font = lang === "ar" ? "Cairo" : "Inter";
-    ctx.font = `700 46px ${font}, system-ui, sans-serif`;
+    const maxWidth = W * 0.84;
+
+    /** Step the size down until the line fits the aperture — Arabic and
+        English caption lengths differ a lot, so this can't be a fixed size. */
+    const fit = (text, weight, startSize) => {
+      let size = startSize;
+      ctx.font = `${weight} ${size}px ${font}, system-ui, sans-serif`;
+      while (ctx.measureText(text).width > maxWidth && size > 18) {
+        size -= 2;
+        ctx.font = `${weight} ${size}px ${font}, system-ui, sans-serif`;
+      }
+    };
+
+    fit(caption.line1, 700, 46);
     ctx.fillText(caption.line1, W / 2, H * 0.76);
-    ctx.font = `400 32px ${font}, system-ui, sans-serif`;
     ctx.fillStyle = "rgba(253, 246, 238, 0.82)";
+    fit(caption.line2, 400, 32);
     ctx.fillText(caption.line2, W / 2, H * 0.83);
 
     ctx.shadowBlur = 0;

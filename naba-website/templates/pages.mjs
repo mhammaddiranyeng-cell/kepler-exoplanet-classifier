@@ -9,6 +9,17 @@ import { esc, href } from "./layout.mjs";
 const P = (s) => `<p>${esc(s)}</p>`;
 const paras = (arr = []) => arr.map(P).join("\n            ");
 
+/** A gallery tile: the real photograph when we have it, a neutral block if not. */
+function tile(lang, g, placeholder) {
+  const media = g.src
+    ? `<img src="${g.src}" alt="${esc(g[lang].caption)}" width="${g.w}" height="${g.h}" loading="lazy" decoding="async">`
+    : slot(g.ratio, placeholder);
+  return `<figure class="tile">
+              ${media}
+              <figcaption>${esc(g[lang].caption)}</figcaption>
+            </figure>`;
+}
+
 /** Image slot placeholder — a neutral block, never stock photography. */
 function slot(ratio, label, cls = "") {
   return `<div class="img-slot ${cls}" style="aspect-ratio:${ratio}" role="img" aria-label="${esc(label)}">
@@ -116,12 +127,7 @@ export function home(lang) {
           </div>
           <div class="grid grid--4">
             ${GALLERY.slice(0, 4)
-              .map(
-                (g) => `<figure class="tile">
-              ${slot(g.ratio, COPY[lang].gallery.placeholderNote)}
-              <figcaption>${esc(g[lang].caption)}</figcaption>
-            </figure>`
-              )
+              .map((g) => tile(lang, g, COPY[lang].gallery.placeholderNote))
               .join("\n            ")}
           </div>
         </div>
@@ -147,8 +153,7 @@ export function about(lang) {
             <h2>${esc(t.storyTitle)}</h2>
             ${paras(t.storyBody)}
           </div>
-          <!-- IMAGE SLOT: a wide photo of Qasarnaba / NABA activity, 4:3 -->
-          ${slot("4/3", COPY[lang].gallery.placeholderNote)}
+          ${tile(lang, GALLERY.find((g) => g.id === "camp-day"), COPY[lang].gallery.placeholderNote)}
         </div>
       </section>
 
@@ -297,16 +302,7 @@ export function gallery(lang) {
       <section class="section">
         <div class="wrap">
           <div class="grid grid--3">
-            ${GALLERY.map((g) => {
-              // PHOTO SLOT: /assets/img/gallery/<id>.jpg — 4:3, ~1200px wide
-              const media = g.src
-                ? `<img src="${g.src}" alt="${esc(g[lang].caption)}" loading="lazy">`
-                : slot(g.ratio, t.placeholderNote);
-              return `<figure class="tile">
-              ${media}
-              <figcaption>${esc(g[lang].caption)}</figcaption>
-            </figure>`;
-            }).join("\n            ")}
+            ${GALLERY.map((g) => tile(lang, g, t.placeholderNote)).join("\n            ")}
           </div>
         </div>
       </section>`;

@@ -269,14 +269,48 @@ export const TEAM = [
  * ------------------------------------------------------------------ */
 
 export const GALLERY = [
-  { id: "camp-robotics", src: null, ratio: "4/3", en: { caption: "Robotics session, Summer Camp 2026" }, ar: { caption: "جلسة روبوتيك، مخيم صيف 2026" } },
-  { id: "camp-arts", src: null, ratio: "4/3", en: { caption: "Arts workshop, Summer Camp 2026" }, ar: { caption: "ورشة فنون، مخيم صيف 2026" } },
-  { id: "sahtak-session", src: null, ratio: "4/3", en: { caption: "Awareness session — صحتك بالدنيا" }, ar: { caption: "جلسة توعية — صحتك بالدنيا" } },
-  { id: "camp-lego", src: null, ratio: "4/3", en: { caption: "LEGO engineering, Summer Camp 2026" }, ar: { caption: "هندسة الليغو، مخيم صيف 2026" } },
-  { id: "pss", src: null, ratio: "4/3", en: { caption: "Psychosocial support session" }, ar: { caption: "جلسة دعم نفسي اجتماعي" } },
-  { id: "volunteers", src: null, ratio: "4/3", en: { caption: "Volunteer team, Qasarnaba" }, ar: { caption: "فريق المتطوعين، قصرنبا" } },
-  { id: "roses", src: null, ratio: "4/3", en: { caption: "Damascus rose fields, Bekaa Valley" }, ar: { caption: "حقول الورد الجوري، سهل البقاع" } },
-  { id: "dance", src: null, ratio: "4/3", en: { caption: "Dance session, Summer Camp 2026" }, ar: { caption: "جلسة رقص، مخيم صيف 2026" } },
+  {
+    id: "digital-safety-session",
+    src: "/assets/img/gallery/digital-safety-session.jpg",
+    w: 1600, h: 1200, ratio: "4/3",
+    en: { caption: "Digital-safety session — حمايتنا أونلاين, Qasarnaba" },
+    ar: { caption: "جلسة سلامة رقمية — حمايتنا أونلاين، قصرنبا" },
+  },
+  {
+    id: "arts-session",
+    src: "/assets/img/gallery/arts-session.jpg",
+    w: 1200, h: 1600, ratio: "3/4",
+    en: { caption: "Arts session, NABA Summer Camp" },
+    ar: { caption: "جلسة فنون، مخيم نبا الصيفي" },
+  },
+  {
+    id: "womens-awareness-session",
+    src: "/assets/img/gallery/womens-awareness-session.jpg",
+    w: 1600, h: 1200, ratio: "4/3",
+    en: { caption: "Awareness session for women at the NABA centre" },
+    ar: { caption: "جلسة توعية للنساء في مركز نبا" },
+  },
+  {
+    id: "robotics-session",
+    src: "/assets/img/gallery/robotics-session.jpg",
+    w: 1600, h: 1200, ratio: "4/3",
+    en: { caption: "Robotics session, NABA Summer Camp" },
+    ar: { caption: "جلسة روبوتيك، مخيم نبا الصيفي" },
+  },
+  {
+    id: "camp-day",
+    src: "/assets/img/gallery/camp-day.jpg",
+    w: 1600, h: 1200, ratio: "4/3",
+    en: { caption: "A camp day at the NABA centre, Qasarnaba" },
+    ar: { caption: "يوم من أيام المخيم في مركز نبا، قصرنبا" },
+  },
+  {
+    id: "teens-session",
+    src: "/assets/img/gallery/teens-session.jpg",
+    w: 1600, h: 1200, ratio: "4/3",
+    en: { caption: "Session with older participants, NABA Summer Camp" },
+    ar: { caption: "جلسة مع المشاركين الأكبر سناً، مخيم نبا الصيفي" },
+  },
 ];
 
 /* ------------------------------------------------------------------ *
