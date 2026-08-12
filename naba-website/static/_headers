@@ -1,0 +1,14 @@
+# Cloudflare Pages headers.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Hashed-by-content assets could be cached harder; these are stable filenames,
+# so a day of caching with revalidation is the safe default.
+/assets/*
+  Cache-Control: public, max-age=86400, must-revalidate
+
+/assets/vendor/*
+  Cache-Control: public, max-age=604800, must-revalidate

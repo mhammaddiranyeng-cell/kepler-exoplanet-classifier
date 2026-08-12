@@ -1,0 +1,6 @@
+<!-- PLACEHOLDER LOGO — replace with the real NABA mark (SVG preferred).
+     Used in the header lockup at 40x40. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="NABA NGO placeholder logo">
+  <rect width="64" height="64" rx="16" fill="#96284a"/>
+  <path d="M20 44V20l24 24V20" fill="none" stroke="#f4efe6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,15 @@
+{
+  "name": "naba-ngo-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bilingual (EN/AR) static website for NABA NGO — جمعية نبا — Qasarnaba, Bekaa Valley, Lebanon",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --serve",
+    "placeholders": "node tools/make-placeholders.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
