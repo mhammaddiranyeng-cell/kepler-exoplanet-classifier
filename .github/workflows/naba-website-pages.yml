@@ -6,13 +6,13 @@
 # via BASE_PATH, and asked to emit noindex + a disallow-all robots.txt so this
 # copy can never compete with the real domain in search results.
 #
-# No manual setup needed: configure-pages runs with enablement, so the first
-# run turns Pages on and points it at Actions by itself. Every push that
-# touches naba-website/ redeploys automatically after that.
+# ONE-TIME MANUAL STEP, then this runs by itself forever:
+#   Settings > Pages > Build and deployment > Source > "GitHub Actions"
 #
-# If enablement is ever refused (some org policies block it), turn it on by
-# hand instead: Settings > Pages > Build and deployment > Source > "GitHub
-# Actions", then re-run this workflow.
+# It has to be done by a person. Neither the workflow token nor a GitHub App
+# can enable Pages — the API refuses both with "Resource not accessible by
+# integration". Once it is on, every push touching naba-website/ redeploys
+# automatically.
 
 name: Deploy NABA website to GitHub Pages
 
@@ -56,10 +56,6 @@ jobs:
         run: node build.mjs
 
       - uses: actions/configure-pages@v5
-        with:
-          # Enable Pages on first run rather than requiring a manual visit to
-          # repository settings.
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
