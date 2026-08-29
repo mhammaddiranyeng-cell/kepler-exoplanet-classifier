@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mhammad Ali Dirany — Computer &amp; Communications Engineer</title>
+<meta name="description" content="Portfolio of Mhammad Ali Dirany — Computer and Communications Engineering (AUST, Lebanon). Embedded systems, PLC automation, applied machine learning, networking (CCNA), and community leadership." />
+<meta name="author" content="Mhammad Ali Dirany" />
+<link rel="canonical" href="./" />
+
+<meta property="og:type" content="profile" />
+<meta property="og:title" content="Mhammad Ali Dirany — Computer &amp; Communications Engineer" />
+<meta property="og:description" content="Embedded systems, PLC automation, applied machine learning, and networking. Co-Founder &amp; Vice President of NABA NGO." />
+<meta property="og:image" content="./assets/profile.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b1220'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' fill='%2338bdf8' text-anchor='middle'%3EMD%3C/text%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --bg:#080c14; --bg-soft:#0d1420; --card:#111a29; --card-2:#16203146;
+  --line:#1e2b3f; --line-soft:#18232f;
+  --text:#e6edf6; --muted:#93a4bb; --faint:#6b7c93;
+  --accent:#38bdf8; --accent-2:#a78bfa; --accent-3:#fbbf24;
+  --ok:#34d399;
+  --radius:16px;
+  --max:1120px;
+  --shadow:0 18px 50px -24px rgba(0,0,0,.85);
+}
+html[data-theme="light"]{
+  --bg:#f6f8fc; --bg-soft:#eef2f9; --card:#ffffff; --card-2:#f2f6fc;
+  --line:#dde5f0; --line-soft:#e7edf6;
+  --text:#0e1726; --muted:#4d5d75; --faint:#6b7c93;
+  --accent:#0369a1; --accent-2:#6d28d9; --accent-3:#b45309;
+  --ok:#047857;
+  --shadow:0 18px 40px -28px rgba(15,30,60,.45);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:84px}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit}
+img{max-width:100%}
+.wrap{max-width:var(--max); margin:0 auto; padding:0 22px}
+.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ---------- starfield ---------- */
+#stars{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.75}
+html[data-theme="light"] #stars{opacity:.30}
+.glow{position:fixed; z-index:0; pointer-events:none; filter:blur(90px); opacity:.30}
+.glow.a{width:520px;height:520px;left:-160px;top:-120px;background:radial-gradient(circle,var(--accent),transparent 62%)}
+.glow.b{width:520px;height:520px;right:-180px;top:340px;background:radial-gradient(circle,var(--accent-2),transparent 62%)}
+html[data-theme="light"] .glow{opacity:.16}
+main,header,footer{position:relative; z-index:1}
+
+/* ---------- nav ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(160%) blur(14px);
+  background:color-mix(in srgb, var(--bg) 78%, transparent);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav{display:flex; align-items:center; gap:18px; height:64px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-.02em; text-decoration:none}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent); box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+.nav nav{margin-left:auto; display:flex; gap:4px; flex-wrap:wrap}
+.nav nav a{
+  text-decoration:none; color:var(--muted); font-size:14px; font-weight:500;
+  padding:8px 11px; border-radius:9px; transition:.18s;
+}
+.nav nav a:hover{color:var(--text); background:var(--card-2)}
+.nav nav a.active{color:var(--accent)}
+.iconbtn{
+  border:1px solid var(--line); background:var(--card); color:var(--text);
+  width:38px;height:38px; border-radius:11px; cursor:pointer; font-size:16px;
+  display:grid; place-items:center; transition:.18s;
+}
+.iconbtn:hover{border-color:var(--accent); transform:translateY(-1px)}
+@media(max-width:820px){ .nav nav{display:none} }
+
+/* ---------- hero ---------- */
+.hero{padding:86px 0 64px}
+.hero-grid{display:grid; grid-template-columns:1.35fr .65fr; gap:52px; align-items:center}
+@media(max-width:900px){ .hero-grid{grid-template-columns:1fr; gap:36px} .hero{padding:56px 0 44px} }
+.tagline{
+  display:inline-flex; align-items:center; gap:9px; font-size:12.5px; font-weight:600;
+  letter-spacing:.10em; text-transform:uppercase; color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);
+  background:color-mix(in srgb,var(--accent) 10%,transparent);
+  padding:6px 13px; border-radius:999px;
+}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--ok); animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.8)}}
+h1{
+  font-size:clamp(2.3rem,6vw,4rem); line-height:1.04; letter-spacing:-.035em;
+  margin:20px 0 8px; font-weight:700;
+}
+.grad{background:linear-gradient(110deg,var(--accent),var(--accent-2) 55%,var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+.role{font-size:clamp(1.02rem,2.4vw,1.28rem); color:var(--muted); font-weight:500; margin:0 0 18px}
+.lede{color:var(--muted); max-width:58ch; margin:0 0 26px}
+.cta{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:26px}
+.btn{
+  display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+  padding:12px 20px; border-radius:12px; font-weight:600; font-size:14.5px;
+  border:1px solid var(--line); background:var(--card); color:var(--text); transition:.2s;
+}
+.btn:hover{transform:translateY(-2px); border-color:var(--accent)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2)); border-color:transparent; color:#04101d}
+html[data-theme="light"] .btn.primary{color:#fff}
+.btn.primary:hover{box-shadow:0 14px 34px -14px color-mix(in srgb,var(--accent) 70%,transparent)}
+.facts{display:flex; gap:22px; flex-wrap:wrap; font-size:13.5px; color:var(--faint)}
+.facts b{color:var(--text); font-weight:600}
+
+.portrait{position:relative; justify-self:center}
+.portrait .ring{
+  width:min(300px,72vw); aspect-ratio:1; border-radius:50%; padding:5px;
+  background:conic-gradient(from 180deg,var(--accent),var(--accent-2),var(--accent-3),var(--accent));
+  animation:spin 14s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){ .portrait .ring{animation:none} .pulse{animation:none} }
+.portrait .inner{
+  width:100%;height:100%;border-radius:50%; background:var(--bg-soft); overflow:hidden;
+  display:grid; place-items:center; animation:spin 14s linear infinite reverse;
+}
+@media(prefers-reduced-motion:reduce){ .portrait .inner{animation:none} }
+.portrait img{width:100%;height:100%;object-fit:cover; display:block}
+.initials{font-size:4.6rem; font-weight:700; letter-spacing:-.04em; color:var(--accent)}
+.badge-float{
+  position:absolute; bottom:6px; right:-6px; background:var(--card); border:1px solid var(--line);
+  border-radius:12px; padding:8px 13px; font-size:12.5px; font-weight:600; box-shadow:var(--shadow);
+}
+.badge-float span{color:var(--accent)}
+
+/* ---------- sections ---------- */
+section{padding:70px 0; scroll-margin-top:80px}
+.sec-head{margin-bottom:34px}
+.kicker{
+  font-family:"JetBrains Mono",monospace; font-size:12.5px; color:var(--accent);
+  letter-spacing:.14em; text-transform:uppercase;
+}
+h2{font-size:clamp(1.6rem,3.6vw,2.3rem); letter-spacing:-.025em; margin:8px 0 10px; font-weight:700}
+.sec-head p{color:var(--muted); max-width:64ch; margin:0}
+
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:24px; transition:.22s;
+}
+.card:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line)); transform:translateY(-3px); box-shadow:var(--shadow)}
+
+/* about */
+.about{display:grid; grid-template-columns:1.5fr 1fr; gap:26px}
+@media(max-width:860px){ .about{grid-template-columns:1fr} }
+.about p{color:var(--muted)}
+.about p strong{color:var(--text)}
+.infolist{list-style:none; margin:0; padding:0; display:grid; gap:14px}
+.infolist li{display:grid; grid-template-columns:104px 1fr; gap:10px; font-size:14.5px; align-items:start}
+.infolist span{color:var(--faint); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; padding-top:2px}
+.infolist a{color:var(--accent); text-decoration:none; word-break:break-word}
+.infolist a:hover{text-decoration:underline}
+
+/* stats */
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:26px}
+@media(max-width:760px){ .stats{grid-template-columns:repeat(2,1fr)} }
+.stat{background:var(--card-2); border:1px solid var(--line-soft); border-radius:14px; padding:18px; text-align:center}
+.stat b{display:block; font-size:1.75rem; letter-spacing:-.03em; background:linear-gradient(120deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+.stat small{color:var(--faint); font-size:12.5px}
+
+/* skills */
+.skillgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); gap:18px}
+.skillgrid h3{margin:0 0 4px; font-size:1.02rem; display:flex; align-items:center; gap:9px}
+.skillgrid .ico{
+  width:34px;height:34px;border-radius:10px; display:grid; place-items:center; font-size:16px;
+  background:color-mix(in srgb,var(--accent) 14%,transparent); border:1px solid color-mix(in srgb,var(--accent) 26%,transparent);
+}
+.skillgrid p{color:var(--faint); font-size:13.5px; margin:6px 0 14px}
+.tags{display:flex; flex-wrap:wrap; gap:7px; padding:0; margin:0; list-style:none}
+.tags li{
+  font-family:"JetBrains Mono",monospace; font-size:11.5px; padding:4.5px 9px; border-radius:7px;
+  background:var(--card-2); border:1px solid var(--line-soft); color:var(--muted);
+}
+
+/* projects */
+.filters{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px}
+.filters button{
+  border:1px solid var(--line); background:var(--card); color:var(--muted); cursor:pointer;
+  padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; font-family:inherit; transition:.18s;
+}
+.filters button:hover{color:var(--text)}
+.filters button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#04101d}
+html[data-theme="light"] .filters button[aria-pressed="true"]{color:#fff}
+.projects{display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:20px}
+.project{display:flex; flex-direction:column; position:relative; overflow:hidden}
+.project::before{
+  content:""; position:absolute; inset:0 0 auto 0; height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2)); opacity:0; transition:.22s;
+}
+.project:hover::before{opacity:1}
+.p-top{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:10px}
+.p-top h3{margin:0; font-size:1.12rem; letter-spacing:-.015em}
+.chip{
+  font-family:"JetBrains Mono",monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+  padding:4px 9px; border-radius:999px; white-space:nowrap;
+  border:1px solid color-mix(in srgb,var(--accent-3) 40%,transparent);
+  color:var(--accent-3); background:color-mix(in srgb,var(--accent-3) 12%,transparent);
+}
+.chip.done{border-color:color-mix(in srgb,var(--ok) 40%,transparent); color:var(--ok); background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.p-meta{font-size:12.5px; color:var(--faint); margin:0 0 10px}
+.project > p.desc{color:var(--muted); font-size:14.3px; margin:0 0 14px}
+details.more{margin:0 0 14px; border-top:1px dashed var(--line); padding-top:12px}
+details.more summary{cursor:pointer; font-size:13px; font-weight:600; color:var(--accent); list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"▸ "; display:inline-block; transition:.2s}
+details.more[open] summary::before{transform:rotate(90deg)}
+details.more ul{margin:12px 0 0; padding-left:19px; color:var(--muted); font-size:13.6px; display:grid; gap:7px}
+.project .tags{margin-top:auto}
+
+/* timeline */
+.timeline{position:relative; padding-left:30px; display:grid; gap:26px}
+.timeline::before{content:""; position:absolute; left:8px; top:6px; bottom:6px; width:2px;
+  background:linear-gradient(var(--accent),var(--accent-2),transparent)}
+.tl{position:relative}
+.tl::before{content:""; position:absolute; left:-27px; top:7px; width:12px;height:12px; border-radius:50%;
+  background:var(--bg); border:2px solid var(--accent)}
+.tl h3{margin:0 0 3px; font-size:1.05rem}
+.tl .when{font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--accent); display:block; margin-bottom:6px}
+.tl p{margin:0; color:var(--muted); font-size:14.3px}
+
+/* leadership */
+.lead{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+@media(max-width:860px){ .lead{grid-template-columns:1fr} }
+.lead ul{margin:12px 0 0; padding-left:19px; color:var(--muted); font-size:14.2px; display:grid; gap:9px}
+
+/* contact */
+.contact{text-align:center; padding:60px 26px; border-radius:22px;
+  background:linear-gradient(150deg,var(--card),var(--card-2)); border:1px solid var(--line)}
+.contact h2{margin-top:6px}
+.contact p{color:var(--muted); max-width:52ch; margin:0 auto 26px}
+.links{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+
+footer{border-top:1px solid var(--line-soft); padding:30px 0 44px; margin-top:60px}
+.foot{display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; color:var(--faint); font-size:13px}
+.foot a{color:var(--muted); text-decoration:none}
+.foot a:hover{color:var(--accent)}
+
+.reveal{opacity:0; transform:translateY(22px)}
+.reveal.in{opacity:1; transform:none; transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1)}
+@media(prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none} }
+.skip{position:absolute; left:-9999px}
+.skip:focus{left:14px; top:12px; z-index:99; background:var(--card); padding:10px 14px; border-radius:10px; border:1px solid var(--accent)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="glow a" aria-hidden="true"></div>
+<div class="glow b" aria-hidden="true"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="dot"></span> Mhammad&nbsp;Ali&nbsp;Dirany</a>
+    <nav id="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle colour theme">☾</button>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+
+<!-- HERO -->
+<section class="hero wrap" style="padding-top:70px">
+  <div class="hero-grid">
+    <div>
+      <span class="tagline"><span class="pulse"></span> Open to work — 2026</span>
+      <h1>Mhammad Ali<br /><span class="grad">Dirany</span></h1>
+      <p class="role">Computer &amp; Communications Engineer — embedded systems, industrial automation &amp; applied machine learning</p>
+      <p class="lede">
+        CCE engineer from the American University of Science and Technology (Lebanon), building things that
+        span the whole stack of a physical system: PLC ladder logic and motor control at the bottom,
+        ESP32/Raspberry&nbsp;Pi firmware and MQTT in the middle, computer vision and React dashboards on top.
+        CCNA-certified, ECPE-certified in English, and co-founder of a registered Lebanese NGO.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:mhammad.dirany.eng@gmail.com">✉ Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/mhammad-dirany-82a53b2b8" target="_blank" rel="noopener">in&nbsp;&nbsp;LinkedIn</a>
+        <a class="btn" href="#projects">◆ View projects</a>
+      </div>
+      <div class="facts">
+        <div><b>Beirut / Bekaa</b> · Lebanon</div>
+        <div><b>CCNA</b> certified</div>
+        <div><b>Arabic</b> native · <b>English</b> C2</div>
+      </div>
+    </div>
+
+    <div class="portrait">
+      <div class="ring">
+        <div class="inner">
+          <img src="./assets/profile.jpg" alt="Portrait of Mhammad Ali Dirany"
+               onerror="this.remove();document.getElementById('ini').hidden=false" />
+          <div class="initials" id="ini" hidden>MD</div>
+        </div>
+      </div>
+      <div class="badge-float"><span>◈</span> CCE · AUST</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b>8</b><small>engineering projects</small></div>
+    <div class="stat"><b>2</b><small>research papers</small></div>
+    <div class="stat"><b>3+ yrs</b><small>NGO leadership</small></div>
+    <div class="stat"><b>4</b><small>community projects delivered</small></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">01 — About</div>
+    <h2>Who I am</h2>
+    <p>An engineer who is equally comfortable wiring a contactor, writing ladder logic, and training a neural network — then writing the report that explains all three.</p>
+  </div>
+  <div class="about">
+    <div class="card">
+      <p>
+        I'm <strong>Mhammad Ali Dirany</strong>, 21, a Computer and Communications Engineering student at the
+        <strong>American University of Science and Technology (AUST)</strong> in Lebanon, academically advised by
+        <strong>Dr. Gaby Abou Haidar</strong>.
+      </p>
+      <p>
+        My work sits where software meets hardware. On my senior design project I built a river waste-collection
+        and sorting machine end to end: a Delta PLC driving the conveyor, dual ESP32s and a Raspberry&nbsp;Pi 4
+        handling IoT and vision, a Kinect depth camera feeding a YOLOv8 classifier, and a React PWA over MQTT for
+        monitoring. In parallel I ran a full <strong>DPCM/ADPCM compression study</strong> in PyTorch across speech
+        and ECG data and wrote it up as an 8-page IEEEtran paper — including an honest negative result rather than
+        a flattering one.
+      </p>
+      <p>
+        Outside of engineering I co-founded <strong>NABA (جمعية نبا)</strong>, a registered NGO in Qasarnaba,
+        Bekaa Valley, where I serve as Vice President — leading proposal writing, donor outreach, and community
+        programs in health awareness, child development, and economic empowerment.
+      </p>
+      <p>
+        I'm currently focused on <strong>AI/ML engineering</strong>: agentic systems, RAG, and applied computer
+        vision, with an ICS/OT security auditing agent as my current flagship build.
+      </p>
+    </div>
+    <div class="card">
+      <ul class="infolist">
+        <li><span>Name</span> Mhammad Ali Dirany</li>
+        <li><span>Field</span> Computer &amp; Communications Engineering</li>
+        <li><span>University</span> AUST, Lebanon</li>
+        <li><span>Advisor</span> Dr. Gaby Abou Haidar</li>
+        <li><span>Age</span> 21</li>
+        <li><span>Email</span> <a href="mailto:mhammad.dirany.eng@gmail.com">mhammad.dirany.eng@gmail.com</a></li>
+        <li><span>Phone</span> <a href="tel:+96171824884">+961 71 824 884</a></li>
+        <li><span>LinkedIn</span> <a href="https://www.linkedin.com/in/mhammad-dirany-82a53b2b8" target="_blank" rel="noopener">mhammad-dirany</a></li>
+        <li><span>Languages</span> Arabic (native), English (C2 — ECPE Michigan)</li>
+        <li><span>Certified</span> CCNA — Cisco Certified Network Associate</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">02 — Skills</div>
+    <h2>What I work with</h2>
+    <p>Tooling I've actually shipped with — on benches, in labs, and in the field.</p>
+  </div>
+  <div class="skillgrid">
+    <div class="card">
+      <h3><span class="ico">⚙</span> Industrial Automation</h3>
+      <p>PLC programming, ladder logic, motor control and safety interlocks.</p>
+      <ul class="tags">
+        <li>Delta DVP-14SS2</li><li>WPLSoft</li><li>EASY 719-AC-RC</li><li>easySoft 6</li>
+        <li>Ladder logic</li><li>VFD / 3-phase</li><li>Modbus RTU RS-485</li><li>Stepper control</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico">▤</span> Embedded &amp; IoT</h3>
+      <p>Microcontroller firmware, sensors, telemetry and power systems.</p>
+      <ul class="tags">
+        <li>ESP32</li><li>Raspberry Pi 4</li><li>MQTT</li><li>HiveMQ Cloud</li>
+        <li>libfreenect / Kinect</li><li>Solar &amp; LiFePO4</li><li>MPPT</li><li>Firebase push</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico">◈</span> Machine Learning</h3>
+      <p>Applied ML — vision, sequence models and signal compression.</p>
+      <ul class="tags">
+        <li>PyTorch</li><li>YOLOv8</li><li>LSTM</li><li>TFLite</li>
+        <li>MediaPipe</li><li>faster-whisper</li><li>DPCM / ADPCM</li><li>RAG · MCP · agents</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico">☍</span> Networking</h3>
+      <p>CCNA-certified: routing, switching, addressing and troubleshooting.</p>
+      <ul class="tags">
+        <li>CCNA</li><li>Routing &amp; switching</li><li>VLANs</li><li>TCP/IP</li><li>Network design</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico">⌘</span> Software Development</h3>
+      <p>Web, desktop and mobile front-ends over real hardware and real data.</p>
+      <ul class="tags">
+        <li>React</li><li>PWA</li><li>Python</li><li>Swift / iOS</li>
+        <li>CustomTkinter</li><li>ffmpeg pipelines</li><li>Fusion 360 scripting</li><li>LaTeX</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico">✦</span> Leadership &amp; Communication</h3>
+      <p>Getting projects funded, staffed and delivered — in two languages.</p>
+      <ul class="tags">
+        <li>Proposal writing</li><li>Grant applications</li><li>Donor outreach</li>
+        <li>Stakeholder relations</li><li>Project coordination</li><li>Technical reporting</li><li>Bilingual AR/EN</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">03 — Projects</div>
+    <h2>Selected work</h2>
+    <p>Eight projects across automation, machine learning, research and product. Expand any card for the engineering detail.</p>
+  </div>
+
+  <div class="filters" role="group" aria-label="Filter projects">
+    <button data-f="all" aria-pressed="true">All</button>
+    <button data-f="hardware" aria-pressed="false">Hardware &amp; Automation</button>
+    <button data-f="ml" aria-pressed="false">AI / ML</button>
+    <button data-f="research" aria-pressed="false">Research</button>
+    <button data-f="software" aria-pressed="false">Software</button>
+  </div>
+
+  <div class="projects" id="projgrid">
+
+    <article class="card project" data-tags="hardware ml">
+      <div class="p-top">
+        <h3>RiverExtract</h3>
+        <span class="chip done">Senior Design</span>
+      </div>
+      <p class="p-meta">AUST · Advised by Dr. Gaby Abou Haidar · Co-advised by Dr. Chafic Saide</p>
+      <p class="desc">
+        A stationary, conveyor-based river waste collection and sorting system — built as a working prototype and
+        specified as a full-scale, solar-powered installation.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li><b>Prototype:</b> 12V DC gear motor, Delta DVP-14SS2 PLC (WPLSoft ladder logic), dual ESP32s,
+              Raspberry&nbsp;Pi 4, Xbox 360 Kinect (RGB/IR/depth) via libfreenect, solar-assisted 12V battery.</li>
+          <li><b>Full-scale design:</b> 0.75&nbsp;kW 3-phase AC motor with VFD, 3&nbsp;m conveyor, automated
+              colour-sorting bins with a stepper-driven sorting blade.</li>
+          <li><b>Power:</b> 48V off-grid array — 3×550W panels, 60A MPPT, 50Ah LiFePO4.</li>
+          <li><b>Integration:</b> Modbus RTU over RS-485 linking PLC to the IoT layer; MQTT telemetry;
+              YOLOv8 for waste classification.</li>
+          <li><b>App:</b> React PWA monitoring spec — HiveMQ Cloud MQTT, Firebase push, E-Stop, jam recovery,
+              bin-dump control, live AI detection feed and event log.</li>
+          <li><b>Deliverables:</b> 60-page final report, A1 expo poster, single-page project site,
+              Fusion 360 parametric Python script.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>PLC</li><li>ESP32</li><li>YOLOv8</li><li>MQTT</li><li>React PWA</li><li>Solar</li></ul>
+    </article>
+
+    <article class="card project" data-tags="research ml">
+      <div class="p-top">
+        <h3>Tiny Neural Predictors in DPCM</h3>
+        <span class="chip done">IEEE Paper</span>
+      </div>
+      <p class="p-meta">Cross-domain study — speech &amp; ECG · 8-page IEEEtran</p>
+      <p class="desc">
+        “Tiny Neural Network Predictors in DPCM: A Cross-Domain Study on Speech and ECG with Closed-Loop Stability
+        and Evaluation Pitfalls.” A complete DPCM/ADPCM compression pipeline in Python/PyTorch.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>Five tiny neural predictor configurations (≤1500 parameters each) benchmarked against a
+              well-tuned linear baseline.</li>
+          <li>Two domains: the Arabic Speech Commands Dataset and the MIT-BIH Arrhythmia (ECG) Database.</li>
+          <li>Closed-loop stability analysis and a catalogue of evaluation pitfalls that inflate reported gains.</li>
+          <li><b>Finding:</b> no tested tiny NN robustly beats the linear baseline under fair multi-slice
+              evaluation — an honest negative result kept in the final paper.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>PyTorch</li><li>DSP</li><li>DPCM/ADPCM</li><li>ECG</li><li>LaTeX</li></ul>
+    </article>
+
+    <article class="card project" data-tags="ml software">
+      <div class="p-top">
+        <h3>ICS-Sentinel</h3>
+        <span class="chip">In progress</span>
+      </div>
+      <p class="p-meta">Agentic ICS/OT security auditor · AI/ML portfolio flagship</p>
+      <p class="desc">
+        An autonomous security-auditing agent for industrial control systems, combining retrieval-augmented
+        generation, Model Context Protocol tooling and a custom agent harness.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>RAG over ICS/OT vulnerability and standards corpora for grounded findings.</li>
+          <li>MCP tools give the agent real, auditable capabilities instead of free-form guessing.</li>
+          <li>Custom Hermes-Agent-style reasoning loop driving plan → probe → verify → report.</li>
+          <li>Scoped deliberately as a polished, demo-ready portfolio piece for AI/ML engineering roles.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>RAG</li><li>MCP</li><li>Agents</li><li>ICS/OT security</li><li>Python</li></ul>
+    </article>
+
+    <article class="card project" data-tags="hardware">
+      <div class="p-top">
+        <h3>IoT Water Pump Controller</h3>
+        <span class="chip done">Built</span>
+      </div>
+      <p class="p-meta">ESP32 + HiveMQ Cloud MQTT</p>
+      <p class="desc">
+        A “manual-start, auto-stop” pump controller extending the RiverExtract IoT architecture — remote triggering
+        with a hardware-safe stop condition.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>Latch logic: <code class="mono">PumpRun = (RemoteON_cmd OR PumpRun) AND NOT FloatFull</code>.</li>
+          <li>Float switch guarantees auto-stop regardless of network state — safety in hardware, not in the cloud.</li>
+          <li>HiveMQ Cloud MQTT broker for remote command and status topics.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>ESP32</li><li>MQTT</li><li>Control logic</li><li>IoT</li></ul>
+    </article>
+
+    <article class="card project" data-tags="software">
+      <div class="p-top">
+        <h3>Lebanese Student App</h3>
+        <span class="chip done">iOS · Swift</span>
+      </div>
+      <p class="p-meta">Native iOS app built with AI-assisted development</p>
+      <p class="desc">
+        A fully native Swift app for Lebanese students — a community for sharing past exams and quizzes, plus a
+        marketplace for selling skills and booking tutors.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>Built primarily with AI coding tools and minimal manual coding — an experiment in AI-assisted delivery speed.</li>
+          <li>Community module: upload, browse and search past exams and quizzes by course.</li>
+          <li>Marketplace module: students list skills or book tutoring sessions.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>Swift</li><li>iOS</li><li>AI-assisted dev</li><li>Marketplace</li></ul>
+    </article>
+
+    <article class="card project" data-tags="ml software">
+      <div class="p-top">
+        <h3>Content Rewards Auto-Clipping</h3>
+        <span class="chip done">Pipeline</span>
+      </div>
+      <p class="p-meta">Automated short-form video production · Whop creator marketplace</p>
+      <p class="desc">
+        A Python pipeline that turns long-form video into publish-ready vertical clips without manual editing.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li><b>faster-whisper</b> for fast, accurate transcription with word-level timing.</li>
+          <li>Heuristic and LLM-based highlight scoring to pick the segments worth clipping.</li>
+          <li><b>ffmpeg</b> for 9:16 cropping and burned-in captions, fully scripted end to end.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>Python</li><li>faster-whisper</li><li>ffmpeg</li><li>LLM scoring</li></ul>
+    </article>
+
+    <article class="card project" data-tags="ml software">
+      <div class="p-top">
+        <h3>Sign Language Translator</h3>
+        <span class="chip done">Desktop / RPi</span>
+      </div>
+      <p class="p-meta">Word-level ASL recognition · Raspberry Pi 4 target</p>
+      <p class="desc">
+        A Python desktop application that recognises word-level American Sign Language from a live camera feed,
+        with an Apple-inspired dark interface.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li><b>MediaPipe</b> hand tracking for landmark extraction from the video stream.</li>
+          <li><b>LSTM</b> sequence model exported to <b>TFLite</b> for on-device inference.</li>
+          <li><b>CustomTkinter</b> GUI, designed for deployment on a Raspberry&nbsp;Pi 4.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>MediaPipe</li><li>LSTM</li><li>TFLite</li><li>CustomTkinter</li></ul>
+    </article>
+
+    <article class="card project" data-tags="research ml">
+      <div class="p-top">
+        <h3>Visual Positioning Systems</h3>
+        <span class="chip">In progress</span>
+      </div>
+      <p class="p-meta">Independent research · self-directed, no funding or lab access</p>
+      <p class="desc">
+        A research paper exploring map-free visual relocalization — localizing without a pre-built 3D database.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>Survey and analysis of map-free / database-free approaches to visual relocalization.</li>
+          <li>Entirely self-directed: literature, experiments and writing done without funding or lab resources.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>Computer vision</li><li>Relocalization</li><li>Research</li></ul>
+    </article>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">04 — Experience</div>
+    <h2>Education &amp; credentials</h2>
+    <p>Academic background, certifications and the research track running alongside them.</p>
+  </div>
+  <div class="timeline">
+    <div class="tl">
+      <span class="when">Current</span>
+      <h3>B.E. Computer &amp; Communications Engineering — AUST, Lebanon</h3>
+      <p>American University of Science and Technology. Senior design project <b>RiverExtract</b>, advised by
+         Dr. Gaby Abou Haidar and co-advised by Dr. Chafic Saide.</p>
+    </div>
+    <div class="tl">
+      <span class="when">Certification</span>
+      <h3>CCNA — Cisco Certified Network Associate</h3>
+      <p>Routing and switching, IP addressing, network services, security fundamentals and troubleshooting.</p>
+    </div>
+    <div class="tl">
+      <span class="when">Certification</span>
+      <h3>ECPE — Examination for the Certificate of Proficiency in English (Michigan)</h3>
+      <p>C2-level English proficiency. Arabic is my native language; I work and write technically in both.</p>
+    </div>
+    <div class="tl">
+      <span class="when">Research</span>
+      <h3>Author — IEEE-format paper on tiny NN predictors in DPCM</h3>
+      <p>Cross-domain speech/ECG compression study in PyTorch, written up as an 8-page IEEEtran paper.
+         A second paper on visual positioning systems is in progress.</p>
+    </div>
+    <div class="tl">
+      <span class="when">3+ years</span>
+      <h3>Co-Founder &amp; Vice President — NABA NGO</h3>
+      <p>Registered nonprofit in Qasarnaba, Bekaa Valley. Proposal writing, donor outreach and community
+         program delivery across health, child development and economic empowerment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section id="leadership" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">05 — Leadership</div>
+    <h2>NABA — جمعية نبا</h2>
+    <p>A registered Lebanese nonprofit in Qasarnaba, Bekaa Valley, running community development programs.
+       I'm a co-founder and its Vice President.</p>
+  </div>
+  <div class="lead">
+    <div class="card">
+      <h3 style="margin-top:0">Funding &amp; partnerships</h3>
+      <ul>
+        <li>Led donor and consortium outreach and wrote the organisation's proposals.</li>
+        <li>Submitted an Expression of Interest to a consortium of <b>SAFE</b>, <b>WeWorld</b>, <b>Mada</b> and the
+            <b>Lebanese Observatory for Workers and Employees Rights</b> — proposing a project combining
+            GBV and child-protection awareness, financial-management training, and rose-soap production skills
+            training for women and local farmers.</li>
+        <li>Prepared and submitted a <b>MoSA</b> (Ministry of Social Affairs) grant application centred on a
+            Damascus rose value-chain project.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Programs &amp; track record</h3>
+      <ul>
+        <li>Oversees NABA's annual <b>Summer Camp</b> — child intellectual development and mental health.</li>
+        <li>Programs across health awareness, child development and economic empowerment.</li>
+        <li>Cited in funding applications: <b>3+ years</b> operating, <b>4 completed projects</b>,
+            average project value <b>≈ $5,000 USD</b>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="wrap reveal">
+  <div class="contact">
+    <div class="kicker">06 — Contact</div>
+    <h2>Let's build something</h2>
+    <p>Open to AI/ML engineering, embedded systems, and automation roles — as well as research collaboration.
+       The fastest way to reach me is email.</p>
+    <div class="links">
+      <a class="btn primary" href="mailto:mhammad.dirany.eng@gmail.com">✉ mhammad.dirany.eng@gmail.com</a>
+      <a class="btn" href="tel:+96171824884">☎ +961 71 824 884</a>
+      <a class="btn" href="https://www.linkedin.com/in/mhammad-dirany-82a53b2b8" target="_blank" rel="noopener">in&nbsp;&nbsp;LinkedIn</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© <span id="yr">2026</span> Mhammad Ali Dirany — Beirut &amp; Bekaa, Lebanon</div>
+    <div><a href="#top">Back to top ↑</a></div>
+  </div>
+</footer>
+
+<script>
+/* year */
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* theme */
+const root = document.documentElement, tbtn = document.getElementById('theme');
+const saved = (()=>{ try{ return localStorage.getItem('theme'); }catch(e){ return null; } })();
+if (saved) root.setAttribute('data-theme', saved);
+const paint = () => tbtn.textContent = root.getAttribute('data-theme') === 'light' ? '☀' : '☾';
+paint();
+tbtn.addEventListener('click', () => {
+  const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  root.setAttribute('data-theme', next); paint();
+  try{ localStorage.setItem('theme', next); }catch(e){}
+});
+
+/* project filter */
+const grid = document.getElementById('projgrid');
+document.querySelectorAll('.filters button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.filters button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  const f = b.dataset.f;
+  grid.querySelectorAll('.project').forEach(p => {
+    p.style.display = (f === 'all' || p.dataset.tags.split(' ').includes(f)) ? '' : 'none';
+  });
+}));
+
+/* reveal on scroll */
+const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.08});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* active nav link */
+const links = [...document.querySelectorAll('#navlinks a')];
+const spy = new IntersectionObserver((es) => es.forEach(e => {
+  if (e.isIntersecting){
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }
+}), {rootMargin:'-45% 0px -50% 0px'});
+document.querySelectorAll('main section[id]').forEach(s => spy.observe(s));
+
+/* starfield */
+(function(){
+  const c = document.getElementById('stars'), x = c.getContext('2d');
+  let w, h, stars = [];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function init(){
+    w = c.width = innerWidth; h = c.height = innerHeight;
+    const n = Math.min(180, Math.round(w * h / 11000));
+    stars = Array.from({length:n}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      r: Math.random()*1.25 + .25, a: Math.random()*.7 + .15,
+      s: Math.random()*.16 + .03
+    }));
+  }
+  function draw(){
+    x.clearRect(0,0,w,h);
+    const light = root.getAttribute('data-theme') === 'light';
+    for (const st of stars){
+      x.beginPath();
+      x.fillStyle = light ? 'rgba(40,70,120,' + st.a + ')' : 'rgba(210,230,255,' + st.a + ')';
+      x.arc(st.x, st.y, st.r, 0, 6.284); x.fill();
+      if (!reduce){ st.y += st.s; if (st.y > h){ st.y = -2; st.x = Math.random()*w; } }
+    }
+    requestAnimationFrame(draw);
+  }
+  addEventListener('resize', init, {passive:true});
+  init(); draw();
+})();
+</script>
+</body>
+</html>
