@@ -220,3 +220,11 @@ This project is open source and available under the MIT License.
 
 **🔭 Happy exoplanet hunting!**
 
+---
+
+## 👤 Portfolio
+
+This repository also hosts my personal portfolio site (source in [`docs/`](docs/)):
+**https://mhammaddiranyeng-cell.github.io/kepler-exoplanet-classifier/**
+
+See [`docs/README.md`](docs/README.md) for how to publish and edit it.

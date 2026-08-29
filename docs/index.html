@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mhammad Ali Dirany</title>
+<meta name="description" content="Portfolio of Mhammad Ali Dirany — Computer and Communications Engineer (AUST, Lebanon). Embedded systems, PLC automation, applied machine learning, networking, and community leadership." />
+<meta name="author" content="Mhammad Ali Dirany" />
+<meta property="og:type" content="profile" />
+<meta property="og:title" content="Mhammad Ali Dirany — Computer &amp; Communications Engineer" />
+<meta property="og:description" content="Embedded systems, PLC automation, applied machine learning, and networking. Co-Founder &amp; Vice President of NABA NGO." />
+<meta property="og:image" content="./assets/profile.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230b0f14'/%3E%3Ctext x='50' y='67' font-family='Helvetica,Arial,sans-serif' font-weight='700' font-size='46' fill='%23ff7a3c' text-anchor='middle'%3EMD%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+<style>
+/* ---------- tokens: dark-first, light under OS preference or explicit stamp ---------- */
+:root{
+  --ground:#0b0f14;
+  --surface:#121922;
+  --surface-2:#172230;
+  --line:#233040;
+  --line-soft:#1a2532;
+  --text:#e9eef3;
+  --muted:#9fb0be;
+  --faint:#71838f;
+  --accent:#ff7a3c;
+  --accent-ink:#0b0f14;
+  --accent-soft:rgba(255,122,60,.13);
+  --accent-line:rgba(255,122,60,.34);
+  --live:#3fb98a;
+  --grid:rgba(159,176,190,.075);
+  --shadow:0 20px 44px -30px rgba(0,0,0,.9);
+  --max:1120px;
+  --r:4px;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans",-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --ground:#f4f5f3;
+    --surface:#ffffff;
+    --surface-2:#eceeea;
+    --line:#d8dcd6;
+    --line-soft:#e4e7e2;
+    --text:#131a20;
+    --muted:#4e5c66;
+    --faint:#6f7d86;
+    --accent:#c1440e;
+    --accent-ink:#ffffff;
+    --accent-soft:rgba(193,68,14,.09);
+    --accent-line:rgba(193,68,14,.30);
+    --live:#1f7a55;
+    --grid:rgba(19,26,32,.055);
+    --shadow:0 20px 40px -32px rgba(20,30,40,.5);
+  }
+}
+:root[data-theme="light"]{
+  --ground:#f4f5f3;
+  --surface:#ffffff;
+  --surface-2:#eceeea;
+  --line:#d8dcd6;
+  --line-soft:#e4e7e2;
+  --text:#131a20;
+  --muted:#4e5c66;
+  --faint:#6f7d86;
+  --accent:#c1440e;
+  --accent-ink:#ffffff;
+  --accent-soft:rgba(193,68,14,.09);
+  --accent-line:rgba(193,68,14,.30);
+  --live:#1f7a55;
+  --grid:rgba(19,26,32,.055);
+  --shadow:0 20px 40px -32px rgba(20,30,40,.5);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:78px}
+body{
+  margin:0; background:var(--ground); color:var(--text);
+  font-family:var(--sans); font-size:16px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+/* blueprint grid ground */
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(120% 85% at 50% 0%,#000 20%,transparent 78%);
+  mask-image:radial-gradient(120% 85% at 50% 0%,#000 20%,transparent 78%);
+}
+body>*{position:relative; z-index:1}
+a{color:inherit}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+.wrap{max-width:var(--max); margin:0 auto; padding:0 24px}
+.mono{font-family:var(--mono)}
+h1,h2,h3{font-family:var(--cond); font-weight:700; letter-spacing:-.012em; text-wrap:balance}
+
+/* ---------- header ---------- */
+header{
+  position:sticky; top:0; z-index:50; border-bottom:1px solid var(--line-soft);
+  background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:saturate(150%) blur(12px);
+}
+.nav{display:flex; align-items:center; gap:16px; height:62px}
+.brand{
+  display:flex; align-items:center; gap:10px; text-decoration:none;
+  font-family:var(--mono); font-size:13.5px; font-weight:600; letter-spacing:.02em;
+}
+.brand i{width:9px; height:9px; background:var(--accent); font-style:normal; display:block}
+.nav nav{margin-left:auto; display:flex; gap:2px}
+.nav nav a{
+  text-decoration:none; color:var(--muted); font-family:var(--mono); font-size:12.5px;
+  padding:7px 10px; border-bottom:1px solid transparent; transition:color .15s,border-color .15s;
+}
+.nav nav a:hover{color:var(--text)}
+.nav nav a.active{color:var(--accent); border-bottom-color:var(--accent)}
+.iconbtn{
+  border:1px solid var(--line); background:var(--surface); color:var(--text);
+  height:34px; padding:0 12px; font-family:var(--mono); font-size:11.5px; cursor:pointer;
+  border-radius:var(--r); transition:border-color .15s,color .15s;
+}
+.iconbtn:hover{border-color:var(--accent); color:var(--accent)}
+@media(max-width:840px){ .nav nav{display:none} }
+
+/* ---------- hero ---------- */
+.hero{padding:74px 0 58px}
+.hero-grid{display:grid; grid-template-columns:1.4fr .6fr; gap:56px; align-items:center}
+@media(max-width:900px){ .hero-grid{grid-template-columns:1fr; gap:38px} .hero{padding:48px 0 40px} }
+.status{
+  display:inline-flex; align-items:center; gap:9px; font-family:var(--mono);
+  font-size:11.5px; letter-spacing:.10em; text-transform:uppercase; color:var(--muted);
+  border:1px solid var(--line); border-radius:999px; padding:5px 13px; background:var(--surface);
+}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--live); font-style:normal; animation:blink 2.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+h1{font-size:clamp(2.6rem,7.4vw,4.7rem); line-height:.98; margin:22px 0 14px; letter-spacing:-.028em}
+h1 em{font-style:normal; color:var(--accent)}
+.role{
+  font-family:var(--mono); font-size:clamp(.83rem,1.9vw,.95rem); color:var(--muted);
+  margin:0 0 20px; line-height:1.7; max-width:52ch;
+}
+.lede{color:var(--muted); max-width:60ch; margin:0 0 28px}
+.cta{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:30px}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+  font-family:var(--mono); font-size:12.5px; font-weight:500;
+  padding:11px 17px; border-radius:var(--r); border:1px solid var(--line);
+  background:var(--surface); color:var(--text); transition:border-color .16s,transform .16s,background .16s;
+}
+.btn:hover{border-color:var(--accent); transform:translateY(-1px)}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600}
+.btn.primary:hover{filter:brightness(1.07)}
+.facts{
+  display:grid; grid-template-columns:repeat(3,auto); gap:0 30px; font-family:var(--mono);
+  font-size:12px; color:var(--faint); border-top:1px solid var(--line-soft); padding-top:18px; justify-content:start;
+}
+@media(max-width:560px){ .facts{grid-template-columns:1fr; gap:6px} }
+.facts b{color:var(--text); font-weight:500}
+
+.portrait{justify-self:center; position:relative}
+.frame{
+  width:min(272px,70vw); aspect-ratio:4/5; border:1px solid var(--line); background:var(--surface-2);
+  display:grid; place-items:center; overflow:hidden; border-radius:var(--r);
+}
+.frame img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.94)}
+.initials{font-family:var(--cond); font-size:4.4rem; font-weight:700; color:var(--accent); letter-spacing:-.03em}
+.portrait figcaption{
+  font-family:var(--mono); font-size:11px; color:var(--faint); margin-top:10px;
+  display:flex; justify-content:space-between; letter-spacing:.04em;
+}
+.portrait::after{
+  content:""; position:absolute; inset:auto -12px -12px auto; width:64px; height:64px;
+  border-right:1px solid var(--accent-line); border-bottom:1px solid var(--accent-line);
+}
+
+.stats{
+  display:grid; grid-template-columns:repeat(4,1fr); margin-top:52px;
+  border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:var(--surface);
+}
+@media(max-width:700px){ .stats{grid-template-columns:repeat(2,1fr)} }
+.stat{padding:20px; border-right:1px solid var(--line-soft)}
+.stat:last-child{border-right:0}
+@media(max-width:700px){
+  .stat:nth-child(2n){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line-soft)}
+}
+.stat b{display:block; font-family:var(--cond); font-size:2rem; line-height:1; letter-spacing:-.03em; font-variant-numeric:tabular-nums}
+.stat small{font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:.05em; display:block; margin-top:7px}
+
+/* ---------- sections ---------- */
+section{padding:66px 0; scroll-margin-top:74px}
+.sec-head{margin-bottom:34px; border-top:1px solid var(--line); padding-top:20px}
+.kicker{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+h2{font-size:clamp(1.7rem,3.8vw,2.5rem); margin:10px 0 10px}
+.sec-head p{color:var(--muted); max-width:66ch; margin:0}
+
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:24px; transition:border-color .18s}
+.card:hover{border-color:var(--accent-line)}
+
+.about{display:grid; grid-template-columns:1.45fr 1fr; gap:22px}
+@media(max-width:880px){ .about{grid-template-columns:1fr} }
+.about p{color:var(--muted); margin:0 0 15px}
+.about p:last-child{margin-bottom:0}
+.about strong{color:var(--text); font-weight:600}
+.infolist{list-style:none; margin:0; padding:0; display:grid; gap:0}
+.infolist li{
+  display:grid; grid-template-columns:98px 1fr; gap:12px; align-items:start;
+  padding:10px 0; border-bottom:1px solid var(--line-soft); font-size:14.2px;
+}
+.infolist li:last-child{border-bottom:0}
+.infolist span{font-family:var(--mono); color:var(--faint); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; padding-top:4px}
+.infolist a{color:var(--accent); text-decoration:none; word-break:break-word}
+.infolist a:hover{text-decoration:underline}
+
+/* skills */
+.skillgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(272px,1fr)); gap:18px}
+.skillgrid h3{margin:0; font-size:1.02rem}
+.skillgrid .lbl{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:9px}
+.skillgrid p{color:var(--faint); font-size:13.4px; margin:7px 0 15px}
+.tags{display:flex; flex-wrap:wrap; gap:6px; padding:0; margin:0; list-style:none}
+.tags li{
+  font-family:var(--mono); font-size:11px; padding:4px 8px; border-radius:3px;
+  background:var(--surface-2); border:1px solid var(--line-soft); color:var(--muted);
+}
+
+/* projects */
+.filters{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:22px}
+.filters button{
+  border:1px solid var(--line); background:var(--surface); color:var(--muted); cursor:pointer;
+  padding:7px 13px; border-radius:var(--r); font-family:var(--mono); font-size:11.5px; transition:.16s;
+}
+.filters button:hover{color:var(--text); border-color:var(--accent-line)}
+.filters button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600}
+.projects{display:grid; grid-template-columns:repeat(auto-fit,minmax(336px,1fr)); gap:18px}
+.project{display:flex; flex-direction:column; position:relative; padding-left:24px}
+.project::before{content:""; position:absolute; left:0; top:-1px; bottom:-1px; width:3px; background:var(--accent); opacity:0; transition:opacity .18s}
+.project:hover::before{opacity:1}
+.p-top{display:flex; align-items:baseline; justify-content:space-between; gap:12px}
+.p-top h3{margin:0; font-size:1.16rem}
+.chip{
+  font-family:var(--mono); font-size:10px; letter-spacing:.09em; text-transform:uppercase;
+  padding:3px 8px; border-radius:3px; white-space:nowrap;
+  border:1px solid var(--accent-line); color:var(--accent); background:var(--accent-soft);
+}
+.chip.done{border-color:var(--line); color:var(--faint); background:var(--surface-2)}
+.p-meta{font-family:var(--mono); font-size:11.5px; color:var(--faint); margin:8px 0 12px; line-height:1.55}
+.desc{color:var(--muted); font-size:14.3px; margin:0 0 15px}
+details.more{margin:0 0 16px; border-top:1px solid var(--line-soft); padding-top:12px}
+details.more summary{
+  cursor:pointer; font-family:var(--mono); font-size:11.5px; color:var(--accent);
+  list-style:none; letter-spacing:.05em;
+}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"[+] "}
+details.more[open] summary::before{content:"[–] "}
+details.more ul{margin:13px 0 0; padding-left:17px; color:var(--muted); font-size:13.5px; display:grid; gap:8px}
+details.more code{font-family:var(--mono); font-size:12px; color:var(--accent); word-break:break-word}
+.project .tags{margin-top:auto}
+
+/* timeline */
+.timeline{display:grid; gap:0}
+.tl{
+  display:grid; grid-template-columns:170px 1fr; gap:24px;
+  padding:22px 0; border-top:1px solid var(--line-soft);
+}
+.tl:first-child{border-top:1px solid var(--line)}
+@media(max-width:700px){ .tl{grid-template-columns:1fr; gap:8px} }
+.tl .when{font-family:var(--mono); font-size:11.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); padding-top:4px}
+.tl h3{margin:0 0 5px; font-size:1.05rem}
+.tl p{margin:0; color:var(--muted); font-size:14.2px}
+
+.lead{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+@media(max-width:880px){ .lead{grid-template-columns:1fr} }
+.lead h3{margin:0 0 4px; font-size:1.05rem}
+.lead ul{margin:12px 0 0; padding-left:17px; color:var(--muted); font-size:14.1px; display:grid; gap:10px}
+.lead b{color:var(--text); font-weight:600}
+
+/* contact */
+.contact{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); padding:52px 26px; text-align:center}
+.contact h2{margin:10px 0 12px}
+.contact p{color:var(--muted); max-width:54ch; margin:0 auto 26px}
+.links{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
+
+footer{border-top:1px solid var(--line-soft); padding:26px 0 44px; margin-top:56px}
+.foot{
+  display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  font-family:var(--mono); font-size:11.5px; color:var(--faint);
+}
+.foot a{color:var(--muted); text-decoration:none}
+.foot a:hover{color:var(--accent)}
+
+.reveal{opacity:0; transform:translateY(16px)}
+.reveal.in{opacity:1; transform:none; transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.3,1)}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1; transform:none; transition:none}
+  .status i{animation:none}
+  html{scroll-behavior:auto}
+}
+.skip{position:absolute; left:-9999px}
+.skip:focus{left:16px; top:12px; z-index:99; background:var(--surface); padding:10px 14px; border:1px solid var(--accent); border-radius:var(--r)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><i></i>M. A. DIRANY</a>
+    <nav id="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#background">Background</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="iconbtn" id="theme" aria-label="Switch colour theme">THEME</button>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+
+<section class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <span class="status"><i></i> Available for engineering roles</span>
+      <h1>Mhammad Ali<br /><em>Dirany</em></h1>
+      <p class="role">Computer &amp; Communications Engineer<br />Embedded systems · Industrial automation · Applied machine learning</p>
+      <p class="lede">
+        I build systems that run the whole way down: ladder logic and motor control at the bottom,
+        ESP32 and Raspberry&nbsp;Pi firmware over MQTT in the middle, computer vision and React
+        dashboards on top — then I write the report that explains all three.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:mhammad.dirany.eng@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/mhammad-dirany-82a53b2b8" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="#projects">See the projects</a>
+      </div>
+      <div class="facts">
+        <div><b>AUST</b> · Lebanon</div>
+        <div><b>CCNA</b> certified</div>
+        <div><b>AR</b> native · <b>EN</b> C2</div>
+      </div>
+    </div>
+
+    <figure class="portrait" style="margin:0">
+      <div class="frame">
+        <img src="./assets/profile.jpg" alt="Portrait of Mhammad Ali Dirany"
+             onerror="this.remove();document.getElementById('ini').hidden=false" />
+        <div class="initials" id="ini" hidden>MD</div>
+      </div>
+      <figcaption><span>MHAMMAD ALI DIRANY</span><span>AGE 21</span></figcaption>
+    </figure>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b>8</b><small>ENGINEERING PROJECTS</small></div>
+    <div class="stat"><b>2</b><small>RESEARCH PAPERS</small></div>
+    <div class="stat"><b>3+</b><small>YEARS LEADING AN NGO</small></div>
+    <div class="stat"><b>4</b><small>COMMUNITY PROJECTS DELIVERED</small></div>
+  </div>
+</section>
+
+<section id="about" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">About</div>
+    <h2>Who I am</h2>
+    <p>An engineer equally comfortable wiring a contactor, writing ladder logic, and training a neural network.</p>
+  </div>
+  <div class="about">
+    <div class="card">
+      <p>
+        I'm <strong>Mhammad Ali Dirany</strong>, 21, a Computer and Communications Engineering student at the
+        <strong>American University of Science and Technology (AUST)</strong> in Lebanon, academically advised by
+        <strong>Dr. Gaby Abou Haidar</strong>.
+      </p>
+      <p>
+        My work sits where software meets hardware. For my senior design project I built a river waste collection
+        and sorting machine end to end: a Delta PLC driving the conveyor, dual ESP32s and a Raspberry&nbsp;Pi 4
+        handling IoT and vision, a Kinect depth camera feeding a YOLOv8 classifier, and a React PWA over MQTT for
+        monitoring. In parallel I ran a full <strong>DPCM/ADPCM compression study</strong> in PyTorch across speech
+        and ECG data and wrote it up as an eight-page IEEEtran paper — keeping an honest negative result rather
+        than a flattering one.
+      </p>
+      <p>
+        Outside engineering I co-founded <strong>NABA (جمعية نبا)</strong>, a registered NGO in Qasarnaba, Bekaa
+        Valley, where I serve as Vice President — leading proposal writing, donor outreach, and community programs
+        in health awareness, child development, and economic empowerment.
+      </p>
+      <p>
+        I'm now focused on <strong>AI/ML engineering</strong>: agentic systems, retrieval-augmented generation, and
+        applied computer vision, with an ICS/OT security auditing agent as my current flagship build.
+      </p>
+    </div>
+    <div class="card">
+      <ul class="infolist">
+        <li><span>Name</span> Mhammad Ali Dirany</li>
+        <li><span>Field</span> Computer &amp; Communications Engineering</li>
+        <li><span>University</span> AUST, Lebanon</li>
+        <li><span>Advisor</span> Dr. Gaby Abou Haidar</li>
+        <li><span>Age</span> 21</li>
+        <li><span>Email</span> <a href="mailto:mhammad.dirany.eng@gmail.com">mhammad.dirany.eng@gmail.com</a></li>
+        <li><span>Phone</span> <a href="tel:+96171824884">+961 71 824 884</a></li>
+        <li><span>LinkedIn</span> <a href="https://www.linkedin.com/in/mhammad-dirany-82a53b2b8" target="_blank" rel="noopener">mhammad-dirany</a></li>
+        <li><span>Languages</span> Arabic (native), English (C2 — ECPE Michigan)</li>
+        <li><span>Certified</span> CCNA — Cisco Certified Network Associate</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">Skills</div>
+    <h2>What I work with</h2>
+    <p>Tooling I have actually shipped with — on benches, in labs, and in the field.</p>
+  </div>
+  <div class="skillgrid">
+    <div class="card">
+      <span class="lbl">Domain</span>
+      <h3>Industrial automation</h3>
+      <p>PLC programming, ladder logic, motor control and safety interlocks.</p>
+      <ul class="tags">
+        <li>Delta DVP-14SS2</li><li>WPLSoft</li><li>EASY 719-AC-RC</li><li>easySoft 6</li>
+        <li>Ladder logic</li><li>VFD / 3-phase</li><li>Modbus RTU RS-485</li><li>Stepper control</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="lbl">Domain</span>
+      <h3>Embedded &amp; IoT</h3>
+      <p>Microcontroller firmware, sensors, telemetry and off-grid power.</p>
+      <ul class="tags">
+        <li>ESP32</li><li>Raspberry Pi 4</li><li>MQTT</li><li>HiveMQ Cloud</li>
+        <li>libfreenect / Kinect</li><li>Solar &amp; LiFePO4</li><li>MPPT</li><li>Firebase push</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="lbl">Domain</span>
+      <h3>Machine learning</h3>
+      <p>Applied ML — vision, sequence models and signal compression.</p>
+      <ul class="tags">
+        <li>PyTorch</li><li>YOLOv8</li><li>LSTM</li><li>TFLite</li>
+        <li>MediaPipe</li><li>faster-whisper</li><li>DPCM / ADPCM</li><li>RAG · MCP · agents</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="lbl">Domain</span>
+      <h3>Networking</h3>
+      <p>CCNA-certified: routing, switching, addressing and troubleshooting.</p>
+      <ul class="tags">
+        <li>CCNA</li><li>Routing &amp; switching</li><li>VLANs</li><li>TCP/IP</li><li>Network design</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="lbl">Domain</span>
+      <h3>Software development</h3>
+      <p>Web, desktop and mobile front-ends over real hardware and real data.</p>
+      <ul class="tags">
+        <li>React</li><li>PWA</li><li>Python</li><li>Swift / iOS</li>
+        <li>CustomTkinter</li><li>ffmpeg pipelines</li><li>Fusion 360 scripting</li><li>LaTeX</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="lbl">Domain</span>
+      <h3>Leadership &amp; communication</h3>
+      <p>Getting projects funded, staffed and delivered — in two languages.</p>
+      <ul class="tags">
+        <li>Proposal writing</li><li>Grant applications</li><li>Donor outreach</li>
+        <li>Stakeholder relations</li><li>Project coordination</li><li>Technical reporting</li><li>Bilingual AR/EN</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">Projects</div>
+    <h2>Selected work</h2>
+    <p>Eight projects across automation, machine learning, research and product. Open any card for the engineering detail.</p>
+  </div>
+
+  <div class="filters" role="group" aria-label="Filter projects">
+    <button data-f="all" aria-pressed="true">All</button>
+    <button data-f="hardware" aria-pressed="false">Hardware &amp; automation</button>
+    <button data-f="ml" aria-pressed="false">AI / ML</button>
+    <button data-f="research" aria-pressed="false">Research</button>
+    <button data-f="software" aria-pressed="false">Software</button>
+  </div>
+
+  <div class="projects" id="projgrid">
+
+    <article class="card project" data-tags="hardware ml">
+      <div class="p-top"><h3>RiverExtract</h3><span class="chip done">Senior design</span></div>
+      <p class="p-meta">AUST · Advised by Dr. Gaby Abou Haidar · Co-advised by Dr. Chafic Saide</p>
+      <p class="desc">
+        A stationary, conveyor-based river waste collection and sorting system — built as a working prototype and
+        specified as a full-scale, solar-powered installation.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li><b>Prototype:</b> 12V DC gear motor, Delta DVP-14SS2 PLC (WPLSoft ladder logic), dual ESP32s,
+              Raspberry&nbsp;Pi 4, Xbox 360 Kinect (RGB/IR/depth) via libfreenect, solar-assisted 12V battery.</li>
+          <li><b>Full-scale design:</b> 0.75&nbsp;kW 3-phase AC motor with VFD, 3&nbsp;m conveyor, automated
+              colour-sorting bins with a stepper-driven sorting blade.</li>
+          <li><b>Power:</b> 48V off-grid array — 3×550W panels, 60A MPPT, 50Ah LiFePO4.</li>
+          <li><b>Integration:</b> Modbus RTU over RS-485 linking PLC to the IoT layer, MQTT telemetry,
+              YOLOv8 waste classification.</li>
+          <li><b>App:</b> React PWA monitoring spec — HiveMQ Cloud MQTT, Firebase push, E-Stop, jam recovery,
+              bin-dump control, live AI detection feed and event log.</li>
+          <li><b>Deliverables:</b> 60-page final report, A1 expo poster, single-page project site,
+              Fusion 360 parametric Python script.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>PLC</li><li>ESP32</li><li>YOLOv8</li><li>MQTT</li><li>React PWA</li><li>Solar</li></ul>
+    </article>
+
+    <article class="card project" data-tags="research ml">
+      <div class="p-top"><h3>Tiny neural predictors in DPCM</h3><span class="chip done">IEEE paper</span></div>
+      <p class="p-meta">Cross-domain study — speech &amp; ECG · 8-page IEEEtran</p>
+      <p class="desc">
+        “Tiny Neural Network Predictors in DPCM: A Cross-Domain Study on Speech and ECG with Closed-Loop Stability
+        and Evaluation Pitfalls” — a complete DPCM/ADPCM compression pipeline in Python and PyTorch.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>Five tiny neural predictor configurations (≤1500 parameters each) benchmarked against a well-tuned
+              linear baseline.</li>
+          <li>Two domains: the Arabic Speech Commands Dataset and the MIT-BIH Arrhythmia (ECG) Database.</li>
+          <li>Closed-loop stability analysis, plus a catalogue of evaluation pitfalls that inflate reported gains.</li>
+          <li><b>Finding:</b> no tested tiny network robustly beats the linear baseline under fair multi-slice
+              evaluation — an honest negative result kept in the final paper.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>PyTorch</li><li>DSP</li><li>DPCM/ADPCM</li><li>ECG</li><li>LaTeX</li></ul>
+    </article>
+
+    <article class="card project" data-tags="ml software">
+      <div class="p-top"><h3>ICS-Sentinel</h3><span class="chip">In progress</span></div>
+      <p class="p-meta">Agentic ICS/OT security auditor · AI/ML flagship</p>
+      <p class="desc">
+        An autonomous security-auditing agent for industrial control systems, combining retrieval-augmented
+        generation, Model Context Protocol tooling and a custom agent harness.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>RAG over ICS/OT vulnerability and standards corpora, so findings stay grounded in sources.</li>
+          <li>MCP tools give the agent real, auditable capabilities instead of free-form guessing.</li>
+          <li>Custom Hermes-Agent-style reasoning loop driving plan → probe → verify → report.</li>
+          <li>Scoped deliberately as a polished, demo-ready portfolio piece for AI/ML engineering roles.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>RAG</li><li>MCP</li><li>Agents</li><li>ICS/OT security</li><li>Python</li></ul>
+    </article>
+
+    <article class="card project" data-tags="hardware">
+      <div class="p-top"><h3>IoT water pump controller</h3><span class="chip done">Built</span></div>
+      <p class="p-meta">ESP32 + HiveMQ Cloud MQTT</p>
+      <p class="desc">
+        A manual-start, auto-stop pump controller extending the RiverExtract IoT architecture — remote triggering
+        with a stop condition that holds even when the network doesn't.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>Latch logic: <code>PumpRun = (RemoteON_cmd OR PumpRun) AND NOT FloatFull</code>.</li>
+          <li>Float switch guarantees auto-stop regardless of connectivity — safety in hardware, not in the cloud.</li>
+          <li>HiveMQ Cloud MQTT broker for remote command and status topics.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>ESP32</li><li>MQTT</li><li>Control logic</li><li>IoT</li></ul>
+    </article>
+
+    <article class="card project" data-tags="software">
+      <div class="p-top"><h3>Lebanese Student App</h3><span class="chip done">iOS · Swift</span></div>
+      <p class="p-meta">Native iOS app built with AI-assisted development</p>
+      <p class="desc">
+        A fully native Swift app for Lebanese students — a community for sharing past exams and quizzes, plus a
+        marketplace for selling skills and booking tutors.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>Built primarily with AI coding tools and minimal manual coding — an experiment in delivery speed.</li>
+          <li>Community module: upload, browse and search past exams and quizzes by course.</li>
+          <li>Marketplace module: students list skills or book tutoring sessions.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>Swift</li><li>iOS</li><li>AI-assisted dev</li><li>Marketplace</li></ul>
+    </article>
+
+    <article class="card project" data-tags="ml software">
+      <div class="p-top"><h3>Auto-clipping pipeline</h3><span class="chip done">Pipeline</span></div>
+      <p class="p-meta">Short-form video automation · Whop creator marketplace</p>
+      <p class="desc">
+        A Python pipeline that turns long-form video into publish-ready vertical clips with no manual editing.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li><b>faster-whisper</b> for fast transcription with word-level timing.</li>
+          <li>Heuristic and LLM-based highlight scoring to pick the segments worth clipping.</li>
+          <li><b>ffmpeg</b> for 9:16 cropping and burned-in captions, scripted end to end.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>Python</li><li>faster-whisper</li><li>ffmpeg</li><li>LLM scoring</li></ul>
+    </article>
+
+    <article class="card project" data-tags="ml software">
+      <div class="p-top"><h3>Sign language translator</h3><span class="chip done">Desktop / RPi</span></div>
+      <p class="p-meta">Word-level ASL recognition · Raspberry Pi 4 target</p>
+      <p class="desc">
+        A Python desktop application that recognises word-level American Sign Language from a live camera feed,
+        with an Apple-inspired dark interface.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li><b>MediaPipe</b> hand tracking for landmark extraction from the video stream.</li>
+          <li><b>LSTM</b> sequence model exported to <b>TFLite</b> for on-device inference.</li>
+          <li><b>CustomTkinter</b> GUI, designed for deployment on a Raspberry&nbsp;Pi 4.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>MediaPipe</li><li>LSTM</li><li>TFLite</li><li>CustomTkinter</li></ul>
+    </article>
+
+    <article class="card project" data-tags="research ml">
+      <div class="p-top"><h3>Visual positioning systems</h3><span class="chip">In progress</span></div>
+      <p class="p-meta">Independent research · self-directed, no funding or lab access</p>
+      <p class="desc">
+        A research paper on map-free visual relocalization — locating a camera without a pre-built 3D database.
+      </p>
+      <details class="more">
+        <summary>Engineering detail</summary>
+        <ul>
+          <li>Survey and analysis of map-free / database-free approaches to visual relocalization.</li>
+          <li>Entirely self-directed: literature, experiments and writing without funding or lab resources.</li>
+        </ul>
+      </details>
+      <ul class="tags"><li>Computer vision</li><li>Relocalization</li><li>Research</li></ul>
+    </article>
+
+  </div>
+</section>
+
+<section id="background" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">Background</div>
+    <h2>Education &amp; credentials</h2>
+    <p>Academic track, certifications, and the research and leadership work running alongside them.</p>
+  </div>
+  <div class="timeline">
+    <div class="tl">
+      <div class="when">Degree · current</div>
+      <div>
+        <h3>B.E. Computer &amp; Communications Engineering — AUST, Lebanon</h3>
+        <p>American University of Science and Technology. Senior design project <b>RiverExtract</b>, advised by
+           Dr. Gaby Abou Haidar and co-advised by Dr. Chafic Saide.</p>
+      </div>
+    </div>
+    <div class="tl">
+      <div class="when">Certification</div>
+      <div>
+        <h3>CCNA — Cisco Certified Network Associate</h3>
+        <p>Routing and switching, IP addressing, network services, security fundamentals and troubleshooting.</p>
+      </div>
+    </div>
+    <div class="tl">
+      <div class="when">Certification</div>
+      <div>
+        <h3>ECPE — Certificate of Proficiency in English (Michigan)</h3>
+        <p>C2-level English. Arabic is my native language; I work and write technically in both.</p>
+      </div>
+    </div>
+    <div class="tl">
+      <div class="when">Research</div>
+      <div>
+        <h3>Author — IEEE-format paper on tiny neural predictors in DPCM</h3>
+        <p>Cross-domain speech and ECG compression study in PyTorch, written up as an eight-page IEEEtran paper.
+           A second paper, on visual positioning systems, is in progress.</p>
+      </div>
+    </div>
+    <div class="tl">
+      <div class="when">3+ years</div>
+      <div>
+        <h3>Co-Founder &amp; Vice President — NABA NGO</h3>
+        <p>Registered nonprofit in Qasarnaba, Bekaa Valley. Proposal writing, donor outreach and community
+           program delivery across health, child development and economic empowerment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="leadership" class="wrap reveal">
+  <div class="sec-head">
+    <div class="kicker">Leadership</div>
+    <h2>NABA — جمعية نبا</h2>
+    <p>A registered Lebanese nonprofit in Qasarnaba, Bekaa Valley, running community development programs.
+       I am a co-founder and its Vice President.</p>
+  </div>
+  <div class="lead">
+    <div class="card">
+      <h3>Funding &amp; partnerships</h3>
+      <ul>
+        <li>Led donor and consortium outreach, and wrote the organisation's proposals.</li>
+        <li>Submitted an Expression of Interest to a consortium of <b>SAFE</b>, <b>WeWorld</b>, <b>Mada</b> and the
+            <b>Lebanese Observatory for Workers and Employees Rights</b> — proposing a project combining GBV and
+            child-protection awareness, financial-management training, and rose-soap production skills training
+            for women and local farmers.</li>
+        <li>Prepared and submitted a <b>MoSA</b> (Ministry of Social Affairs) grant application centred on a
+            Damascus rose value-chain project.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Programs &amp; track record</h3>
+      <ul>
+        <li>Oversees NABA's annual <b>Summer Camp</b> — child intellectual development and mental health.</li>
+        <li>Programs across health awareness, child development and economic empowerment.</li>
+        <li>Cited in funding applications: <b>3+ years</b> operating, <b>4 completed projects</b>,
+            average project value <b>≈ $5,000 USD</b>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="wrap reveal">
+  <div class="contact">
+    <div class="kicker">Contact</div>
+    <h2>Let's build something</h2>
+    <p>Open to AI/ML engineering, embedded systems and automation roles, as well as research collaboration.
+       Email reaches me fastest.</p>
+    <div class="links">
+      <a class="btn primary" href="mailto:mhammad.dirany.eng@gmail.com">mhammad.dirany.eng@gmail.com</a>
+      <a class="btn" href="tel:+96171824884">+961 71 824 884</a>
+      <a class="btn" href="https://www.linkedin.com/in/mhammad-dirany-82a53b2b8" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© <span id="yr">2026</span> MHAMMAD ALI DIRANY — BEIRUT &amp; BEKAA, LEBANON</div>
+    <div><a href="#top">BACK TO TOP ↑</a></div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* theme toggle: starts from the viewer's system preference, then remembers a choice */
+(function(){
+  var root = document.documentElement, btn = document.getElementById('theme');
+  var saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) {}
+  if (saved) root.setAttribute('data-theme', saved);
+  function isLight(){
+    var s = root.getAttribute('data-theme');
+    if (s) return s === 'light';
+    return window.matchMedia('(prefers-color-scheme: light)').matches;
+  }
+  function paint(){ btn.textContent = isLight() ? 'DARK' : 'LIGHT'; }
+  paint();
+  btn.addEventListener('click', function(){
+    var next = isLight() ? 'dark' : 'light';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    paint();
+  });
+})();
+
+/* project filters */
+(function(){
+  var grid = document.getElementById('projgrid');
+  var btns = document.querySelectorAll('.filters button');
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      btns.forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+      var f = b.dataset.f;
+      grid.querySelectorAll('.project').forEach(function(p){
+        p.hidden = !(f === 'all' || p.dataset.tags.split(' ').indexOf(f) > -1);
+      });
+    });
+  });
+})();
+
+/* scroll reveal + active nav link */
+(function(){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.06});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('#navlinks a'));
+  var spy = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting){
+        links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id); });
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('main section[id]').forEach(function(s){ spy.observe(s); });
+})();
+</script>
+</body>
+</html>
