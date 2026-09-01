@@ -6,24 +6,21 @@
 # via BASE_PATH, and asked to emit noindex + a disallow-all robots.txt so this
 # copy can never compete with the real domain in search results.
 #
-# ONE-TIME MANUAL STEP, then this runs by itself forever:
-#   Settings > Pages > Build and deployment > Source > "GitHub Actions"
+# DISABLED ON PURPOSE — DO NOT ADD A push: TRIGGER TO THIS FILE.
 #
-# It has to be done by a person. Neither the workflow token nor a GitHub App
-# can enable Pages — the API refuses both with "Resource not accessible by
-# integration". Once it is on, every push touching naba-website/ redeploys
-# automatically.
+# A repository has exactly one GitHub Pages site. This repository's Pages URL
+# already serves the owner's portfolio, so deploying the NABA website from here
+# would REPLACE it. The workflow is therefore manual-only: it cannot fire by
+# itself, and running it is an explicit, deliberate act.
+#
+# The NABA site should get its own repository, which gives it its own Pages URL
+# with nothing to overwrite. Once that exists, move this workflow there and the
+# push: trigger below can be restored safely.
 
 name: Deploy NABA website to GitHub Pages
 
 on:
-  push:
-    branches:
-      - claude/naba-ngo-website-as2968
-    paths:
-      - "naba-website/**"
-      - ".github/workflows/naba-website-pages.yml"
-  # Lets you redeploy by hand from the Actions tab without pushing anything.
+  # Manual only. See the warning above before adding any automatic trigger.
   workflow_dispatch:
 
 permissions:
