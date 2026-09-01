@@ -47,6 +47,10 @@ export const SITE = {
     lng: 35.9958,
     coordsAreApproximate: false,
   },
+  // Which GALLERY entry fronts the homepage hero. Change the id to re-front
+  // the site with a different photograph.
+  heroImageId: "robotics-session",
+
   // Cloudflare Web Analytics — paste the token from the Cloudflare dashboard.
   // Leave null to omit the beacon entirely.
   cfAnalyticsToken: null,

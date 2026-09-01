@@ -57,21 +57,17 @@ export function home(lang) {
               <a class="btn btn--ghost" href="${href(lang, "get-involved")}">${esc(t.heroCtaSecondary)}</a>
             </p>`;
 
-  return `      <!-- ============================================================
-           3D SCROLL HERO
-           The canvas is progressive enhancement only: the copy below is in the
-           DOM unconditionally, so the page is fully readable and indexable with
-           JS off, WebGL unavailable, or reduced-motion requested. hero3d.js
-           lazy-loads Three.js and only then sets data-hero-active on the
-           section, which is what turns on the tall scroll track.
-           ============================================================ -->
-      <section class="hero" data-hero aria-labelledby="hero-title">
-        <div class="hero__stage" data-hero-stage>
-          <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
-          <div class="hero__copy" data-hero-copy>
+  const heroPhoto = GALLERY.find((g) => g.id === SITE.heroImageId) || GALLERY[0];
+
+  return `      <section class="hero">
+        <div class="wrap hero__inner">
+          <div class="hero__copy">
             ${heroCopy.replace('class="hero__title"', 'class="hero__title" id="hero-title"')}
           </div>
-          <p class="hero__scroll-hint" data-hero-hint aria-hidden="true">${esc(COPY[lang].scrollHint)}</p>
+          <figure class="hero__media">
+            <img src="${asset(heroPhoto.src)}" alt="${esc(heroPhoto[lang].caption)}"
+                 width="${heroPhoto.w}" height="${heroPhoto.h}" fetchpriority="high" decoding="async">
+          </figure>
         </div>
       </section>
 

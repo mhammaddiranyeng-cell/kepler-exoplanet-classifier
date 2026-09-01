@@ -61,6 +61,7 @@ Existing Arabic program titles are used verbatim and must not be re-translated:
 | `PROGRAMS[].funderPublic` | Care International is **not** named anywhere on the public site |
 | `TEAM[].consent` | That person renders as an unnamed placeholder card |
 | `SITE.social.facebook` | No Facebook link in the footer or in `sameAs` |
+| `SITE.heroImageId` | Which gallery photograph fronts the homepage |
 | `SITE.forms.*Endpoint` | Forms render disabled with an email fallback instead of silently dropping submissions |
 | `SITE.location.coordsAreApproximate` | Map shows an "approximate location" note and omits `geo` from structured data |
 | `SITE.whatsappEnabled` | Set to `false` to drop all WhatsApp links |
@@ -75,8 +76,7 @@ templates/pages.mjs    per-page body markup
 static/                copied verbatim into dist/
   assets/css/site.css  brand palette + full RTL support
   assets/js/site.js    mobile nav, form submission, lazy Leaflet map
-  assets/js/hero3d.js  scroll-driven 3D hero (homepage only)
-  assets/vendor/       three.js + leaflet, vendored (no CDN at runtime)
+  assets/vendor/       leaflet, vendored (no CDN at runtime)
 optional-functions/    Cloudflare Pages Function alternative to Formspree
 tools/                 placeholder OG image generator
 ```
@@ -84,41 +84,16 @@ tools/                 placeholder OG image generator
 URLs: English at `/`, `/about/`, … Arabic at `/ar/`, `/ar/about/`, … Each page
 carries `hreflang` pointers to its counterpart and `x-default` → English.
 
-## The 3D hero
+## Homepage hero
 
-`static/assets/js/hero3d.js`. Scroll position is the *only* input — the model
-cannot be dragged or rotated by the visitor. The timeline:
+A plain editorial hero: copy on one side, a photograph on the other, mirrored
+under RTL by the same logical properties as the rest of the site. Change which
+photograph fronts it by setting `SITE.heroImageId` in `content/site.mjs` to any
+`GALLERY` entry id.
 
-The model is a **picture frame holding NABA's current headline activity**.
-
-| Scroll | What happens |
-|---|---|
-| 0 – 8% | Frame sits centred, picture dark, breathing gently |
-| 8 – 36% | Travels a fixed curved path to the inline-end side, rotating |
-| 36 – 46% | The picture lights up — opens from a band with a warm bloom |
-| 46 – 66% | The caption writes itself on over the photograph |
-| 66 – 92% | The frame opens into an exploded view: glass, photo, mount board, backing and the four moulding rails |
-| 92 – 100% | Holds, then the page continues into normal content |
-
-Motion is eased rather than stepped: scroll sets a *target* and the model
-follows it with a damped lerp, so it never snaps.
-
-The path mirrors under RTL — on Arabic pages the model travels to the **left**.
-
-**It is progressive enhancement only.** All hero copy and every section below
-it is in the DOM unconditionally. The module refuses to even download Three.js
-(~690 KB) when: reduced motion is requested, WebGL is unavailable, Save-Data is
-on, `deviceMemory ≤ 2`, or `hardwareConcurrency ≤ 2` — the hero then stays a
-normal static panel. Rendering pauses when the hero scrolls out of view or the
-tab is hidden. The hero only exists on the homepage; no other page loads
-Three.js at all.
-
-**The photograph:** the frame displays `/assets/img/hero-frame.jpg` when that
-file exists, and falls back to a drawn placeholder carrying the same caption
-until it does — a missing asset never breaks the sequence. Drop in a portrait
-photo of the current activity at roughly 900×1200 and it appears automatically.
-When the headline activity changes, swap that file and edit `CAPTION` at the top
-of `hero3d.js` (both languages).
+The scroll-driven 3D hero that used to live here has been removed at the
+founder's request, along with the vendored Three.js bundle (~690KB). Nothing on
+the site loads WebGL any more.
 
 ## Forms
 

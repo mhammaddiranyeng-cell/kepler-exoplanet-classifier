@@ -163,25 +163,21 @@ a:hover { color: var(--accent); }
 
 /* ------------------------------ hero ------------------------------ */
 
-/* Default (no JS / no WebGL / reduced motion): a normal, static hero panel.
-   hero3d.js sets data-hero-active="true" to switch on the tall scroll track. */
 .hero {
-  position: relative;
   background:
     radial-gradient(120% 90% at 80% 10%, var(--bronze-100), transparent 60%),
     radial-gradient(90% 70% at 10% 90%, var(--globe-100), transparent 55%),
     var(--bg);
   border-block-end: 1px solid var(--border);
+  padding-block: clamp(2.5rem, 6vw, 5rem);
 }
-.hero__stage {
-  position: relative; display: grid; align-content: center;
-  min-height: min(78vh, 720px); padding-block: var(--section-y);
+.hero__inner {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  align-items: center;
 }
-.hero__canvas { display: none; }
-.hero__copy {
-  width: min(100% - 2.5rem, var(--wrap)); margin-inline: auto;
-  max-width: 46rem; position: relative; z-index: 2;
-}
+.hero__copy { max-width: 34rem; }
 .hero__kicker {
   text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.75rem;
   color: var(--globe-700); font-weight: 600; margin-block-end: 0.75rem;
@@ -189,53 +185,22 @@ a:hover { color: var(--accent); }
 body.lang-ar .hero__kicker { letter-spacing: 0; }
 .hero__title { margin-block-end: 0.15em; }
 /* The subtitle carries the opposite script's dir attribute, which would
-   otherwise align it to the far edge of the copy column and collide with the
-   3D model. The subtitle always carries the *opposite* dir to the page, so its
-   own `end` edge is the page's `start` edge — which is where we want it. */
-.hero__subtitle { font-size: clamp(1.25rem, 1rem + 1.2vw, 1.85rem); color: var(--accent); margin-block-end: 0.9rem; font-weight: 600; text-align: end; }
-.hero__lede { font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); color: var(--ink-700); max-width: 34em; }
+   otherwise align it to the far edge of the copy column. Its own `end` edge is
+   the page's `start` edge — which is where we want it. */
+.hero__subtitle {
+  font-size: clamp(1.25rem, 1rem + 1.2vw, 1.85rem); color: var(--accent);
+  margin-block-end: 0.9rem; font-weight: 600; text-align: end;
+}
+.hero__lede {
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); color: var(--ink-700);
+  max-width: 34em;
+}
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block-start: 1.75rem; }
-.hero__scroll-hint { display: none; }
 
-/* --- 3D mode, enabled only once Three.js is up --- */
-.hero[data-hero-active="true"] {
-  /* Tall scroll track: the sticky stage inside it is what the user sees while
-     the scroll drives the animation timeline. */
-  height: 420vh;
-  border-block-end: 0;
-}
-.hero[data-hero-active="true"] .hero__stage {
-  position: sticky; top: 0; height: 100vh; min-height: 0; padding-block: 0;
-  align-content: center; overflow: hidden;
-}
-.hero[data-hero-active="true"] .hero__canvas {
-  display: block; position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
-}
-.hero[data-hero-active="true"] .hero__copy {
-  /* Copy sits opposite the model: model travels to the inline-end side, so the
-     text holds the inline-start side. Mirrors automatically under RTL. */
-  max-width: 32rem; margin-inline: 0;
-  padding-inline-start: max(1.25rem, calc((100vw - var(--wrap)) / 2));
-  padding-inline-end: 1.25rem;
-  will-change: transform, opacity;
-}
-.hero[data-hero-active="true"] .hero__scroll-hint {
-  display: block; position: absolute; inset-block-end: 1.75rem; inset-inline: 0;
-  text-align: center; font-size: 0.75rem; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--text-muted); z-index: 2;
-  transition: opacity 0.3s ease;
-}
-body.lang-ar .hero[data-hero-active="true"] .hero__scroll-hint { letter-spacing: 0; }
-
-@media (max-width: 720px) {
-  /* Shorter track on phones — less scrolling before real content. */
-  .hero[data-hero-active="true"] { height: 300vh; }
-  /* No room beside the model at this width: the model is lifted into the upper
-     half (hero3d.js) and the copy drops into the lower half. */
-  .hero[data-hero-active="true"] .hero__stage { align-content: end; }
-  .hero[data-hero-active="true"] .hero__copy {
-    max-width: none; padding-inline: 1.25rem; padding-block-end: 14vh;
-  }
+.hero__media { margin: 0; }
+.hero__media img {
+  width: 100%; border-radius: var(--radius); box-shadow: var(--shadow);
+  aspect-ratio: 4 / 3; object-fit: cover;
 }
 
 /* ------------------------------ sections ------------------------------ */

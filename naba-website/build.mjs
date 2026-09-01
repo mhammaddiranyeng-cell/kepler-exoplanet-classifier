@@ -15,7 +15,7 @@ import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { SITE, NAV, COPY, OPEN_QUESTIONS } from "./content/site.mjs";
-import { layout, href, absolute, asset, BASE, NOINDEX_ALL } from "./templates/layout.mjs";
+import { layout, href, absolute, BASE, NOINDEX_ALL } from "./templates/layout.mjs";
 import * as pages from "./templates/pages.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -36,10 +36,6 @@ const ROUTES = [
 ];
 
 const LANGS = ["en", "ar"];
-
-/** The hero's Three.js bundle is only ever requested on the homepage. */
-const HERO_SCRIPTS = `
-    <script type="module" src="${asset("/assets/js/hero3d.js")}"></script>`;
 
 async function copyDir(src, dest) {
   await mkdir(dest, { recursive: true });
@@ -110,8 +106,6 @@ async function build() {
         title: meta.metaTitle,
         description: meta.metaDescription,
         body: route.render(lang),
-        // The 3D hero lives on the homepage only — other pages never load Three.js.
-        scripts: route.slug === "" ? HERO_SCRIPTS : "",
       });
       await emit(outPath(lang, route.slug), html);
       count++;
